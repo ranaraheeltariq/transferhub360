@@ -1,0 +1,923 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Transfer Hub 360",
+        "description": "Transfer Hub 360 API Documentation and Testing URL's",
+        "contact": {
+            "name": "Rana Raheel Tariq",
+            "email": "ranaraheel@alfanovatech.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Sign in",
+                "description": "Login by email, password",
+                "operationId": "authLogin",
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "username",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "username": {
+                                        "type": "string",
+                                        "format": "username",
+                                        "example": "admin@alfanovatech.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfully Login",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "You are successfully login"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of user data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Wrong credentials response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "The provided credentials are incorrect"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/companies?page={number}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Get list of Companies",
+                "description": "Returns list of Companies",
+                "operationId": "getCompanyList",
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of companies list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Operation not successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Subscription Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry Your Subscription has been Expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/create": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Create New Company",
+                "description": "Returns company data",
+                "operationId": "storeCompany",
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "contact_number",
+                                    "address",
+                                    "city",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Tour Campaign"
+                                    },
+                                    "contact_number": {
+                                        "type": "number",
+                                        "format": "contact_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "address",
+                                        "example": "Zafar Mah. Cahmuriyat Cadde. Bachelivler"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkey"
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "format": "note",
+                                        "example": ""
+                                    },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel Tariq"
+                                    },
+                                    "contact_person_no": {
+                                        "type": "integer",
+                                        "format": "contact_person_no",
+                                        "example": "00905340344609"
+                                    },
+                                    "company_legal_name": {
+                                        "type": "string",
+                                        "format": "company_legal_name",
+                                        "example": "Alfa Nova Transportation"
+                                    },
+                                    "uetds_url": {
+                                        "type": "string",
+                                        "format": "uetds_url",
+                                        "example": "http://uetds.com"
+                                    },
+                                    "uetds_username": {
+                                        "type": "string",
+                                        "format": "uetds_username",
+                                        "example": "alfanovauets"
+                                    },
+                                    "uetds_password": {
+                                        "type": "password",
+                                        "format": "uetds_password",
+                                        "example": "dfdf323"
+                                    },
+                                    "uetds_status": {
+                                        "type": "string",
+                                        "format": "uetds_status",
+                                        "example": "active"
+                                    },
+                                    "customer_create_limit": {
+                                        "description": "0 for unlimited",
+                                        "type": "integer",
+                                        "format": "customer_create_limit",
+                                        "example": "0"
+                                    },
+                                    "demo_end_at": {
+                                        "type": "string",
+                                        "format": "demo_end_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_start_at": {
+                                        "type": "string",
+                                        "format": "subscription_start_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_end_at": {
+                                        "type": "string",
+                                        "format": "subscription_end_at",
+                                        "example": "2024-08-01"
+                                    },
+                                    "type": {
+                                        "type": "in:Demo,Monthly,Yearly",
+                                        "format": "type",
+                                        "example": "Yearly"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    },
+                                    "payment_on": {
+                                        "type": "string",
+                                        "format": "payment_on",
+                                        "example": "2024-08-01"
+                                    },
+                                    "payment_status": {
+                                        "type": "in:Pending,Processing,Completed",
+                                        "format": "payment_status",
+                                        "example": "Completed"
+                                    },
+                                    "payment_note": {
+                                        "type": "text",
+                                        "format": "payment_note",
+                                        "example": "Payment received"
+                                    },
+                                    "source_of_booking": {
+                                        "type": "string",
+                                        "format": "source_of_booking",
+                                        "example": "Facebook"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Company Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of company list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Operation not successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Subscription Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry Your Subscription has been Expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/detail/{id}": {
+            "get": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Get of Company By Id",
+                "description": "Get Company Data by Company Id",
+                "operationId": "getCompanyById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Compnay Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of company"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Operation not successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Subscription Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry Your Subscription has been Expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/update/{id}": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Update Company",
+                "description": "Returns company data",
+                "operationId": "updateCompany",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Compnay Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "contact_number",
+                                    "address",
+                                    "city",
+                                    "country"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Tour Campaign"
+                                    },
+                                    "contact_number": {
+                                        "type": "number",
+                                        "format": "contact_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "address",
+                                        "example": "Zafar Mah. Cahmuriyat Cadde. Bachelivler"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkey"
+                                    },
+                                    "note": {
+                                        "type": "string",
+                                        "format": "note",
+                                        "example": ""
+                                    },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel Tariq"
+                                    },
+                                    "contact_person_no": {
+                                        "type": "integer",
+                                        "format": "contact_person_no",
+                                        "example": "00905340344609"
+                                    },
+                                    "company_legal_name": {
+                                        "type": "string",
+                                        "format": "company_legal_name",
+                                        "example": "Alfa Nova Transportation"
+                                    },
+                                    "uetds_url": {
+                                        "type": "string",
+                                        "format": "uetds_url",
+                                        "example": "http://uetds.com"
+                                    },
+                                    "uetds_username": {
+                                        "type": "string",
+                                        "format": "uetds_username",
+                                        "example": "alfanovauets"
+                                    },
+                                    "uetds_password": {
+                                        "type": "password",
+                                        "format": "uetds_password",
+                                        "example": "dfdf323"
+                                    },
+                                    "uetds_status": {
+                                        "type": "string",
+                                        "format": "uetds_status",
+                                        "example": "active"
+                                    },
+                                    "customer_create_limit": {
+                                        "description": "0 for unlimited",
+                                        "type": "integer",
+                                        "format": "customer_create_limit",
+                                        "example": "0"
+                                    },
+                                    "demo_end_at": {
+                                        "type": "string",
+                                        "format": "demo_end_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_start_at": {
+                                        "type": "string",
+                                        "format": "subscription_start_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_end_at": {
+                                        "type": "string",
+                                        "format": "subscription_end_at",
+                                        "example": "2024-08-01"
+                                    },
+                                    "type": {
+                                        "type": "in:Demo,Monthly,Yearly",
+                                        "format": "type",
+                                        "example": "Yearly"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    },
+                                    "payment_on": {
+                                        "type": "string",
+                                        "format": "payment_on",
+                                        "example": "2024-08-01"
+                                    },
+                                    "payment_status": {
+                                        "type": "in:Pending,Processing,Completed",
+                                        "format": "payment_status",
+                                        "example": "Completed"
+                                    },
+                                    "payment_note": {
+                                        "type": "text",
+                                        "format": "payment_note",
+                                        "example": "Payment received"
+                                    },
+                                    "source_of_booking": {
+                                        "type": "string",
+                                        "format": "source_of_booking",
+                                        "example": "Facebook"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Company Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of company list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Operation not successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Subscription Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry Your Subscription has been Expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/delete/{id}": {
+            "post": {
+                "tags": [
+                    "Company"
+                ],
+                "summary": "Remove Company",
+                "description": "Remove Company by Id",
+                "operationId": "destoryCompany",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Compnay Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "Company Deleted Successfully"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "403": {
+                        "description": "Operation not successful",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "410": {
+                        "description": "Subscription Expired",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sorry Your Subscription has been Expired"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "name": "bearerAuth",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}
