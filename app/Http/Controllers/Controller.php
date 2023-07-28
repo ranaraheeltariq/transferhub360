@@ -15,6 +15,11 @@ use Illuminate\Routing\Controller as BaseController;
  *      name="Rana Raheel Tariq",
  *      email="ranaraheel@alfanovatech.com"
  *    ),
+ *
+ * @OA\Server(
+ *      url=L5_SWAGGER_CONST_HOST,
+ *      description="Demo API Server"
+ * ),
  *    @OA\License(
  *      name="Apache 2.0",
  *      url="http://www.apache.org/licenses/LICENSE-2.0.html"

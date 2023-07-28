@@ -22,9 +22,9 @@ class CompanyController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/companies?page={number}",
+     *      path="/api/admin/companies?page={number}",
      *      operationId="getCompanyList",
-     *      tags={"Company"},
+     *      tags={"AdminCompany"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Get list of Companies",
      *      description="Returns list of Companies",
@@ -52,22 +52,6 @@ class CompanyController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="message", type="string", example="Unauthenticated")
      *          )
-     *     ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Operation not successful",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Error Message"),
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=410,
-     *          description="Subscription Expired",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Sorry Your Subscription has been Expired"),
-     *          )
      *     )
      * )
      */
@@ -79,9 +63,9 @@ class CompanyController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/companies/create",
+     *      path="/api/admin/companies/create",
      *      operationId="storeCompany",
-     *      tags={"Company"},
+     *      tags={"AdminCompany"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Create New Company",
      *      description="Returns company data",
@@ -136,19 +120,19 @@ class CompanyController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Operation not successful",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Error Message"),
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
      *          )
-     *      ),
+     *     ),
      *      @OA\Response(
-     *          response=410,
-     *          description="Subscription Expired",
+     *          response=422,
+     *          description="Unprocessable Content",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Sorry Your Subscription has been Expired"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
      *          )
      *     )
      * )
@@ -186,18 +170,18 @@ class CompanyController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $company = $this->companyRepository->create($data);
-        if($company) {
-            return $this->successResponse($company, 'Company Successfully Created', Response::HTTP_CREATED);
+        $result = $this->companyRepository->create($data);
+        if($result) {
+            return $this->successResponse($result, __('response_messages.Company.created'), Response::HTTP_CREATED);
         }
-        return $this->errorResponse('Date not store, kindly do this request again', Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->errorResponse(__('response_messages._common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/detail/{id}",
+     *      path="/api/admin/companies/detail/{id}",
      *      operationId="getCompanyById",
-     *      tags={"Company"},
+     *      tags={"AdminCompany"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Get of Company By Id",
      *      description="Get Company Data by Company Id",
@@ -227,21 +211,13 @@ class CompanyController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Operation not successful",
+     *          response=404,
+     *          description="Page Not Found",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Error Message"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
      *          )
-     *      ),
-     *      @OA\Response(
-     *          response=410,
-     *          description="Subscription Expired",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Sorry Your Subscription has been Expired"),
-     *          )
-     *     )
+     *      )
      * )
      */
     public function show($id)
@@ -250,14 +226,14 @@ class CompanyController extends Controller
         if($company){
             return $this->successResponse($company);
         }
-        return $this->errorResponse('Page Not Found',Response::HTTP_NOT_FOUND);
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/update/{id}",
+     *      path="/api/admin/companies/update/{id}",
      *      operationId="updateCompany",
-     *      tags={"Company"},
+     *      tags={"AdminCompany"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Update Company",
      *      description="Returns company data",
@@ -321,19 +297,27 @@ class CompanyController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Operation not successful",
+     *          response=404,
+     *          description="Page Not Found",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Error Message"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
      *          )
      *      ),
      *      @OA\Response(
-     *          response=410,
-     *          description="Subscription Expired",
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Sorry Your Subscription has been Expired"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
      *          )
      *     )
      * )
@@ -373,16 +357,16 @@ class CompanyController extends Controller
         }
         $company = $this->companyRepository->update($id,$data);
         if($company){
-            return $this->successResponse($company, 'Company Successfully Updated');
+            return $this->successResponse($Owner, __('response_messages.Company.updated'));
         }
-        return $this->errorResponse('Page Not Found',Response::HTTP_NOT_FOUND);
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/delete/{id}",
+     *      path="/api/admin/companies/delete/{id}",
      *      operationId="destoryCompany",
-     *      tags={"Company"},
+     *      tags={"AdminCompany"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Remove Company",
      *      description="Remove Company by Id",
@@ -412,21 +396,13 @@ class CompanyController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=403,
-     *          description="Operation not successful",
+     *          response=404,
+     *          description="Page Not Found",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Error Message"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
      *          )
-     *      ),
-     *      @OA\Response(
-     *          response=410,
-     *          description="Subscription Expired",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Sorry Your Subscription has been Expired"),
-     *          )
-     *     )
+     *      )
      * )
      */
     public function destroy($id)
@@ -434,8 +410,8 @@ class CompanyController extends Controller
         $company = $this->companyRepository->delete($id);
         if($company)
         {
-            return $this->successResponse(null,'Company Deleted Successfully');
+            return $this->successResponse(null, __('response_messages.Company.deleted'));
         }
-        return $this->errorResponse('Page Not Found',Response::HTTP_NOT_FOUND);
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 }

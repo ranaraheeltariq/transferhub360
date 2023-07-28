@@ -30,6 +30,10 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
     public function update($id, array $data)
     {
+        if($data['thumbnail']){
+            $path = Storage::putFile('images/owner', $data['thumbnail']);
+            $data['thumbnail'] = $path;
+        }
         return Company::whereId($id)->update($data);
     }
     
