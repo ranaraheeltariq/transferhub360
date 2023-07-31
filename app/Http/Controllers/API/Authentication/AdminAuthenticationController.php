@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Authentication;
+namespace App\Http\Controllers\API\Authentication;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -36,7 +36,7 @@ class AdminAuthenticationController extends Controller
      *      mediaType="multipart/form-data",
      *      @OA\Schema(
      *          required={"email","password"},
-     *          @OA\Property(property="email", type="email", format="email", example="admin@transferhub360.com"),
+     *          @OA\Property(property="email", type="email", format="email", example="admin@yopmail.com"),
      *          @OA\Property(property="password", type="string", format="password", example="password"),
      *      )
      *    ),
@@ -79,9 +79,10 @@ class AdminAuthenticationController extends Controller
                   'token' => $token,
                   'type' => 'bearer',
             ]);
-            return $this->successResponse($user, __('response_messages._auth.login'));
+            $user['role'] = 'Admin';
+            return $this->successResponse($user, __('response_messages.auth.login'));
          }
-         return $this->errorResponse(__('response_messages._auth.credentialsIncorrect'), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+         return $this->errorResponse(__('response_messages.auth.credentialsIncorrect'), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
     }
 
    /**
@@ -112,8 +113,9 @@ class AdminAuthenticationController extends Controller
      */
     public function logout(Request $request)
     {
-      Auth::guard('admin')->user()->currentAccessToken()->delete();
-      return $this->successResponse(null, __('response_messages._auth.logout'));
+    //   Auth::guard('admin')->user()->currentAccessToken()->delete(); //user data not readable with Guard need to fix
+      Auth::user()->currentAccessToken()->delete();
+      return $this->successResponse(null, __('response_messages.auth.logout'));
     }
 
     /**
@@ -138,7 +140,7 @@ class AdminAuthenticationController extends Controller
      *          ),
      *      ),
      *      @OA\Response(
-     *          response=201,
+     *          response=200,
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
@@ -173,7 +175,9 @@ class AdminAuthenticationController extends Controller
      */
     public function passwordReset(Request $request)
     {
-         $user = Auth::guard('admin')->user();
+        // $user = Auth::guard('admin')->user(); //user data not readable with Guard need to fix
+        $user = Auth::user();
+        return $this->successResponse($user, __('response_messages.auth.newPassword'));
         //Validate data
         $data = $request->only('current_password', 'password','password_confirmation');
         $validator = Validator::make($data, [
@@ -184,13 +188,14 @@ class AdminAuthenticationController extends Controller
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
         if (! $user || ! Hash::check($request->current_password, $user->password)) {
-            return $this->errorResponse(['current_password' => [__('response_messages._auth.passwordIncorrect')]], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            return $this->errorResponse(['current_password' => [__('response_messages.auth.passwordIncorrect')]], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $user = $this->UserRepository->passwordReset($request);
-        if($user){
-            return $this->successResponse(null, __('response_messages._auth.newPassword'));
+        $result = $this->userRepository->passwordReset($request);
+        if($result){
+            return $this->successResponse($result, __('response_messages.auth.newPassword'));
         }
-        return $this->errorResponse(__('response_messages._common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->successResponse($result);
+        return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -207,8 +212,8 @@ class AdminAuthenticationController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","email"},
-     *                  @OA\Property(property="full_name", type="string", format="name", example="John san"),
+     *                  required={"full_name","email"},
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="John san"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example="")
@@ -220,8 +225,8 @@ class AdminAuthenticationController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Company User Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of User list"),
+     *              @OA\Property(property="message", type="string", example="Company User Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of User data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -259,11 +264,12 @@ class AdminAuthenticationController extends Controller
      */
     public function update(Request $request)
     {
-         $id = Auth::guard('admin')->user()->id;
+        // $id = Auth::guard('admin')->user()->id; //user data not readable with Guard need to fix
+        $id = Auth::user()->id;
         $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'contact_number' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
         ]);
@@ -272,7 +278,7 @@ class AdminAuthenticationController extends Controller
         }
         $result = $this->UserRepository->update($id,$data);
         if($result){
-            return $this->successResponse($result, __('response_messages.User.updated'));
+            return $this->successResponse($result, __('response_messages.user.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

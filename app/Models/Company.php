@@ -29,6 +29,14 @@ class Company extends Model
         }
 
         /**
+         * Get the User associated with the Company.
+         */
+        public function users()
+        {
+            return $this->hasMany(User::class);
+        }
+
+        /**
          * Get the Driver associated with the Company.
          */
         public function drivers()

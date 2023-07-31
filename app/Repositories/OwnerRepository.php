@@ -20,11 +20,11 @@ class OwnerRepository implements OwnerRepositoryInterface
     }
     public function delete($id)
     {
-        Owner::destroy($id);
+        return Owner::destroy($id);
     }
     public function create(array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/owner', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
@@ -34,7 +34,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     }
     public function update($id, array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/owner', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }

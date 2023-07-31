@@ -3,31 +3,31 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
+use App\Repositories\SupervisorRepository;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class SupervisorController extends Controller
 {
     use ApiResponser;
 
-    private UserRepository $userRepository;
+    private SupervisorRepository $supervisorRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(SupervisorRepository $supervisorRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->supervisorRepository = $supervisorRepository;
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/users?page={number}",
-     *      operationId="getUserList",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/supervisors?page={number}",
+     *      operationId="getSupervisorList",
+     *      tags={"CompanySupervisor"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get list of Companies",
-     *      description="Returns list of Companies",
+     *      summary="Get list of Supervisors",
+     *      description="Returns list of Supervisors",
      *      @OA\Parameter(
      *          name="number",
      *          description="Page Number",
@@ -43,7 +43,7 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of User list"),
+     *              @OA\Property(property="data", type="string", example="array of Supervisors list"),
      *          )
      *       ),
      *      @OA\Response(
@@ -57,30 +57,34 @@ class UserController extends Controller
      */
     public function index()
     {
-        $result = $this->userRepository->getAll();
+        $result = $this->supervisorRepository->getAll();
         return $this->successResponse($result);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/create",
-     *      operationId="storeUser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/supervisors/create",
+     *      operationId="storeSupervisor",
+     *      tags={"CompanySupervisor"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Create New User",
-     *      description="Returns User data",
+     *      summary="Create New Supervisor",
+     *      description="Returns Supervisor data",
      *      @OA\RequestBody(
      *          required=true,
      *          description="I just fill Required Fields",
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"full_name","email","password"},
-     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
+     *                  required={"full_name", "contact_number", "email", "password", "address", "gender", "status"},
+     *                  @OA\Property(property="id_number", type="string", format="id_number", example="3663558DDSF"),
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Ahmet Ali"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
-     *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
+     *                  @OA\Property(property="email", type="email", format="email", example="supervisor@yopmail.com"),
+     *                  @OA\Property(property="password", type="password", format="password", example="dfdf323"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
-     *                  @OA\Property(property="password", type="password", format="password", example="password"),
+     *                  @OA\Property(property="address", type="string", format="address", example="Zafar Mah. Cahmuriyat Cadde. Bachelivler"),
+     *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
+     *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
      *          ),
      *      ),
@@ -89,8 +93,8 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="User Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of User data"),
+     *              @OA\Property(property="message", type="string", example="Supervisor Successfully Created"),
+     *              @OA\Property(property="data", type="string", example="array of Supervisor Data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -120,38 +124,41 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail', 'password');
+        $data = $request->only('full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'id_number', 'status');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'contact_number' => 'nullable|string|max:255',
-            'password'      => 'required|string|min:8',
+            'contact_number' => 'required|string|max:255|unique:supervisors',
+            'email' => 'required|string|email|max:255|unique:supervisors',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
+            'address' => 'required|string|max:255',
+            'gender' => 'required|string|max:255',
+            'id_number ' => 'nullable|string|max:255',
+            'status' => 'required|in:Active,Deactive',
         ]);
         if ($validator->fails()) {
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->userRepository->create($data);
+        $result = $this->supervisorRepository->create($data);
         if($result){
-            $result['oauth'] = base64_encode($password);
-            $result['password'] = $password;
+            $result['oauth'] = base64_encode($request->password);
+            $result['password'] = $request->password;
            // Mail::to($data['email'])->send(new UserLoginDetails($result));
-            return $this->successResponse($result, __('response_messages.user.created'), Response::HTTP_CREATED);
+            return $this->successResponse($result, __('response_messages.supervisor.created'), Response::HTTP_CREATED);
         }
         return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/users/detail/{id}",
-     *      operationId="getUserById",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/supervisors/detail/{id}",
+     *      operationId="getSupervisorById",
+     *      tags={"CompanySupervisor"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get of User By Id",
-     *      description="Get User Data by User Id",
+     *      summary="Get of Supervisor By Id",
+     *      description="Get Supervisor Data by Supervisor Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="Supervisor Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -164,7 +171,7 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *              @OA\Property(property="data", type="string", example="array of Supervisor"),
      *          )
      *       ),
      *      @OA\Response(
@@ -186,7 +193,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $result = $this->userRepository->getById($id);
+        $result = $this->supervisorRepository->getById($id);
         if($result){
             return $this->successResponse($result);
         }
@@ -195,15 +202,15 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/update/{id}",
-     *      operationId="updateuser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/supervisors/update/{id}",
+     *      operationId="updateSupervisor",
+     *      tags={"CompanySupervisor"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Update User",
-     *      description="Returns User data",
+     *      summary="Update Supervisor",
+     *      description="Returns Supervisor data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="Supervisor Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -216,11 +223,16 @@ class UserController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"full_name","email"},
-     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
+     *                  required={"full_name", "contact_number", "email", "password", "address", "gender", "status"},
+     *                  @OA\Property(property="id_number", type="string", format="id_number", example="3663558DDSF"),
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Ahmet Ali"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
-     *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
+     *                  @OA\Property(property="email", type="email", format="email", example="supervisor@yopmail.com"),
+     *                  @OA\Property(property="password", type="password", format="password", example="dfdf323"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
+     *                  @OA\Property(property="address", type="string", format="address", example="Zafar Mah. Cahmuriyat Cadde. Bachelivler"),
+     *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
+     *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
      *          ),
      *      ),
@@ -229,8 +241,8 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="User Successfully Updated"),
-     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *              @OA\Property(property="message", type="string", example="Supervisor Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of Supervisor data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -241,14 +253,6 @@ class UserController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=203,
-     *           description="Validation Error response",
-     *           @OA\JsonContent(
-     *          @OA\Property(property="status", type="string", example="error"),
-     *               @OA\Property(property="message", type="string", example="Validation error Message")
-     *          )
-     *     ),
-     *      @OA\Response(
      *          response=404,
      *          description="Page Not Found",
      *          @OA\JsonContent(
@@ -256,6 +260,14 @@ class UserController extends Controller
      *              @OA\Property(property="message", type="string", example="Page Not Found"),
      *          )
      *      ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
      *      @OA\Response(
      *          response=422,
      *          description="Unprocessable Content",
@@ -268,34 +280,39 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
+        $data = $request->only('full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'id_number', 'status');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'contact_number' => 'nullable|string|max:255',
+            'contact_number' => 'required|string|max:255|unique:supervisors,contact_number,'.$id,
+            'email' => 'required|string|email|max:255|unique:supervisors,email,'.$id,
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
+            'address' => 'required|string|max:255',
+            'gender' => 'required|string|max:255',
+            'id_number ' => 'nullable|string|max:255',
+            'status' => 'required|in:Active,Deactive',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->userRepository->update($id,$data);
+        $result = $this->supervisorRepository->update($id,$data);
         if($result){
-            return $this->successResponse($result, __('response_messages.user.updated'));
+            $result = $this->supervisorRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.supervisor.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/delete/{id}",
-     *      operationId="destoryUser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/supervisors/delete/{id}",
+     *      operationId="destorySupervisor",
+     *      tags={"CompanySupervisor"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Remove User",
-     *      description="Remove User by Id",
+     *      summary="Remove Supervisor",
+     *      description="Remove Supervisor by Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="Supervisor Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -307,7 +324,7 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Admin User Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Supervisor Deleted Successfully"),
      *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),
@@ -330,10 +347,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->userRepository->delete($id);
+        $result = $this->supervisorRepository->delete($id);
         if($result)
         {
-            return $this->successResponse(null, __('response_messages.user.deleted'));
+            return $this->successResponse(null, __('response_messages.supervisor.deleted'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

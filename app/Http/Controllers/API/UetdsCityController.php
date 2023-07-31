@@ -3,31 +3,31 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\UserRepository;
+use App\Repositories\UetdsCityRepository;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class UetdsCityController extends Controller
 {
     use ApiResponser;
 
-    private UserRepository $userRepository;
+    private UetdsCityRepository $uetdsCityRepository;
 
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UetdsCityRepository $uetdsCityRepository)
     {
-        $this->userRepository = $userRepository;
+        $this->uetdsCityRepository = $uetdsCityRepository;
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/users?page={number}",
-     *      operationId="getUserList",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/cities?page={number}",
+     *      operationId="getCitiesList",
+     *      tags={"UetdsCities"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get list of Companies",
-     *      description="Returns list of Companies",
+     *      summary="Get list of Cities",
+     *      description="Returns list of Cities",
      *      @OA\Parameter(
      *          name="number",
      *          description="Page Number",
@@ -43,7 +43,7 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of User list"),
+     *              @OA\Property(property="data", type="string", example="array of Cities list"),
      *          )
      *       ),
      *      @OA\Response(
@@ -57,30 +57,29 @@ class UserController extends Controller
      */
     public function index()
     {
-        $result = $this->userRepository->getAll();
+        $result = $this->uetdsCityRepository->getAll();
         return $this->successResponse($result);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/create",
-     *      operationId="storeUser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/cities/create",
+     *      operationId="storeCities",
+     *      tags={"UetdsCities"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Create New User",
-     *      description="Returns User data",
+     *      summary="Create New City",
+     *      description="Returns City data",
      *      @OA\RequestBody(
      *          required=true,
      *          description="I just fill Required Fields",
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"full_name","email","password"},
-     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
-     *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
-     *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
-     *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
-     *                  @OA\Property(property="password", type="password", format="password", example="password"),
+     *                  required={"city_code","city","zone_code","zone"},
+     *                  @OA\Property(property="city_code", type="number", format="city_code", example="34"),
+     *                  @OA\Property(property="city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="zone_code", type="number", format="zone_code", example="55"),
+     *                  @OA\Property(property="zone", type="string", format="zone", example="Sisli"),
      *              )
      *          ),
      *      ),
@@ -89,8 +88,8 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="User Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of User data"),
+     *              @OA\Property(property="message", type="string", example="City Successfully Created"),
+     *              @OA\Property(property="data", type="string", example="array of City list"),
      *          )
      *       ),
      *      @OA\Response(
@@ -120,38 +119,34 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail', 'password');
-        $validator = Validator::make($data, [
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'contact_number' => 'nullable|string|max:255',
-            'password'      => 'required|string|min:8',
-            'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
+        $data = $request->only("city_code","city","zone_code","zone");
+        $validator = Validator::make($data,[
+            'city_code' => 'required|integer',
+            'city' => 'required|string|max:255',
+            'zone_code' => 'nullable|integer',
+            'zone' => 'required|string|max:255',
         ]);
-        if ($validator->fails()) {
+        if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->userRepository->create($data);
-        if($result){
-            $result['oauth'] = base64_encode($password);
-            $result['password'] = $password;
-           // Mail::to($data['email'])->send(new UserLoginDetails($result));
-            return $this->successResponse($result, __('response_messages.user.created'), Response::HTTP_CREATED);
+        $result = $this->uetdsCityRepository->create($data);
+        if($result) {
+            return $this->successResponse($result, __('response_messages.uetdsCities.created'), Response::HTTP_CREATED);
         }
         return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/users/detail/{id}",
-     *      operationId="getUserById",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/cities/detail/{id}",
+     *      operationId="getCityById",
+     *      tags={"UetdsCities"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get of User By Id",
-     *      description="Get User Data by User Id",
+     *      summary="Get of City By Id",
+     *      description="Get City Data by City Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="City Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -164,7 +159,7 @@ class UserController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *              @OA\Property(property="data", type="string", example="array of city"),
      *          )
      *       ),
      *      @OA\Response(
@@ -186,7 +181,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $result = $this->userRepository->getById($id);
+        $result = $this->uetdsCityRepository->getById($id);
         if($result){
             return $this->successResponse($result);
         }
@@ -195,15 +190,15 @@ class UserController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/update/{id}",
-     *      operationId="updateuser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/cities/update/{id}",
+     *      operationId="updateCity",
+     *      tags={"UetdsCities"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Update User",
-     *      description="Returns User data",
+     *      summary="Update City",
+     *      description="Returns City data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="city Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -216,11 +211,11 @@ class UserController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"full_name","email"},
-     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
-     *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
-     *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
-     *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
+     *                  required={"city_code","city","zone_code","zone"},
+     *                  @OA\Property(property="city_code", type="number", format="city_code", example="34"),
+     *                  @OA\Property(property="city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="zone_code", type="number", format="zone_code", example="55"),
+     *                  @OA\Property(property="zone", type="string", format="zone", example="Sisli"),
      *              )
      *          ),
      *      ),
@@ -229,8 +224,8 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="User Successfully Updated"),
-     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *              @OA\Property(property="message", type="string", example="City Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of city data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -241,14 +236,6 @@ class UserController extends Controller
      *          )
      *     ),
      *      @OA\Response(
-     *          response=203,
-     *           description="Validation Error response",
-     *           @OA\JsonContent(
-     *          @OA\Property(property="status", type="string", example="error"),
-     *               @OA\Property(property="message", type="string", example="Validation error Message")
-     *          )
-     *     ),
-     *      @OA\Response(
      *          response=404,
      *          description="Page Not Found",
      *          @OA\JsonContent(
@@ -256,6 +243,14 @@ class UserController extends Controller
      *              @OA\Property(property="message", type="string", example="Page Not Found"),
      *          )
      *      ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
      *      @OA\Response(
      *          response=422,
      *          description="Unprocessable Content",
@@ -268,34 +263,35 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
-        $validator = Validator::make($data, [
-            'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
-            'contact_number' => 'nullable|string|max:255',
-            'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
+        $data = $request->only("city_code","city","zone_code","zone");
+        $validator = Validator::make($data,[
+            'city_code' => 'required|integer',
+            'city' => 'required|string|max:255',
+            'zone_code' => 'nullable|integer',
+            'zone' => 'required|string|max:255',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->userRepository->update($id,$data);
+        $result = $this->uetdsCityRepository->update($id,$data);
         if($result){
-            return $this->successResponse($result, __('response_messages.user.updated'));
+            $result = $this->uetdsCityRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.uetdsCities.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/users/delete/{id}",
-     *      operationId="destoryUser",
-     *      tags={"CompanyUser"},
+     *      path="/api/companies/cities/delete/{id}",
+     *      operationId="destoryCity",
+     *      tags={"UetdsCities"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Remove User",
-     *      description="Remove User by Id",
+     *      summary="Remove city",
+     *      description="Remove City by Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="User Id",
+     *          description="City Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -307,7 +303,7 @@ class UserController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Admin User Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="City Deleted Successfully"),
      *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),
@@ -330,10 +326,10 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->userRepository->delete($id);
+        $result = $this->uetdsCityRepository->delete($id);
         if($result)
         {
-            return $this->successResponse(null, __('response_messages.user.deleted'));
+            return $this->successResponse(null, __('response_messages.uetdsCities.deleted'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

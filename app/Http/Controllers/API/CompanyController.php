@@ -57,8 +57,8 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $companies = $this->companyRepository->getAll();
-        return $this->successResponse($companies);
+        $result = $this->companyRepository->getAll();
+        return $this->successResponse($result);
     }
 
     /**
@@ -172,9 +172,9 @@ class CompanyController extends Controller
         }
         $result = $this->companyRepository->create($data);
         if($result) {
-            return $this->successResponse($result, __('response_messages.Company.created'), Response::HTTP_CREATED);
+            return $this->successResponse($result, __('response_messages.company.created'), Response::HTTP_CREATED);
         }
-        return $this->errorResponse(__('response_messages._common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
@@ -222,9 +222,9 @@ class CompanyController extends Controller
      */
     public function show($id)
     {
-        $company = $this->companyRepository->getById($id);
-        if($company){
-            return $this->successResponse($company);
+        $result = $this->companyRepository->getById($id);
+        if($result){
+            return $this->successResponse($result);
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
@@ -285,8 +285,8 @@ class CompanyController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Company Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of company list"),
+     *              @OA\Property(property="message", type="string", example="Company Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of company data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -355,9 +355,9 @@ class CompanyController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $company = $this->companyRepository->update($id,$data);
-        if($company){
-            return $this->successResponse($Owner, __('response_messages.Company.updated'));
+        $result = $this->companyRepository->update($id,$data);
+        if($result){
+            return $this->successResponse($result, __('response_messages.company.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
@@ -384,8 +384,8 @@ class CompanyController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="Company Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Company Deleted Successfully"),
+     *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),
      *      @OA\Response(
@@ -407,10 +407,10 @@ class CompanyController extends Controller
      */
     public function destroy($id)
     {
-        $company = $this->companyRepository->delete($id);
-        if($company)
+        $result = $this->companyRepository->delete($id);
+        if($result)
         {
-            return $this->successResponse(null, __('response_messages.Company.deleted'));
+            return $this->successResponse(null, __('response_messages.company.deleted'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

@@ -22,7 +22,7 @@ class OwnerController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/admin/list?page={number}",
+     *      path="/api/admin/users?page={number}",
      *      operationId="getOwnerList",
      *      tags={"AdminUser"},
      *      security={ {"bearerAuth":{} }},
@@ -63,7 +63,7 @@ class OwnerController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/admin/create",
+     *      path="/api/admin/users/create",
      *      operationId="storeOwner",
      *      tags={"AdminUser"},
      *      security={ {"bearerAuth":{} }},
@@ -75,8 +75,8 @@ class OwnerController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","email","password"},
-     *                  @OA\Property(property="full_name", type="string", format="name", example="Tour Campaign"),
+     *                  required={"full_name","email","password"},
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
@@ -136,14 +136,14 @@ class OwnerController extends Controller
             $result['oauth'] = base64_encode($password);
             $result['password'] = $password;
            // Mail::to($data['email'])->send(new UserLoginDetails($result));
-            return $this->successResponse($result, __('response_messages.AdminUser.created'), Response::HTTP_CREATED);
+            return $this->successResponse($result, __('response_messages.adminUser.created'), Response::HTTP_CREATED);
         }
-        return $this->errorResponse(__('response_messages._common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/admin/detail/{id}",
+     *      path="/api/admin/users/detail/{id}",
      *      operationId="getOwnerById",
      *      tags={"AdminUser"},
      *      security={ {"bearerAuth":{} }},
@@ -195,7 +195,7 @@ class OwnerController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/admin/update/{id}",
+     *      path="/api/admin/users/update/{id}",
      *      operationId="updateOwner",
      *      tags={"AdminUser"},
      *      security={ {"bearerAuth":{} }},
@@ -216,12 +216,11 @@ class OwnerController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","email","password"},
-     *                  @OA\Property(property="full_name", type="string", format="name", example="Tour Campaign"),
+     *                  required={"full_name","email"},
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
-     *                  @OA\Property(property="password", type="password", format="password", example="password"),
      *              )
      *          ),
      *      ),
@@ -269,12 +268,11 @@ class OwnerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail', 'password');
+        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'contact_number' => 'nullable|string|max:255',
-            'password'      => 'required|string|min:8',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
         ]);
         if($validator->fails()){
@@ -282,14 +280,14 @@ class OwnerController extends Controller
         }
         $result = $this->OwnerRepository->update($id,$data);
         if($result){
-            return $this->successResponse($result, __('response_messages.AdminUser.updated'));
+            return $this->successResponse($result, __('response_messages.adminUser.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/admin/delete/{id}",
+     *      path="/api/admin/users/delete/{id}",
      *      operationId="destoryAdminUser",
      *      tags={"AdminUser"},
      *      security={ {"bearerAuth":{} }},
@@ -309,8 +307,8 @@ class OwnerController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="Admin User Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Admin User Deleted Successfully"),
+     *              @OA\Property(property="date", type="string", example=null),
      *          )
      *       ),
      *      @OA\Response(
@@ -335,7 +333,7 @@ class OwnerController extends Controller
         $result = $this->ownerRepository->delete($id);
         if($result)
         {
-            return $this->successResponse(null, __('response_messages.AdminUser.deleted'));
+            return $this->successResponse(null, __('response_messages.adminUser.deleted'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

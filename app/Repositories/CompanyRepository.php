@@ -18,11 +18,11 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
     public function delete($id)
     {
-        Company::destroy($id);
+        return Company::destroy($id);
     }
     public function create(array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/company', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
@@ -30,7 +30,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     }
     public function update($id, array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/owner', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }

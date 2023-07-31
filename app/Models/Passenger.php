@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Auth\Passwords\CanResetPassword as ResetPassword;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class Passenger extends Authenticatable implements CanResetPassword
 {
@@ -54,16 +55,40 @@ class Passenger extends Authenticatable implements CanResetPassword
 
     // *********************** END CHILD CLASS *******************************
 
+    // /**
+    //  * The getter for assign complete url to storage files
+    //  *
+    //  * @return string Thumbnail url
+    //  */
+    // public function getThumbnailAttribute()
+    // {
+    //     if($this->attributes['thumbnail'] != null){
+    //         return Storage::url($this->attributes['thumbnail']);
+    //     }
+    // }
+
     /**
-     * The getter for assign complete url to storage files
-     *
-     * @return string Thumbnail url
+     * Get the Thumbnail URL.
      */
-    public function getThumbnailAttribute()
+    protected function thumbnail(): Attribute
     {
-        if($this->attributes['thumbnail'] != null){
-            return Storage::url($this->attributes['thumbnail']);
-        }
+        return Attribute::make(
+            get: fn (string $value) => Storage::url($value),
+        );
+    }
+    
+    /**
+     * Interact with the user's full name.
+     */
+    protected function fullName(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes) => new FullName(
+                $attributes['first_name'],
+                $attributes['last_name'],
+            ),
+            set: fn (FullName $value) => $value->first_name.' '.$value->last_name,
+        );
     }
 
     /**

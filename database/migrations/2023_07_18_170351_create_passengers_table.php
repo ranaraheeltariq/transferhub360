@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('company_id')->constrained();
             $table->foreignId('customer_id')->constrained();
+            $table->string('first_name');
+            $table->string('last_name');
             $table->string('full_name');
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
@@ -22,6 +24,7 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('gender');
+            $table->string('nationality')->nullable();
             $table->string('age')->nullable();
             $table->string('id_number')->nullable();
             $table->enum('status',['Active','Deactive'])->default('Active');

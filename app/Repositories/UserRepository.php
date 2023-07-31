@@ -20,11 +20,11 @@ class UserRepository implements UserRepositoryInterface
     }
     public function delete($id)
     {
-        User::destroy($id);
+        return User::destroy($id);
     }
     public function create(array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/User', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
@@ -34,7 +34,7 @@ class UserRepository implements UserRepositoryInterface
     }
     public function update($id, array $data)
     {
-        if($data['thumbnail']){
+        if(!empty($data['thumbnail'])){
             $path = Storage::putFile('images/User', $data['thumbnail']);
             $data['thumbnail'] = $path;
         }

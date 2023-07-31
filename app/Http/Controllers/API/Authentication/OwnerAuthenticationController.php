@@ -79,9 +79,10 @@ class OwnerAuthenticationController extends Controller
                   'token' => $token,
                   'type' => 'bearer',
             ]);
-            return $this->successResponse($user, __('response_messages._auth.login'));
+            $user['role'] = 'Owner';
+            return $this->successResponse($user, __('response_messages.auth.login'));
          }
-         return $this->errorResponse(__('response_messages._auth.credentialsIncorrect'), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+         return $this->errorResponse(__('response_messages.auth.credentialsIncorrect'), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
     }
 
    /**
@@ -112,8 +113,9 @@ class OwnerAuthenticationController extends Controller
      */
     public function logout(Request $request)
     {
-      Auth::guard('owners')->user()->currentAccessToken()->delete();
-      return $this->successResponse(null, __('response_messages._auth.logout'));
+        // Auth::guard('owners')->user()->currentAccessToken()->delete(); //user data not readable with Guard need to fix
+        Auth::user()->currentAccessToken()->delete();
+        return $this->successResponse(null, __('response_messages.auth.logout'));
     }
 
     /**
@@ -173,7 +175,8 @@ class OwnerAuthenticationController extends Controller
      */
     public function passwordReset(Request $request)
     {
-         $user = Auth::guard('owners')->user();
+        // $user = Auth::guard('admin')->user(); //user data not readable with Guard need to fix
+        $user = Auth::user();
         //Validate data
         $data = $request->only('current_password', 'password','password_confirmation');
         $validator = Validator::make($data, [
@@ -184,18 +187,18 @@ class OwnerAuthenticationController extends Controller
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
         if (! $user || ! Hash::check($request->current_password, $user->password)) {
-            return $this->errorResponse(['current_password' => [__('response_messages._auth.passwordIncorrect')]], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+            return $this->errorResponse(['current_password' => [__('response_messages.auth.passwordIncorrect')]], Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
         $result = $this->ownerRepository->passwordReset($request);
         if($result){
-            return $this->successResponse(null, __('response_messages._auth.newPassword'));
+            return $this->successResponse(null, __('response_messages.auth.newPassword'));
         }
-        return $this->errorResponse(__('response_messages._common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
+        return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/admin/users/update",
+     *      path="/api/admin/users/profileupdate",
      *      operationId="updateUserProfile",
      *      tags={"AdminAuth"},
      *      security={ {"bearerAuth":{} }},
@@ -207,8 +210,8 @@ class OwnerAuthenticationController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","email"},
-     *                  @OA\Property(property="full_name", type="string", format="name", example="Tour Campaign"),
+     *                  required={"full_name","email"},
+     *                  @OA\Property(property="full_name", type="string", format="full_name", example="Tour Campaign"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example="")
@@ -220,8 +223,8 @@ class OwnerAuthenticationController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Owner Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of Owner list"),
+     *              @OA\Property(property="message", type="string", example="Admin User Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of Admin User data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -259,11 +262,12 @@ class OwnerAuthenticationController extends Controller
      */
     public function update(Request $request)
     {
-         $id = Auth::guard('owners')->user()->id;
+        // $id = Auth::guard('admin')->user()->id; //user data not readable with Guard need to fix
+        $id = Auth::user()->id;
         $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,'.$id,
+            'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'contact_number' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
         ]);
@@ -272,7 +276,7 @@ class OwnerAuthenticationController extends Controller
         }
         $result = $this->OwnerRepository->update($id,$data);
         if($result){
-            return $this->successResponse($result, __('response_messages.AdminUser.updated'));
+            return $this->successResponse($result, __('response_messages.adminUser.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
