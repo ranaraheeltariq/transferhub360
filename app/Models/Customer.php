@@ -71,7 +71,7 @@ class Customer extends Model
         {
             if(!isset($model->created_user_name)){
                 $user = Auth::user();
-                $model->clinic_id = $user->clinic_id;
+                $model->company_id = $user->company_id;
                 $model->created_user_name = $user->full_name;
                 $model->updated_user_name = $user->full_name;
             }

@@ -54,4 +54,9 @@ return [
         'updated' => 'Vehicle Successfully Updated',
         'deleted' => 'Vehicle Deleted Successfully',
     ],
+    "customer" => [
+        'created' => 'Customer Successfully Created',
+        'updated' => 'Customer Successfully Updated',
+        'deleted' => 'Customer Deleted Successfully',
+    ],
 ];

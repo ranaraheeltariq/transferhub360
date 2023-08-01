@@ -16,8 +16,8 @@ return new class extends Migration
             $table->foreignId('company_id')->constrained();
             $table->string('legal_name')->nullable();
             $table->string('brand_name');
-            $table->string('email')->unique();
-            $table->string('contact_number')->unique();
+            $table->string('email')->nullable();
+            $table->string('contact_number');
             $table->string('contact_person');
             $table->string('whatsapp_number')->nullable();
             $table->string('website')->nullable();
@@ -25,9 +25,9 @@ return new class extends Migration
             $table->string('country');
             $table->string('city');
             $table->string('zone');
-            $table->integer('transfer_create_limit')->default(0);
             $table->string('address');
             $table->longText('description')->nullable();
+            $table->integer('transfer_create_limit')->default(0);
             $table->date('demo_end_at')->nullable();
             $table->date('subscription_start_at')->nullable();
             $table->date('subscription_end_at')->nullable();

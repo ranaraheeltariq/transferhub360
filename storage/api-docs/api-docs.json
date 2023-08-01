@@ -1830,6 +1830,11 @@
                                         "format": "contact_number",
                                         "example": "00905340344609"
                                     },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "alfanovatransportation@yopmail.com"
+                                    },
                                     "address": {
                                         "type": "string",
                                         "format": "address",
@@ -2167,6 +2172,11 @@
                                         "format": "contact_number",
                                         "example": "00905340344609"
                                     },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "alfanovatransportation@yopmail.com"
+                                    },
                                     "address": {
                                         "type": "string",
                                         "format": "address",
@@ -2443,6 +2453,771 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/customers?page={number}": {
+            "get": {
+                "tags": [
+                    "CompanyCustomer"
+                ],
+                "summary": "Get list of Customers",
+                "description": "Returns list of Customers",
+                "operationId": "getCustomersList",
+                "parameters": [
+                    {
+                        "name": "number",
+                        "in": "path",
+                        "description": "Page Number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Customers list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/customers/create": {
+            "post": {
+                "tags": [
+                    "CompanyCustomer"
+                ],
+                "summary": "Create New Customer",
+                "description": "Returns Customer data",
+                "operationId": "storeCustomer",
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "brand_name",
+                                    "contact_number",
+                                    "contact_person",
+                                    "country",
+                                    "city",
+                                    "zone",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "legal_name": {
+                                        "type": "string",
+                                        "format": "legal_name",
+                                        "example": "Nova Clinic LTD"
+                                    },
+                                    "brand_name": {
+                                        "type": "string",
+                                        "format": "brand_name",
+                                        "example": "Tour & Travel"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "tourtravel@yopmail.com"
+                                    },
+                                    "contact_number": {
+                                        "type": "number",
+                                        "format": "contact_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel Tariq"
+                                    },
+                                    "whatsapp_number": {
+                                        "type": "number",
+                                        "format": "whatsapp_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "website",
+                                        "example": "http://www.alfanovatech.com"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkey"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "Bachelivler"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "address",
+                                        "example": "Zafar Mah. Cahmuriyat Cadde. Bachelivler"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "description",
+                                        "example": ""
+                                    },
+                                    "transfer_create_limit": {
+                                        "description": "0 for unlimited",
+                                        "type": "integer",
+                                        "format": "customer_create_limit",
+                                        "example": "0"
+                                    },
+                                    "demo_end_at": {
+                                        "type": "string",
+                                        "format": "demo_end_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_start_at": {
+                                        "type": "string",
+                                        "format": "subscription_start_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_end_at": {
+                                        "type": "string",
+                                        "format": "subscription_end_at",
+                                        "example": "2024-08-01"
+                                    },
+                                    "type": {
+                                        "type": "in:Demo,Monthly,Yearly",
+                                        "format": "type",
+                                        "example": "Yearly"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    },
+                                    "payment_on": {
+                                        "type": "string",
+                                        "format": "payment_on",
+                                        "example": "2024-08-01"
+                                    },
+                                    "payment_status": {
+                                        "type": "in:Pending,Processing,Completed",
+                                        "format": "payment_status",
+                                        "example": "Completed"
+                                    },
+                                    "payment_note": {
+                                        "type": "text",
+                                        "format": "payment_note",
+                                        "example": "Payment received"
+                                    },
+                                    "source_of_booking": {
+                                        "type": "string",
+                                        "format": "source_of_booking",
+                                        "example": "Facebook"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Customer data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/customers/detail/{id}": {
+            "get": {
+                "tags": [
+                    "CompanyCustomer"
+                ],
+                "summary": "Get of Customer By Id",
+                "description": "Get Customer Data by Customer Id",
+                "operationId": "getCustomerById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Customer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/customers/update/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyCustomer"
+                ],
+                "summary": "Update Customer",
+                "description": "Returns Customer data",
+                "operationId": "updateCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "brand_name",
+                                    "contact_number",
+                                    "contact_person",
+                                    "country",
+                                    "city",
+                                    "zone",
+                                    "address"
+                                ],
+                                "properties": {
+                                    "legal_name": {
+                                        "type": "string",
+                                        "format": "legal_name",
+                                        "example": "Nova Clinic LTD"
+                                    },
+                                    "brand_name": {
+                                        "type": "string",
+                                        "format": "brand_name",
+                                        "example": "Tour & Travel"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "tourtravel@yopmail.com"
+                                    },
+                                    "contact_number": {
+                                        "type": "number",
+                                        "format": "contact_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel Tariq"
+                                    },
+                                    "whatsapp_number": {
+                                        "type": "number",
+                                        "format": "whatsapp_number",
+                                        "example": "00905340344609"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "website",
+                                        "example": "http://www.alfanovatech.com"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkey"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "Bachelivler"
+                                    },
+                                    "address": {
+                                        "type": "string",
+                                        "format": "address",
+                                        "example": "Zafar Mah. Cahmuriyat Cadde. Bachelivler"
+                                    },
+                                    "description": {
+                                        "type": "string",
+                                        "format": "description",
+                                        "example": ""
+                                    },
+                                    "transfer_create_limit": {
+                                        "description": "0 for unlimited",
+                                        "type": "integer",
+                                        "format": "customer_create_limit",
+                                        "example": "0"
+                                    },
+                                    "demo_end_at": {
+                                        "type": "string",
+                                        "format": "demo_end_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_start_at": {
+                                        "type": "string",
+                                        "format": "subscription_start_at",
+                                        "example": "2023-08-01"
+                                    },
+                                    "subscription_end_at": {
+                                        "type": "string",
+                                        "format": "subscription_end_at",
+                                        "example": "2024-08-01"
+                                    },
+                                    "type": {
+                                        "type": "in:Demo,Monthly,Yearly",
+                                        "format": "type",
+                                        "example": "Yearly"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    },
+                                    "payment_on": {
+                                        "type": "string",
+                                        "format": "payment_on",
+                                        "example": "2024-08-01"
+                                    },
+                                    "payment_status": {
+                                        "type": "in:Pending,Processing,Completed",
+                                        "format": "payment_status",
+                                        "example": "Completed"
+                                    },
+                                    "payment_note": {
+                                        "type": "text",
+                                        "format": "payment_note",
+                                        "example": "Payment received"
+                                    },
+                                    "source_of_booking": {
+                                        "type": "string",
+                                        "format": "source_of_booking",
+                                        "example": "Facebook"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer Successfully Updated"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Customer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/customers/delete/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyCustomer"
+                ],
+                "summary": "Remove Customer",
+                "description": "Remove Customer by Id",
+                "operationId": "destoryCustomer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Customer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Customer Deleted Successfully"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
                                         "message": {
                                             "type": "string",
                                             "example": "Unauthenticated"

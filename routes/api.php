@@ -80,6 +80,13 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\VehicleController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\VehicleController::class, 'destroy']);
         });
+        Route::group(['prefix' => 'customers'], function(){
+            Route::get('/', [Controllers\API\CustomerController::class, 'index']);
+            Route::post('create', [Controllers\API\CustomerController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\CustomerController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\CustomerController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\CustomerController::class, 'destroy']);
+        });
     });
 });
 // Driver Guard Routes
