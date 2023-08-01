@@ -276,8 +276,9 @@ class AdminAuthenticationController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->UserRepository->update($id,$data);
+        $result = $this->userRepository->update($id,$data);
         if($result){
+            $result = $this->userRepository->getById($id);
             return $this->successResponse($result, __('response_messages.user.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);

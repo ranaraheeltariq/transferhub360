@@ -59,4 +59,14 @@ return [
         'updated' => 'Customer Successfully Updated',
         'deleted' => 'Customer Deleted Successfully',
     ],
+    "passenger" => [
+        'created' => 'Passenger Successfully Created',
+        'updated' => 'Passenger Successfully Updated',
+        'deleted' => 'Passenger Deleted Successfully',
+    ],
+    "transfer" => [
+        'created' => 'Transfer Successfully Created',
+        'updated' => 'Transfer Successfully Updated',
+        'deleted' => 'Transfer Deleted Successfully',
+    ],
 ];

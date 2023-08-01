@@ -55,40 +55,16 @@ class Passenger extends Authenticatable implements CanResetPassword
 
     // *********************** END CHILD CLASS *******************************
 
-    // /**
-    //  * The getter for assign complete url to storage files
-    //  *
-    //  * @return string Thumbnail url
-    //  */
-    // public function getThumbnailAttribute()
-    // {
-    //     if($this->attributes['thumbnail'] != null){
-    //         return Storage::url($this->attributes['thumbnail']);
-    //     }
-    // }
-
     /**
-     * Get the Thumbnail URL.
+     * The getter for assign complete url to storage files
+     *
+     * @return string Thumbnail url
      */
-    protected function thumbnail(): Attribute
+    public function getThumbnailAttribute()
     {
-        return Attribute::make(
-            get: fn (string $value) => Storage::url($value),
-        );
-    }
-    
-    /**
-     * Interact with the user's full name.
-     */
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn (mixed $value, array $attributes) => new FullName(
-                $attributes['first_name'],
-                $attributes['last_name'],
-            ),
-            set: fn (FullName $value) => $value->first_name.' '.$value->last_name,
-        );
+        if($this->attributes['thumbnail'] != null){
+            return Storage::url($this->attributes['thumbnail']);
+        }
     }
 
     /**
@@ -101,6 +77,7 @@ class Passenger extends Authenticatable implements CanResetPassword
         parent::boot();
         static::creating(function($model)
         {
+            $model->full_name = $model->first_name.' '.$model->last_name;
             $user = Auth::user();
             $model->company_id = $user->company_id;
             if(!isset($model->created_user_name)){
@@ -110,20 +87,17 @@ class Passenger extends Authenticatable implements CanResetPassword
         });
         static::updating(function($model)
         {
-            if(!isset($model->created_user_name)){
-                $user = Auth::user();
-                $model->created_user_name = $user->full_name;
-                $model->updated_user_name = $user->full_name;
-            }
+            $model->full_name = $model->first_name.' '.$model->last_name;
+            $user = Auth::user();
+            $model->updated_user_name = $user->full_name;
         });
         static::deleting(function($model)
         {
-            if(!isset($model->created_user_name)){
-                $user = Auth::user();
-                $model->updated_user_name = $user->full_name;
-                $model->save();
-            }
+            $user = Auth::user();
+            $model->updated_user_name = $user->full_name;
+            $model->save();
         });
+
     }
 
     /**
@@ -143,12 +117,15 @@ class Passenger extends Authenticatable implements CanResetPassword
      */
     protected $fillable = [
         'customer_id',
+        'first_name',
+        'last_name',
         'full_name',
         'contact_number',
         'email',
         'password',
         'thumbnail',
         'gender',
+        'nationality',
         'age',
         'id_number',
         'status',

@@ -87,6 +87,13 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\CustomerController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\CustomerController::class, 'destroy']);
         });
+        Route::group(['prefix' => 'passengers'], function(){
+            Route::get('/', [Controllers\API\PassengerController::class, 'index']);
+            Route::post('create', [Controllers\API\PassengerController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\PassengerController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\PassengerController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\PassengerController::class, 'destroy']);
+        });
     });
 });
 // Driver Guard Routes
@@ -108,6 +115,17 @@ Route::group(['prefix' => 'supervisor'], function($router) {
             Route::post('/logout',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'logout']);
             Route::post('/reset-password',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\SupervisorAuthenticationController::class, 'update']);
+        });
+    });
+});
+// Passenger Guard Routes
+Route::group(['prefix' => 'passenger'], function($router) {
+    Route::post('login', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'login']);
+    Route::group(['middleware' => ['auth:sanctum']], function(){
+        Route::group(['prefix' => 'users'], function(){
+            Route::post('/logout',[Controllers\API\Authentication\PassengerAuthenticationController::class,'logout']);
+            Route::post('/reset-password',[Controllers\API\Authentication\PassengerAuthenticationController::class,'passwordReset']);
+            Route::post('profileupdate', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'update']);
         });
     });
 });

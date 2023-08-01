@@ -278,8 +278,9 @@ class DriverAuthenticationController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->DriverRepository->update($id,$data);
+        $result = $this->driverRepository->update($id,$data);
         if($result){
+            $result = $this->driverRepository->getById($id);
             return $this->successResponse($result, __('response_messages.driver.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
