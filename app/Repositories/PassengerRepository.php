@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class PassengerRepository implements PassengerRepositoryInterface
 {
+    private $filePath = 'images/passenger';
+
     public function getAll()
     {
         return Passenger::paginate(10);
@@ -25,7 +27,7 @@ class PassengerRepository implements PassengerRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/passenger', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         $password = $data['password'];
@@ -35,7 +37,7 @@ class PassengerRepository implements PassengerRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/passenger', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         

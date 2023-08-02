@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
+    private $filePath = 'images/customer';
+
     public function getAll()
     {
         return Customer::paginate(10);
@@ -23,7 +25,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/customer', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Customer::create($data);
@@ -31,7 +33,7 @@ class CustomerRepository implements CustomerRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/customer', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Customer::whereId($id)->update($data);

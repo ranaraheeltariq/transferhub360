@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class DriverRepository implements DriverRepositoryInterface
 {
+    private $filePath = 'images/driver';
+
     public function getAll()
     {
         return Driver::paginate(10);
@@ -25,7 +27,7 @@ class DriverRepository implements DriverRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/driver', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         $password = $data['password'];
@@ -35,7 +37,7 @@ class DriverRepository implements DriverRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/driver', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Driver::whereId($id)->update($data);

@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class SupervisorRepository implements SupervisorRepositoryInterface
 {
+    private $filePath = 'images/supervisor';
+
     public function getAll()
     {
         return Supervisor::paginate(10);
@@ -25,7 +27,7 @@ class SupervisorRepository implements SupervisorRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/supervisor', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         $password = $data['password'];
@@ -35,7 +37,7 @@ class SupervisorRepository implements SupervisorRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/supervisor', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Supervisor::whereId($id)->update($data);

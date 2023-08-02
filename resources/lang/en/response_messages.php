@@ -69,4 +69,9 @@ return [
         'updated' => 'Transfer Successfully Updated',
         'deleted' => 'Transfer Deleted Successfully',
     ],
+    "transferDetail" => [
+        'created' => 'Transfer Detail Successfully Created',
+        'updated' => 'Transfer Detail Successfully Updated',
+        'deleted' => 'Transfer Detail Deleted Successfully',
+    ],
 ];

@@ -15,29 +15,6 @@ use App\Http\Controllers;
 |
 */
 
-// Owner Guard Routes
-Route::group(['prefix' => 'admin'], function($router) {
-    Route::post('login', [Controllers\API\Authentication\OwnerAuthenticationController::class, 'login']);
-    Route::group(['middleware' => ['auth:sanctum']], function($router){
-        Route::group(['prefix' => 'users'], function($router){
-            Route::post('/logout',[Controllers\API\Authentication\OwnerAuthenticationController::class,'logout']);
-            Route::post('/reset-password',[Controllers\API\Authentication\OwnerAuthenticationController::class,'passwordReset']);
-            Route::post('profileupdate', [Controllers\API\Authentication\OwnerAuthenticationController::class, 'update']);
-            Route::get('/', [Controllers\API\OwnerController::class, 'index']);
-            Route::post('create', [Controllers\API\OwnerController::class, 'store']);
-            Route::get('detail/{id}', [Controllers\API\OwnerController::class, 'show']);
-            Route::post('update/{id}', [Controllers\API\OwnerController::class, 'update']);
-            Route::post('delete/{id}', [Controllers\API\OwnerController::class, 'destroy']);
-        });
-        Route::group(['prefix' => 'companies'], function($router){
-            Route::get('/', [Controllers\API\CompanyController::class, 'index']);
-            Route::post('create', [Controllers\API\CompanyController::class, 'store']);
-            Route::get('detail/{id}', [Controllers\API\CompanyController::class, 'show']);
-            Route::post('update/{id}', [Controllers\API\CompanyController::class, 'update']);
-            Route::post('delete/{id}', [Controllers\API\CompanyController::class, 'destroy']);
-        });
-    });
-});
 // Admin Guard Routes
 Route::group(['prefix' => 'companies'], function($router) {
     Route::post('login', [Controllers\API\Authentication\AdminAuthenticationController::class, 'login']);
@@ -94,38 +71,24 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\PassengerController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\PassengerController::class, 'destroy']);
         });
-    });
-});
-// Driver Guard Routes
-Route::group(['prefix' => 'driver'], function($router) {
-    Route::post('login', [Controllers\API\Authentication\DriverAuthenticationController::class, 'login']);
-    Route::group(['middleware' => ['auth:sanctum']], function(){
-        Route::group(['prefix' => 'users'], function(){
-            Route::post('/logout',[Controllers\API\Authentication\DriverAuthenticationController::class,'logout']);
-            Route::post('/reset-password',[Controllers\API\Authentication\DriverAuthenticationController::class,'passwordReset']);
-            Route::post('profileupdate', [Controllers\API\Authentication\DriverAuthenticationController::class, 'update']);
+        Route::group(['prefix' => 'transfers'], function(){
+            Route::get('/', [Controllers\API\TransferController::class, 'index']);
+            Route::post('create', [Controllers\API\TransferController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\TransferController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\TransferController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\TransferController::class, 'destroy']);
+        });
+        Route::group(['prefix' => 'transferdetail'], function(){
+            Route::get('transfer/{id}', [Controllers\API\TransferDetailController::class, 'index']);
+            Route::post('create', [Controllers\API\TransferDetailController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\TransferDetailController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\TransferDetailController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\TransferDetailController::class, 'destroy']);
         });
     });
 });
-// Supervisor Guard Routes
-Route::group(['prefix' => 'supervisor'], function($router) {
-    Route::post('login', [Controllers\API\Authentication\SupervisorAuthenticationController::class, 'login']);
-    Route::group(['middleware' => ['auth:sanctum']], function(){
-        Route::group(['prefix' => 'users'], function(){
-            Route::post('/logout',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'logout']);
-            Route::post('/reset-password',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'passwordReset']);
-            Route::post('profileupdate', [Controllers\API\Authentication\SupervisorAuthenticationController::class, 'update']);
-        });
-    });
-});
-// Passenger Guard Routes
-Route::group(['prefix' => 'passenger'], function($router) {
-    Route::post('login', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'login']);
-    Route::group(['middleware' => ['auth:sanctum']], function(){
-        Route::group(['prefix' => 'users'], function(){
-            Route::post('/logout',[Controllers\API\Authentication\PassengerAuthenticationController::class,'logout']);
-            Route::post('/reset-password',[Controllers\API\Authentication\PassengerAuthenticationController::class,'passwordReset']);
-            Route::post('profileupdate', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'update']);
-        });
-    });
-});
+
+require_once base_path('routes/admin.php');
+require_once base_path('routes/driver.php');
+require_once base_path('routes/supervisor.php');
+require_once base_path('routes/passenger.php');

@@ -63,7 +63,81 @@ class TransferController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @OA\Post(
+     *      path="/api/companies/transfers/create",
+     *      operationId="storeTransfer",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Create New Transfer",
+     *      description="Returns Transfer data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"customer_id","pickup_location","dropoff_location","pickup_date","pickup_time","pickup_country_code","pickup_country","pickup_city_code","pickup_city","pickup_zone_code","pickup_zone","dropoff_country_code","dropoff_country","dropoff_city_code","dropoff_city","dropoff_zone_code","dropoff_zone","status"},
+     *                  @OA\Property(property="customer_id", type="integer", format="customer_id", example="1"),
+     *                  @OA\Property(property="vehicle_id", type="integer", format="vehicle_id", example="1"),
+     *                  @OA\Property(property="driver_id", type="integer", format="driver_id", example="1"),
+     *                  @OA\Property(property="pickup_location", type="string", format="pickup_location", example="IST Airport"),
+     *                  @OA\Property(property="dropoff_location", type="string", format="dropoff_location", example="EST Hospital Umraniya"),
+     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2022-07-22"),
+     *                  @OA\Property(property="pickup_time", type="time", format="pickup_time", example="20:10"),
+     *                  @OA\Property(property="pickup_country_code", type="string", format="pickup_country_code", example="TR"),
+     *                  @OA\Property(property="pickup_country", type="string", format="pickup_country", example="Turkiye"),
+     *                  @OA\Property(property="pickup_city_code", type="integer", format="pickup_city_code", example="34"),
+     *                  @OA\Property(property="pickup_city", type="string", format="pickup_city", example="İSTANBUL"),
+     *                  @OA\Property(property="pickup_zone_code", type="integer", format="pickup_zone", example="1852"),
+     *                  @OA\Property(property="pickup_zone", type="string", format="pickup_zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="dropoff_country_code", type="string", format="dropoff_city", example="TR"),
+     *                  @OA\Property(property="dropoff_country", type="string", format="dropoff_city", example="Turkiye"),
+     *                  @OA\Property(property="dropoff_city_code", type="integer", format="dropoff_city", example="34"),
+     *                  @OA\Property(property="dropoff_city", type="string", format="dropoff_city", example="İSTANBUL"),
+     *                  @OA\Property(property="dropoff_zone_code", type="string", format="dropoff_zone", example="1663"),
+     *                  @OA\Property(property="dropoff_zone", type="string", format="dropoff_zone", example="ŞİŞLİ"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *                  @OA\Property(property="vehicle_assigned_time", type="datetime", format="vehicle_assigned_time", example="2022-07-14 20:12"),
+     *                  @OA\Property(property="vehicle_assigned_by", type="string", format="vehicle_assigned_by", description="Login User Name", example="Raheel"),
+     *                  @OA\Property(property="status", type="string", format="status", enum={"Pendding","Process","Completed"}, default="Pendding"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Created"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
      */
     public function store(Request $request)
     {
@@ -158,7 +232,98 @@ class TransferController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * @OA\Post(
+     *      path="/api/companies/transfers/update/{id}",
+     *      operationId="updateTransfer",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Update Transfer",
+     *      description="Returns Transfer data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"customer_id","pickup_location","dropoff_location","pickup_date","pickup_time","pickup_country_code","pickup_country","pickup_city_code","pickup_city","pickup_zone_code","pickup_zone","dropoff_country_code","dropoff_country","dropoff_city_code","dropoff_city","dropoff_zone_code","dropoff_zone","status"},
+     *                  @OA\Property(property="customer_id", type="integer", format="customer_id", example="1"),
+     *                  @OA\Property(property="vehicle_id", type="integer", format="vehicle_id", example="1"),
+     *                  @OA\Property(property="driver_id", type="integer", format="driver_id", example="1"),
+     *                  @OA\Property(property="pickup_location", type="string", format="pickup_location", example="IST Airport"),
+     *                  @OA\Property(property="dropoff_location", type="string", format="dropoff_location", example="EST Hospital Umraniya"),
+     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2022-07-22"),
+     *                  @OA\Property(property="pickup_time", type="time", format="pickup_time", example="20:10"),
+     *                  @OA\Property(property="pickup_country_code", type="string", format="pickup_country_code", example="TR"),
+     *                  @OA\Property(property="pickup_country", type="string", format="pickup_country", example="Turkiye"),
+     *                  @OA\Property(property="pickup_city_code", type="integer", format="pickup_city_code", example="34"),
+     *                  @OA\Property(property="pickup_city", type="string", format="pickup_city", example="İSTANBUL"),
+     *                  @OA\Property(property="pickup_zone_code", type="integer", format="pickup_zone", example="1852"),
+     *                  @OA\Property(property="pickup_zone", type="string", format="pickup_zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="dropoff_country_code", type="string", format="dropoff_city", example="TR"),
+     *                  @OA\Property(property="dropoff_country", type="string", format="dropoff_city", example="Turkiye"),
+     *                  @OA\Property(property="dropoff_city_code", type="integer", format="dropoff_city", example="34"),
+     *                  @OA\Property(property="dropoff_city", type="string", format="dropoff_city", example="İSTANBUL"),
+     *                  @OA\Property(property="dropoff_zone_code", type="string", format="dropoff_zone", example="1663"),
+     *                  @OA\Property(property="dropoff_zone", type="string", format="dropoff_zone", example="ŞİŞLİ"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *                  @OA\Property(property="vehicle_assigned_time", type="datetime", format="vehicle_assigned_time", example="2022-07-14 20:12"),
+     *                  @OA\Property(property="vehicle_assigned_by", type="string", format="vehicle_assigned_by", description="Login User Name", example="Raheel"),
+     *                  @OA\Property(property="status", type="string", format="status", enum={"Pendding","Process","Completed"}, default="Pendding"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
      */
     public function update(Request $request, $id)
     {
@@ -203,14 +368,14 @@ class TransferController extends Controller
     /**
      * @OA\Post(
      *      path="/api/companies/transfers/delete/{id}",
-     *      operationId="destoryCustomer",
-     *      tags={"CompanyCustomer"},
+     *      operationId="destoryTransfer",
+     *      tags={"CompanyTransfer"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Remove Customer",
-     *      description="Remove Customer by Id",
+     *      summary="Remove Transfer",
+     *      description="Remove Transfer by Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Customer Id",
+     *          description="Transfer Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -222,7 +387,7 @@ class TransferController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Customer Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Transfer Deleted Successfully"),
      *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),

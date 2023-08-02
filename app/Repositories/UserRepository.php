@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserRepository implements UserRepositoryInterface
 {
+    private $filePath = 'images/user';
+
     public function getAll()
     {
         return User::paginate(10);
@@ -25,7 +27,7 @@ class UserRepository implements UserRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/User', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         $password = $data['password'];
@@ -35,7 +37,7 @@ class UserRepository implements UserRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/User', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return User::whereId($id)->update($data);

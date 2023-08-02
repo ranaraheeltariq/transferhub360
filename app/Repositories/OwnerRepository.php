@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Hash;
 
 class OwnerRepository implements OwnerRepositoryInterface
 {
+    private $filePath = 'images/owner';
+
     public function getAll()
     {
         return Owner::paginate(10);
@@ -25,7 +27,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/owner', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         $password = $data['password'];
@@ -35,7 +37,7 @@ class OwnerRepository implements OwnerRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/owner', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Owner::whereId($id)->update($data);

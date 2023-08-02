@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class VehicleRepository implements VehicleRepositoryInterface
 {
+    private $filePath = 'images/vehicle';
+
     public function getAll()
     {
         return Vehicle::paginate(10);
@@ -23,7 +25,7 @@ class VehicleRepository implements VehicleRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/vehicle', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Vehicle::create($data);
@@ -31,7 +33,7 @@ class VehicleRepository implements VehicleRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/vehicle', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Vehicle::whereId($id)->update($data);

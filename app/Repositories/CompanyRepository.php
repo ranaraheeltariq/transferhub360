@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
+    private $filePath = 'images/company';
+
     public function getAll()
     {
         return Company::paginate(10);
@@ -23,7 +25,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function create(array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/company', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Company::create($data);
@@ -31,7 +33,7 @@ class CompanyRepository implements CompanyRepositoryInterface
     public function update($id, array $data)
     {
         if(!empty($data['thumbnail'])){
-            $path = Storage::putFile('images/owner', $data['thumbnail']);
+            $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
         return Company::whereId($id)->update($data);
