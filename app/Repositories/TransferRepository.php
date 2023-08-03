@@ -5,12 +5,15 @@ namespace App\Repositories;
 use App\Interfaces\TransferRepositoryInterface;
 use App\Models\Transfer;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Helpers\QueryHelper;
 
 class TransferRepository implements TransferRepositoryInterface
 {
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Transfer::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request);
+        // return Transfer::paginate(10);
     }
     public function getById($id)
     {
@@ -26,6 +29,24 @@ class TransferRepository implements TransferRepositoryInterface
     }
     public function update($id, array $data)
     {
+        if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
+            $data['vehicle_assigned_by'] = $request->user()->full_name;
+            $data['vehicle_assigned_time'] = date('Y-m-d h:i:s');
+        }
+        if(!empty($data['unassignedVehicle']) && $data['unassignedVehicle'] == true){
+            $data['vehicle_id'] = NULL;
+            $data['driver_id'] = NULL;
+            $data['vehicle_assigned_by'] = NULL;
+            $data['vehicle_assigned_time'] = NULL;
+            $data['patient_approving_status'] = NULL;
+        }
         return Transfer::whereId($id)->update($data);
     }
+
+    public function myTransfers(Request $request)
+    {
+        $request->merge(['relational_column' => 'driver_id', 'relational_id' => $request->user()->id]);
+        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request);
+    }
+
 }

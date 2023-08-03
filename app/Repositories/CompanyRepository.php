@@ -5,14 +5,17 @@ namespace App\Repositories;
 use App\Interfaces\CompanyRepositoryInterface;
 use App\Models\Company;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Helpers\QueryHelper;
 
 class CompanyRepository implements CompanyRepositoryInterface
 {
     private $filePath = 'images/company';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Company::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Company::query(), $request);
+        // return Company::paginate(10);
     }
     public function getById($id)
     {

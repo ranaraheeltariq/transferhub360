@@ -77,6 +77,8 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\TransferController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\TransferController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\TransferController::class, 'destroy']);
+            Route::post('assigne/{id}',[Controllers\API\TransferController::class,'assigneVehicle']);
+            Route::post('delete/assigne/{id}',[Controllers\API\TransferController::class,'cancelAssignedVehicle']);
         });
         Route::group(['prefix' => 'transferdetail'], function(){
             Route::get('transfer/{id}', [Controllers\API\TransferDetailController::class, 'index']);

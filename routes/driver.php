@@ -24,5 +24,12 @@ Route::group(['prefix' => 'driver'], function($router) {
             Route::post('/reset-password',[Controllers\API\Authentication\DriverAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\DriverAuthenticationController::class, 'update']);
         });
+        Route::group(['prefix' => 'transfers'], function(){
+            Route::get('mytransfers',[Controllers\API\TransferController::class, 'myTransfers']);
+            Route::post('start-transfer/{id}',[Controllers\API\TransferController::class,'startTransfer']);
+            Route::post('stop-transfer/{id}',[Controllers\API\TransferController::class,'stopTransfer']);
+    
+        });
+    
     });
 });

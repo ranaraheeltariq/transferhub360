@@ -7,14 +7,16 @@ use App\Models\Owner;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\QueryHelper;
 
 class OwnerRepository implements OwnerRepositoryInterface
 {
     private $filePath = 'images/owner';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Owner::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Owner::query(), $request);
+        // return Owner::paginate(10);
     }
     public function getById($id)
     {

@@ -22,20 +22,103 @@ class TransferController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/companies/transfers?page={number}",
+     *      path="/api/companies/transfers",
      *      operationId="getTransfersList",
      *      tags={"CompanyTransfer"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Get list of Transfers",
      *      description="Returns list of Transfers",
      *      @OA\Parameter(
-     *          name="number",
-     *          description="Page Number",
+     *          name="pagination",
+     *          in="query",
+     *          description="pagination",
      *          required=false,
-     *          in="path",
+     *          @OA\Schema(type="boolean")
+     *      ),
+     *      @OA\Parameter(
+     *          name="perPage",
+     *          in="query",
+     *          description="perPage",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          description="limit",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="start",
+     *          in="query",
+     *          description="start Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="end",
+     *          in="query",
+     *          description="end Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="date_column",
+     *          in="query",
+     *          description="Add Date Column where you want to filter by Date or between two dates",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="relational_id",
+     *          in="query",
+     *          description="Relational Model id",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="relational_column",
+     *          in="query",
+     *          description="Add Relational Data Column name for getting by specific model Id",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="order",
+     *          in="query",
+     *          description="order",
+     *          required=false,
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string",
+     *          enum={"asc","desc"},
+     *          default="desc"
      *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="order_column",
+     *          in="query",
+     *          description="Add Column where you want to display by some order",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter_operator",
+     *          in="query",
+     *          description="add Conditional Operator",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          enum={"and","or"},
+     *          default="and"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="search_text",
+     *          in="query",
+     *          description="and string for searching in all columns",
+     *          required=false,
+     *          @OA\Schema(type="string")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -56,9 +139,120 @@ class TransferController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $result = $this->transferRepository->getAll();
+        $result = $this->transferRepository->getAll($request);
+        return $this->successResponse($result);
+    }
+
+    /**
+     * @OA\Get(
+     *      path="/api/driver/transfers/mytransfers",
+     *      operationId="getMyTransfersList",
+     *      tags={"DriverTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Get list of Assigned Transfers",
+     *      description="Returns list of Transfers",
+     *      @OA\Parameter(
+     *          name="pagination",
+     *          in="query",
+     *          description="pagination",
+     *          required=false,
+     *          @OA\Schema(type="boolean")
+     *      ),
+     *      @OA\Parameter(
+     *          name="perPage",
+     *          in="query",
+     *          description="perPage",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          description="limit",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="start",
+     *          in="query",
+     *          description="start Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="end",
+     *          in="query",
+     *          description="end Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="date_column",
+     *          in="query",
+     *          description="Add Date Column where you want to filter by Date or between two dates",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="order",
+     *          in="query",
+     *          description="order",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          enum={"asc","desc"},
+     *          default="desc"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="order_column",
+     *          in="query",
+     *          description="Add Column where you want to display by some order",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter_operator",
+     *          in="query",
+     *          description="add Conditional Operator",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          enum={"and","or"},
+     *          default="and"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="search_text",
+     *          in="query",
+     *          description="and string for searching in all columns",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example=null),
+     *              @OA\Property(property="data", type="string", example="array of Transfers list"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     )
+     * )
+     */
+    public function myTransfers(Request $request)
+    {
+        $result = $this->transferRepository->myTransfers($request);
         return $this->successResponse($result);
     }
 
@@ -367,6 +561,98 @@ class TransferController extends Controller
 
     /**
      * @OA\Post(
+     *      path="/api/companies/transfers/assigne/{id}",
+     *      operationId="assigneTransfer",
+     *      tags={"SupervisorTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="assigne Transfer",
+     *      description="Returns Transfer data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"vehicle_id","driver_id"},
+     *                  @OA\Property(property="vehicle_id", type="integer", format="vehicle_id", example="1"),
+     *                  @OA\Property(property="driver_id", type="integer", format="driver_id", example="1"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Assigned"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
+     */
+    public function assigneVehicle(Request $request, $id)
+    {
+        $data = $request->only('vehicle_id','driver_id');
+        $validator = Validator::make($data, [
+            'vehicle_id' => 'required|exists:vehicles,id',
+            'driver_id' => 'required|exists:drivers,id',
+            'driver_id' => 'required|exists:vehicles,driver_id',
+        ]);
+        if($validator->fails()){
+            return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        }
+        $data['assigneVehicle'] = true;
+        $result = $this->transferRepository->update($id,$data);
+        if($result){
+            $result = $this->transferRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.transfer.assigned'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
      *      path="/api/companies/transfers/delete/{id}",
      *      operationId="destoryTransfer",
      *      tags={"CompanyTransfer"},
@@ -415,6 +701,237 @@ class TransferController extends Controller
         if($result)
         {
             return $this->successResponse(null, __('response_messages.transfer.deleted'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/companies/transfers/delete/assigne/{id}",
+     *      operationId="unassignedTransfer",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="unassigned Transfer",
+     *      description="unassigned Transfer by Id",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Unassigned"),
+     *              @OA\Property(property="data", type="string", example=null),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function cancelAssignedVehicle($id)
+    {
+        $data['unassignedVehicle'] = true;
+        $result = $this->transferRepository->update($id,$data);
+        if($result){
+            $result = $this->transferRepository->getById($id);
+            return $this->successResponse(null, __('response_messages.transfer.unassigned'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/driver/transfers/start-transfer/{id}",
+     *      operationId="startTransfer",
+     *      tags={"DriverTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Start Transfer by Driver",
+     *      description="Returns Transfer data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"pickup_start_time"},
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Started"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
+     */
+    public function startTransfer(Request $request, $id)
+    {
+        $data = $request->only('pickup_start_time');
+        $validator = Validator::make($data, [
+            'pickup_start_time' => 'required|date_format:Y-m-d H:i',
+        ]);
+        if($validator->fails()){
+            return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        }
+        $result = $this->transferRepository->update($id,$data);
+        if($result){
+            $result = $this->transferRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.transfer.started'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/driver/transfers/stop-transfer/{id}",
+     *      operationId="stopTransfer",
+     *      tags={"DriverTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Driver Completed The Transfer",
+     *      description="Returns Transfer data",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"dropoff_time"},
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Successfully Completed"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
+     */
+    public function stopTransfer(Request $request, $id)
+    {
+        $$data = $request->only('dropoff_time');
+        $validator = Validator::make($data, [
+            'dropoff_time' => 'required|date_format:Y-m-d H:i',
+        ]);
+        if($validator->fails()){
+            return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        }
+        $result = $this->transferRepository->update($id,$data);
+        if($result){
+            $result = $this->transferRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.transfer.completed'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

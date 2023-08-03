@@ -7,14 +7,16 @@ use App\Models\Passenger;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\QueryHelper;
 
 class PassengerRepository implements PassengerRepositoryInterface
 {
     private $filePath = 'images/passenger';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Passenger::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Passenger::query(), $request);
+        // return Passenger::paginate(10);
     }
     public function getById($id)
     {

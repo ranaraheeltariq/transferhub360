@@ -7,14 +7,16 @@ use App\Models\Supervisor;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\QueryHelper;
 
 class SupervisorRepository implements SupervisorRepositoryInterface
 {
     private $filePath = 'images/supervisor';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Supervisor::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Supervisor::query(), $request);
+        // return Supervisor::paginate(10);
     }
     public function getById($id)
     {

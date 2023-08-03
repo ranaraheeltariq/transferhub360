@@ -7,14 +7,16 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\QueryHelper;
 
 class DriverRepository implements DriverRepositoryInterface
 {
     private $filePath = 'images/driver';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Driver::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Driver::query(), $request);
+        // return Driver::paginate(10);
     }
     public function getById($id)
     {

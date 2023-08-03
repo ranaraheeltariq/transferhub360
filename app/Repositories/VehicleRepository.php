@@ -5,14 +5,17 @@ namespace App\Repositories;
 use App\Interfaces\VehicleRepositoryInterface;
 use App\Models\Vehicle;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Helpers\QueryHelper;
 
 class VehicleRepository implements VehicleRepositoryInterface
 {
     private $filePath = 'images/vehicle';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Vehicle::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Vehicle::query(), $request);
+        // return Vehicle::paginate(10);
     }
     public function getById($id)
     {

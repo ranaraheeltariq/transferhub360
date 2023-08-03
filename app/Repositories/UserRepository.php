@@ -7,14 +7,16 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Helpers\QueryHelper;
 
 class UserRepository implements UserRepositoryInterface
 {
     private $filePath = 'images/user';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return User::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(User::query(), $request);
+        // return User::paginate(10);
     }
     public function getById($id)
     {

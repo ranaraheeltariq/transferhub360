@@ -5,14 +5,17 @@ namespace App\Repositories;
 use App\Interfaces\CustomerRepositoryInterface;
 use App\Models\Customer;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Helpers\QueryHelper;
 
 class CustomerRepository implements CustomerRepositoryInterface
 {
     private $filePath = 'images/customer';
 
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return Customer::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(Customer::query(), $request);
+        // return Customer::paginate(10);
     }
     public function getById($id)
     {

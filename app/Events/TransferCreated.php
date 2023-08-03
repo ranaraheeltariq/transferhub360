@@ -20,7 +20,7 @@ class TransferCreated
      */
     public function __construct()
     {
-        public Transfer $transfer,
+        // public Transfer $transfer;
     }
 
     /**

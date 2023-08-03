@@ -5,12 +5,15 @@ namespace App\Repositories;
 use App\Interfaces\UetdsCityRepositoryInterface;
 use App\Models\UetdsCity;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Helpers\QueryHelper;
 
 class UetdsCityRepository implements UetdsCityRepositoryInterface
 {
-    public function getAll()
+    public function getAll(Request $request)
     {
-        return UetdsCity::paginate(10);
+        return QueryHelper::applyFilterOrderLimitPagination(UetdsCity::query(), $request);
+        // return UetdsCity::paginate(10);
     }
     public function getById($id)
     {

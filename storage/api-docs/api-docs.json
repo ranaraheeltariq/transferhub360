@@ -2180,7 +2180,7 @@
                 ]
             }
         },
-        "/api/admin/companies?page={number}": {
+        "/api/admin/companies": {
             "get": {
                 "tags": [
                     "AdminCompany"
@@ -2190,12 +2190,121 @@
                 "operationId": "getCompanyList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -2941,7 +3050,7 @@
                 ]
             }
         },
-        "/api/companies/customers?page={number}": {
+        "/api/companies/customers": {
             "get": {
                 "tags": [
                     "CompanyCustomer"
@@ -2951,12 +3060,121 @@
                 "operationId": "getCustomersList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -3706,7 +3924,7 @@
                 ]
             }
         },
-        "/api/companies/drivers?page={number}": {
+        "/api/companies/drivers": {
             "get": {
                 "tags": [
                     "CompanyDriver"
@@ -3716,12 +3934,121 @@
                 "operationId": "getDriverList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -4305,7 +4632,7 @@
                 ]
             }
         },
-        "/api/admin/users?page={number}": {
+        "/api/admin/users": {
             "get": {
                 "tags": [
                     "AdminUser"
@@ -4315,12 +4642,121 @@
                 "operationId": "getOwnerList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -4854,7 +5290,7 @@
                 ]
             }
         },
-        "/api/companies/passengers?page={number}": {
+        "/api/companies/passengers": {
             "get": {
                 "tags": [
                     "CompanyPassenger"
@@ -4864,12 +5300,121 @@
                 "operationId": "getPassengerList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -5498,7 +6043,7 @@
                 ]
             }
         },
-        "/api/companies/supervisors?page={number}": {
+        "/api/companies/supervisors": {
             "get": {
                 "tags": [
                     "CompanySupervisor"
@@ -5508,12 +6053,121 @@
                 "operationId": "getSupervisorList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -6101,7 +6755,7 @@
                 ]
             }
         },
-        "/api/companies/transfers?page={number}": {
+        "/api/companies/transfers": {
             "get": {
                 "tags": [
                     "CompanyTransfer"
@@ -6111,12 +6765,284 @@
                 "operationId": "getTransfersList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Transfers list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/driver/transfers/mytransfers": {
+            "get": {
+                "tags": [
+                    "DriverTransfer"
+                ],
+                "summary": "Get list of Assigned Transfers",
+                "description": "Returns list of Transfers",
+                "operationId": "getMyTransfersList",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -6816,6 +7742,165 @@
                 ]
             }
         },
+        "/api/companies/transfers/assigne/{id}": {
+            "post": {
+                "tags": [
+                    "SupervisorTransfer"
+                ],
+                "summary": "assigne Transfer",
+                "description": "Returns Transfer data",
+                "operationId": "assigneTransfer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transfer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "vehicle_id",
+                                    "driver_id"
+                                ],
+                                "properties": {
+                                    "vehicle_id": {
+                                        "type": "integer",
+                                        "format": "vehicle_id",
+                                        "example": "1"
+                                    },
+                                    "driver_id": {
+                                        "type": "integer",
+                                        "format": "driver_id",
+                                        "example": "1"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer Successfully Assigned"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Transfer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/companies/transfers/delete/{id}": {
             "post": {
                 "tags": [
@@ -6893,6 +7978,404 @@
                                         "message": {
                                             "type": "string",
                                             "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/transfers/delete/assigne/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyTransfer"
+                ],
+                "summary": "unassigned Transfer",
+                "description": "unassigned Transfer by Id",
+                "operationId": "unassignedTransfer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transfer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer Successfully Unassigned"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/driver/transfers/start-transfer/{id}": {
+            "post": {
+                "tags": [
+                    "DriverTransfer"
+                ],
+                "summary": "Start Transfer by Driver",
+                "description": "Returns Transfer data",
+                "operationId": "startTransfer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transfer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "pickup_start_time"
+                                ],
+                                "properties": {
+                                    "pickup_start_time": {
+                                        "type": "string",
+                                        "format": "pickup_start_time",
+                                        "example": "2022-07-22 20:12"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer Successfully Started"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Transfer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/driver/transfers/stop-transfer/{id}": {
+            "post": {
+                "tags": [
+                    "DriverTransfer"
+                ],
+                "summary": "Driver Completed The Transfer",
+                "description": "Returns Transfer data",
+                "operationId": "stopTransfer",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Transfer Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "dropoff_time"
+                                ],
+                                "properties": {
+                                    "dropoff_time": {
+                                        "type": "string",
+                                        "format": "dropoff_time",
+                                        "example": "2022-07-22 20:52"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Transfer Successfully Completed"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Transfer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
                                         }
                                     },
                                     "type": "object"
@@ -7509,7 +8992,7 @@
                 ]
             }
         },
-        "/api/companies/cities?page={number}": {
+        "/api/companies/cities": {
             "get": {
                 "tags": [
                     "UetdsCities"
@@ -7519,12 +9002,121 @@
                 "operationId": "getCitiesList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -8056,7 +9648,7 @@
                 ]
             }
         },
-        "/api/companies/users?page={number}": {
+        "/api/companies/users": {
             "get": {
                 "tags": [
                     "CompanyUser"
@@ -8066,12 +9658,121 @@
                 "operationId": "getUserList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],
@@ -8605,7 +10306,7 @@
                 ]
             }
         },
-        "/api/companies/vehicles?page={number}": {
+        "/api/companies/vehicles": {
             "get": {
                 "tags": [
                     "CompanyVehicle"
@@ -8615,12 +10316,121 @@
                 "operationId": "getVehiclesList",
                 "parameters": [
                     {
-                        "name": "number",
-                        "in": "path",
-                        "description": "Page Number",
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
                         "required": false,
                         "schema": {
                             "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 ],

@@ -22,20 +22,103 @@ class VehicleController extends Controller
 
     /**
      * @OA\Get(
-     *      path="/api/companies/vehicles?page={number}",
+     *      path="/api/companies/vehicles",
      *      operationId="getVehiclesList",
      *      tags={"CompanyVehicle"},
      *      security={ {"bearerAuth":{} }},
      *      summary="Get list of Vehicles",
      *      description="Returns list of Vehicles",
      *      @OA\Parameter(
-     *          name="number",
-     *          description="Page Number",
+     *          name="pagination",
+     *          in="query",
+     *          description="pagination",
      *          required=false,
-     *          in="path",
+     *          @OA\Schema(type="boolean")
+     *      ),
+     *      @OA\Parameter(
+     *          name="perPage",
+     *          in="query",
+     *          description="perPage",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          description="limit",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="start",
+     *          in="query",
+     *          description="start Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="end",
+     *          in="query",
+     *          description="end Date",
+     *          required=false,
+     *          @OA\Schema(type="date")
+     *      ),
+     *      @OA\Parameter(
+     *          name="date_column",
+     *          in="query",
+     *          description="Add Date Column where you want to filter by Date or between two dates",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="relational_id",
+     *          in="query",
+     *          description="Relational Model id",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="relational_column",
+     *          in="query",
+     *          description="Add Relational Data Column name for getting by specific model Id",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="order",
+     *          in="query",
+     *          description="order",
+     *          required=false,
      *          @OA\Schema(
-     *              type="integer"
+     *              type="string",
+     *          enum={"asc","desc"},
+     *          default="desc"
      *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="order_column",
+     *          in="query",
+     *          description="Add Column where you want to display by some order",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
+     *          name="filter_operator",
+     *          in="query",
+     *          description="add Conditional Operator",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *          enum={"and","or"},
+     *          default="and"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="search_text",
+     *          in="query",
+     *          description="and string for searching in all columns",
+     *          required=false,
+     *          @OA\Schema(type="string")
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -55,9 +138,9 @@ class VehicleController extends Controller
      *     )
      * )
      */
-    public function index()
+    public function index(Request $request)
     {
-        $result = $this->vehicleRepository->getAll();
+        $result = $this->vehicleRepository->getAll($request);
         return $this->successResponse($result);
     }
 
