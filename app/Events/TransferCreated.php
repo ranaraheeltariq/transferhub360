@@ -18,9 +18,9 @@ class TransferCreated
     /**
      * Create a new event instance.
      */
-    public function __construct()
+    public function __construct(public Transfer $transfer)
     {
-        // public Transfer $transfer;
+        $this->transfer = $transfer;
     }
 
     /**

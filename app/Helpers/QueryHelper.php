@@ -89,6 +89,16 @@ class QueryHelper
         return $query;
     }
 
+    
+
+    public static function applyWithRelation( $query, $relation)
+    {
+        if (!empty($relation)) {
+            $query->with($relation);
+        }
+        return $query;
+    }
+
     public static function applyPagination($query, $request)
     {
         $pagination = $request->pagination ?? false;
@@ -101,7 +111,7 @@ class QueryHelper
         return $query->get();
     }
 
-    public static function applyFilterOrderLimitPagination($query, $request, $exceptColumns = null)
+    public static function applyFilterOrderLimitPagination($query, $request, $relation = null, $exceptColumns = null)
     {
         $searchableColumns = self::searchableColumns($query,$exceptColumns);
         $query = self::applyFilter($query, $request,$searchableColumns);
@@ -109,6 +119,7 @@ class QueryHelper
         $query = self::applyLimit($query, $request);
         $query = self::applyBetween($query, $request, $searchableColumns);
         $query = self::applyRelationalData($query, $request, $searchableColumns);
+        $query = self::applyWithRelation( $query, $relation);
         $query = self::applyPagination($query, $request);
 
         return $query;

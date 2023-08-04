@@ -7250,6 +7250,41 @@
                                         "format": "vehicle_assigned_by",
                                         "example": "Raheel"
                                     },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel"
+                                    },
+                                    "contact_number": {
+                                        "type": "string",
+                                        "format": "contact_number",
+                                        "example": "+905547778899"
+                                    },
+                                    "flight_number": {
+                                        "type": "string",
+                                        "format": "flight_number",
+                                        "example": "PK434"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "format": "type",
+                                        "default": "Inner City",
+                                        "enum": [
+                                            "Arrival",
+                                            "Departure",
+                                            "Inner City"
+                                        ]
+                                    },
+                                    "info": {
+                                        "type": "string",
+                                        "format": "info",
+                                        "example": "Deneme123"
+                                    },
+                                    "file_path": {
+                                        "type": "file",
+                                        "format": "file_path",
+                                        "example": ""
+                                    },
                                     "status": {
                                         "type": "string",
                                         "format": "status",
@@ -7612,6 +7647,41 @@
                                         "type": "string",
                                         "format": "vehicle_assigned_by",
                                         "example": "Raheel"
+                                    },
+                                    "contact_person": {
+                                        "type": "string",
+                                        "format": "contact_person",
+                                        "example": "Raheel"
+                                    },
+                                    "contact_number": {
+                                        "type": "string",
+                                        "format": "contact_number",
+                                        "example": "+905547778899"
+                                    },
+                                    "flight_number": {
+                                        "type": "string",
+                                        "format": "flight_number",
+                                        "example": "PK434"
+                                    },
+                                    "type": {
+                                        "type": "string",
+                                        "format": "type",
+                                        "default": "Inner City",
+                                        "enum": [
+                                            "Arrival",
+                                            "Departure",
+                                            "Inner City"
+                                        ]
+                                    },
+                                    "info": {
+                                        "type": "string",
+                                        "format": "info",
+                                        "example": "Deneme123"
+                                    },
+                                    "file_path": {
+                                        "type": "file",
+                                        "format": "file_path",
+                                        "example": ""
                                     },
                                     "status": {
                                         "type": "string",
@@ -8376,607 +8446,6 @@
                                         "message": {
                                             "type": "string",
                                             "example": "!Something went wrong please try again later."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/companies/transferdetail/transfer/{id}": {
-            "get": {
-                "tags": [
-                    "CompanyTransfer"
-                ],
-                "summary": "Get list of Transfer Detail by Transfer Id",
-                "description": "Returns list of Transfer Detail by Transfer Id",
-                "operationId": "getTransfersDetailbyTransferId",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transfer id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": null
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": "array of Transfers detail"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/companies/transferdetail/create": {
-            "post": {
-                "tags": [
-                    "CompanyTransfer"
-                ],
-                "summary": "Create New Transfer Detail",
-                "description": "Returns Transfer Detail data",
-                "operationId": "storeTransferDetail",
-                "requestBody": {
-                    "description": "I just fill Required Fields",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "transfer_id"
-                                ],
-                                "properties": {
-                                    "transfer_id": {
-                                        "type": "integer",
-                                        "format": "transfer_id",
-                                        "example": "1"
-                                    },
-                                    "contact_person": {
-                                        "type": "string",
-                                        "format": "contact_person",
-                                        "example": "Raheel"
-                                    },
-                                    "contact_number": {
-                                        "type": "string",
-                                        "format": "contact_number",
-                                        "example": "+905547778899"
-                                    },
-                                    "flight_number": {
-                                        "type": "string",
-                                        "format": "flight_number",
-                                        "example": "PK434"
-                                    },
-                                    "type": {
-                                        "type": "string",
-                                        "format": "type",
-                                        "default": "Inner City",
-                                        "enum": [
-                                            "Arrival",
-                                            "Departure",
-                                            "Inner City"
-                                        ]
-                                    },
-                                    "info": {
-                                        "type": "string",
-                                        "format": "info",
-                                        "example": "Deneme123"
-                                    },
-                                    "file_path": {
-                                        "type": "file",
-                                        "format": "file_path",
-                                        "example": ""
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transfer Detail Successfully Created"
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": "array of Transfer Detail data"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "203": {
-                        "description": "Validation Error response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation error Message"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Content",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "!Something went wrong please try again later."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/companies/transferdetail/detail/{id}": {
-            "get": {
-                "tags": [
-                    "CompanyTransfer"
-                ],
-                "summary": "Get of Transfer Detail By Id",
-                "description": "Get Transfer Detail Data by Transfer Detail Id",
-                "operationId": "getTransferDetailById",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transfer Detail Id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": null
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": "array of Transfer Data"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Page Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Page Not Found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/companies/transferdetail/update/{id}": {
-            "post": {
-                "tags": [
-                    "CompanyTransfer"
-                ],
-                "summary": "Update Transfer Detail",
-                "description": "Returns Transfer Detail data",
-                "operationId": "updateTransferDetail",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transfer Detail Id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "requestBody": {
-                    "description": "I just fill Required Fields",
-                    "required": true,
-                    "content": {
-                        "multipart/form-data": {
-                            "schema": {
-                                "required": [
-                                    "transfer_id"
-                                ],
-                                "properties": {
-                                    "transfer_id": {
-                                        "type": "integer",
-                                        "format": "transfer_id",
-                                        "example": "1"
-                                    },
-                                    "contact_person": {
-                                        "type": "string",
-                                        "format": "contact_person",
-                                        "example": "Raheel"
-                                    },
-                                    "contact_number": {
-                                        "type": "string",
-                                        "format": "contact_number",
-                                        "example": "+905547778899"
-                                    },
-                                    "flight_number": {
-                                        "type": "string",
-                                        "format": "flight_number",
-                                        "example": "PK434"
-                                    },
-                                    "type": {
-                                        "type": "string",
-                                        "format": "type",
-                                        "default": "Inner City",
-                                        "enum": [
-                                            "Arrival",
-                                            "Departure",
-                                            "Inner City"
-                                        ]
-                                    },
-                                    "info": {
-                                        "type": "string",
-                                        "format": "info",
-                                        "example": "Deneme123"
-                                    },
-                                    "file_path": {
-                                        "type": "file",
-                                        "format": "file_path",
-                                        "example": ""
-                                    }
-                                },
-                                "type": "object"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transfer Detail Successfully Updated"
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": "array of Transfer Detail Data"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "203": {
-                        "description": "Validation Error response",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Validation error Message"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Page Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Page Not Found"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Unprocessable Content",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "!Something went wrong please try again later."
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearerAuth": []
-                    }
-                ]
-            }
-        },
-        "/api/companies/transferdetail/delete/{id}": {
-            "post": {
-                "tags": [
-                    "CompanyTransfer"
-                ],
-                "summary": "Remove Transfer Detail",
-                "description": "Remove Transfer Detail by Id",
-                "operationId": "destoryTransferDetail",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "description": "Transfer Detail Id",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "success"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Transfer Detail Deleted Successfully"
-                                        },
-                                        "data": {
-                                            "type": "string",
-                                            "example": null
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthenticated",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Unauthenticated"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "404": {
-                        "description": "Page Not Found",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "string",
-                                            "example": "error"
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Page Not Found"
                                         }
                                     },
                                     "type": "object"

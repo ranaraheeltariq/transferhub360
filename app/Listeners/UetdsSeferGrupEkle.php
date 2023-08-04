@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\AssigneVehicle;
+use App\Events\TransferCreated;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -19,7 +19,7 @@ class UetdsSeferGrupEkle
     /**
      * Handle the event.
      */
-    public function handle(AssigneVehicle $event): void
+    public function handle(TransferCreated $event): void
     {
         //
     }

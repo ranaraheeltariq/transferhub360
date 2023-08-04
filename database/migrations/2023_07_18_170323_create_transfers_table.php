@@ -37,6 +37,14 @@ return new class extends Migration
             $table->dateTime('dropoff_time')->nullable();
             $table->dateTime('vehicle_assigned_time')->nullable();
             $table->string('vehicle_assigned_by')->nullable();
+            $table->string('contact_person')->nullable();
+            $table->string('contact_number')->nullable();
+            $table->string('flight_number')->nullable();
+            $table->string('type')->nullable();
+            $table->longText('info')->nullable();
+            $table->string('file_path')->nullable();
+            $table->string('message')->nullable();
+            $table->float('star', 10, 1)->nullable();
             $table->string('status');
             $table->string('uetds_id')->nullable();
             $table->string('uetds_group_id')->nullable();

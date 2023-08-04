@@ -80,13 +80,6 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('assigne/{id}',[Controllers\API\TransferController::class,'assigneVehicle']);
             Route::post('delete/assigne/{id}',[Controllers\API\TransferController::class,'cancelAssignedVehicle']);
         });
-        Route::group(['prefix' => 'transferdetail'], function(){
-            Route::get('transfer/{id}', [Controllers\API\TransferDetailController::class, 'index']);
-            Route::post('create', [Controllers\API\TransferDetailController::class, 'store']);
-            Route::get('detail/{id}', [Controllers\API\TransferDetailController::class, 'show']);
-            Route::post('update/{id}', [Controllers\API\TransferDetailController::class, 'update']);
-            Route::post('delete/{id}', [Controllers\API\TransferDetailController::class, 'destroy']);
-        });
     });
 });
 

@@ -7,12 +7,13 @@ use App\Models\Transfer;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Helpers\QueryHelper;
+use App\Events\TransferCreated;
 
 class TransferRepository implements TransferRepositoryInterface
 {
     public function getAll(Request $request)
     {
-        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request);
+        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers']);
         // return Transfer::paginate(10);
     }
     public function getById($id)
@@ -25,8 +26,11 @@ class TransferRepository implements TransferRepositoryInterface
     }
     public function create(array $data)
     {
-        return Transfer::create($data);
+        $transfer = Transfer::create($data);
+        TransferCreated::dispatch($transfer);
+        return $transfer;
     }
+    
     public function update($id, array $data)
     {
         if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
@@ -40,7 +44,9 @@ class TransferRepository implements TransferRepositoryInterface
             $data['vehicle_assigned_time'] = NULL;
             $data['patient_approving_status'] = NULL;
         }
-        return Transfer::whereId($id)->update($data);
+        $transfer = Transfer::whereId($id)->update($data);
+        TransferCreated::dispatch($transfer);
+        return $transfer;
     }
 
     public function myTransfers(Request $request)
