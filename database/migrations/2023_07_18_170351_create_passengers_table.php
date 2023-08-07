@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->string('gender');
             $table->string('nationality')->nullable();
+            $table->string('country_code')->nullable();
             $table->string('age')->nullable();
             $table->string('id_number')->nullable();
             $table->enum('status',['Active','Deactive'])->default('Active');

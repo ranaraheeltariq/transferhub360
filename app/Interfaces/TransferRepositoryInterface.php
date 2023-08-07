@@ -11,4 +11,6 @@ interface TransferRepositoryInterface
     public function create(array $data);
     public function update($id, array $data);
     public function myTransfers(Request $request);
+    public function attachPassengers(Request $request);
+    public function uetdsPdf($id);
 }

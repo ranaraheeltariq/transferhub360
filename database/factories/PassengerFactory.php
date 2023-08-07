@@ -28,6 +28,7 @@ class PassengerFactory extends Factory
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
             'thumbnail' => fake()->imageUrl(),
             'nationality' =>  fake()->country(),
+            'country_code' => fake()->countryCode(),
             'gender' => fake()->randomElement(['Male', 'Female']),
             'age'   => fake()->numberBetween(18,50),
             'status'    => 'Active',

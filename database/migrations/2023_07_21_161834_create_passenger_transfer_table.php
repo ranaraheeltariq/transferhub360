@@ -13,13 +13,9 @@ return new class extends Migration
     {
         Schema::create('passenger_transfer', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('passenger_id')->constrained();
-            $table->foreignId('transfer_id')->constrained();
+            $table->foreignId('passenger_id')->constrained()->onDelete('cascade');
+            $table->foreignId('transfer_id')->constrained()->onDelete('cascade');
             $table->string('uetds_ref_no')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
-            $table->string('created_user_name');
-            $table->string('updated_user_name');
         });
     }
 

@@ -217,7 +217,8 @@ class PassengerAuthenticationController extends Controller
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
-     *                  @OA\Property(property="nationality", type="string", format="nationality", example="UK"),
+     *                  @OA\Property(property="nationality", type="string", format="nationality", example="United Kingdom"),
+     *                  @OA\Property(property="country_code", type="string", format="country_code", example="UK"),
      *                  @OA\Property(property="age", type="integer", format="age", example="20"),
      *                  @OA\Property(property="id_number", type="string", format="id_number", example="DR788995"),
      *              )
@@ -269,7 +270,7 @@ class PassengerAuthenticationController extends Controller
     {
         // $id = Auth::guard('passengers')->user()->id; //user data not readable with Guard need to fix
         $id = Auth::user()->id;
-        $data = $request->only('first_name', 'last_name', 'email', 'contact_number', 'thumbnail', 'gender', 'nationality', 'age', 'id_number');
+        $data = $request->only('first_name', 'last_name', 'email', 'contact_number', 'thumbnail', 'gender', 'nationality', 'country_code', 'age', 'id_number');
         $validator = Validator::make($data, [
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -278,6 +279,7 @@ class PassengerAuthenticationController extends Controller
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'gender' => 'required|string|max:255',
             'nationality' => 'nullable|string|max:255',
+            'country_code' => 'nullable|string|max:255',
             'age' => 'nullable|integer',
             'id_number' => 'nullable|string|max:255|unique:passengers,id_number,'.$id,
         ]);

@@ -2,12 +2,12 @@
 
 namespace App\Listeners;
 
-use App\Events\TransferDelete;
+use App\Events\PassangerAttached;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Traits\Uetds;
 
-class UetdsSeferIptal implements ShouldQueue
+class YolcuEkle implements ShouldQueue
 {
     use InteractsWithQueue, Uetds;
  
@@ -50,18 +50,25 @@ class UetdsSeferIptal implements ShouldQueue
     /**
      * Handle the event.
      */
-    public function handle(TransferDelete $event): void
+    public function handle(PassangerAttached $event): void
     {
-        $uetds = $this->seferIptal($event->transfer->uetds_id, $event->transfer->company->uetds_url, $event->transfer->company->uetds_username,$event->transfer->company->uetds_password);
-        if($uetds === 0){
-            $event->transfer->update(['uetds_id' => null]);
+        foreach($event->transfer->passengers as $passenger){
+            $adi = $passenger->first_name;
+            $soyadi = $passenger->last_name;
+            $cinsiyet = $passenger->gender == 'Male' ? 'E' : 'K';
+            $passport = $passenger->id_number;
+
+            $uetds = $this->yolcuEkle($event->transfer->uetds_id, $event->transfer->uetds_group_id, $passenger->country_code, $passport, $adi, $soyadi, $cinsiyet,$event->transfer->company->uetds_url, $event->transfer->company->uetds_username, $event->transfer->company->uetds_password);
+            if(!is_null($uetds->sonucKodu)&&$uetds->sonucKodu === 0){
+                $event->transfer->passengers()->updateExistingPivot($passenger->id,['uetds_ref_no' => $uetds->uetdsYolcuRefNo]);
+            }
         }
     }
  
     /**
      * Determine whether the listener should be queued.
      */
-    public function shouldQueue(TransferDelete $event): bool
+    public function shouldQueue(PassangerAttached $event): bool
     {
         return !is_null($event->transfer->company->uetds_url??null) && !is_null($event->transfer->company->uetds_username??null) && !is_null($event->transfer->company->uetds_password??null) && !is_null($event->transfer->uetds_id??null) && !is_null($event->transfer->uetds_group_id??null);
     }

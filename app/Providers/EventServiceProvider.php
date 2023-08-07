@@ -6,12 +6,14 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use App\Events\TransferCreated;
 use App\Events\TransferDelete;
+use App\Events\PassangerAttached;
 use App\Listeners\UetdsSeferEkle;
 use App\Listeners\UetdsSeferGrupEkle;
 use App\Listeners\UetdsPersonelEkle;
 use App\Listeners\UetdsSeferGuncelle;
 use App\Listeners\UetdsPersonelIptal;
 use App\Listeners\UetdsSeferIptal;
+use App\Listeners\YolcuEkle;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
 
@@ -35,6 +37,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         TransferDelete::class => [
             UetdsSeferIptal::class,
+        ],
+        PassangerAttached::class => [
+            YolcuEkle::class,
         ],
     ];
 

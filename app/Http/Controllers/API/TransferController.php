@@ -276,7 +276,7 @@ class TransferController extends Controller
      *                  @OA\Property(property="driver_id", type="integer", format="driver_id", example="1"),
      *                  @OA\Property(property="pickup_location", type="string", format="pickup_location", example="IST Airport"),
      *                  @OA\Property(property="dropoff_location", type="string", format="dropoff_location", example="EST Hospital Umraniya"),
-     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2022-07-22"),
+     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2023-09-22"),
      *                  @OA\Property(property="pickup_time", type="time", format="pickup_time", example="20:10"),
      *                  @OA\Property(property="pickup_country_code", type="string", format="pickup_country_code", example="TR"),
      *                  @OA\Property(property="pickup_country", type="string", format="pickup_country", example="Turkiye"),
@@ -290,8 +290,8 @@ class TransferController extends Controller
      *                  @OA\Property(property="dropoff_city", type="string", format="dropoff_city", example="İSTANBUL"),
      *                  @OA\Property(property="dropoff_zone_code", type="string", format="dropoff_zone", example="1663"),
      *                  @OA\Property(property="dropoff_zone", type="string", format="dropoff_zone", example="ŞİŞLİ"),
-     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
-     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2023-09-22 20:12"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2023-09-22 20:52"),
      *                  @OA\Property(property="vehicle_assigned_time", type="datetime", format="vehicle_assigned_time", example="2022-07-14 20:12"),
      *                  @OA\Property(property="vehicle_assigned_by", type="string", format="vehicle_assigned_by", description="Login User Name", example="Raheel"), 
      *                  @OA\Property(property="contact_person", type="string", format="contact_person", example="Raheel"),
@@ -466,7 +466,7 @@ class TransferController extends Controller
      *                  @OA\Property(property="driver_id", type="integer", format="driver_id", example="1"),
      *                  @OA\Property(property="pickup_location", type="string", format="pickup_location", example="IST Airport"),
      *                  @OA\Property(property="dropoff_location", type="string", format="dropoff_location", example="EST Hospital Umraniya"),
-     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2022-07-22"),
+     *                  @OA\Property(property="pickup_date", type="date", format="pickup_date", example="2023-09-22"),
      *                  @OA\Property(property="pickup_time", type="time", format="pickup_time", example="20:10"),
      *                  @OA\Property(property="pickup_country_code", type="string", format="pickup_country_code", example="TR"),
      *                  @OA\Property(property="pickup_country", type="string", format="pickup_country", example="Turkiye"),
@@ -480,8 +480,8 @@ class TransferController extends Controller
      *                  @OA\Property(property="dropoff_city", type="string", format="dropoff_city", example="İSTANBUL"),
      *                  @OA\Property(property="dropoff_zone_code", type="string", format="dropoff_zone", example="1663"),
      *                  @OA\Property(property="dropoff_zone", type="string", format="dropoff_zone", example="ŞİŞLİ"),
-     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
-     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2023-09-22 20:12"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2023-09-22 20:52"),
      *                  @OA\Property(property="vehicle_assigned_time", type="datetime", format="vehicle_assigned_time", example="2022-07-14 20:12"),
      *                  @OA\Property(property="vehicle_assigned_by", type="string", format="vehicle_assigned_by", description="Login User Name", example="Raheel"),
      *                  @OA\Property(property="contact_person", type="string", format="contact_person", example="Raheel"),
@@ -808,7 +808,7 @@ class TransferController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"pickup_start_time"},
-     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2022-07-22 20:12"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2023-09-22 20:12"),
      *              )
      *          ),
      *      ),
@@ -896,7 +896,7 @@ class TransferController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"dropoff_time"},
-     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2022-07-22 20:52"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2023-09-22 20:52"),
      *              )
      *          ),
      *      ),
@@ -959,4 +959,140 @@ class TransferController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/companies/transfers/attachPassengers",
+     *      operationId="attachPassengers",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="attachPassengers",
+     *      description="Returns Transfer data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"passenger_id[]","transfer_id"},
+     *                  @OA\Property(property="transfer_id", type="integer", format="transfer_id", example="1"),
+     *                  @OA\Property(property="passenger_id[]", type="array", @OA\Items(type="integer",default="1"), uniqueItems=true)
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Passenger Successfully Attached"),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
+     */
+    public function attachPassengers(Request $request)
+    {
+        $data = $request->only('passenger_id','transfer_id');
+        $validator = Validator::make($data, [
+            'transfer_id' => 'required|exists:transfers,id',
+            'passenger_id' => 'required|array|min:1',
+            'passenger_id.*' => 'required|exists:passengers,id',
+        ]);
+        if($validator->fails()){
+            return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        }
+        $result = $this->transferRepository->attachPassengers($request);
+        return $result;
+        if($result){
+            return $this->successResponse($result, __('response_messages.transfer.passengers'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+    
+    /**
+     * @OA\Get(
+     *      path="/api/companies/transfers/uetdsfile/{id}",
+     *      operationId="uetdsTransferFile",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Uetds Transfer File by UETDS ID",
+     *      description="Get Uetds Transfer File URL",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Uetds Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="UETDS File Successfully Created"),
+     *              @OA\Property(property="data", type="string", example="url"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function generateUetdsPdf($id)
+    {
+        $result = $this->transferRepository->uetdsPdf($id);
+        if($result){
+            return $this->successResponse('https://transferhub360.s3.amazonaws.com/'.$result,__('response_messages.transfer.pdf'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
 }

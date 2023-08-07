@@ -37,7 +37,7 @@ class UetdsSeferEkle implements ShouldQueue
      *
      * @var int
      */
-    // public $delay = 60;
+    public $delay = 30;
 
     /**
      * Create the event listener.

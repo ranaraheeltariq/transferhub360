@@ -72,10 +72,7 @@ return [
         'unassigned' => 'Transfer Successfully Unassigned',
         'started' => 'Transfer Successfully started',
         'completed' => 'Transfer Successfully Completed',
-    ],
-    "transferDetail" => [
-        'created' => 'Transfer Detail Successfully Created',
-        'updated' => 'Transfer Detail Successfully Updated',
-        'deleted' => 'Transfer Detail Successfully Deleted',
+        'passengers' => 'Passenger Successfully Attached',
+        'pdf' => "UETDS File Successfully Created",
     ],
 ];

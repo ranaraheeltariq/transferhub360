@@ -1619,6 +1619,11 @@
                                     "nationality": {
                                         "type": "string",
                                         "format": "nationality",
+                                        "example": "United Kingdom"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
                                         "example": "UK"
                                     },
                                     "age": {
@@ -5536,6 +5541,11 @@
                                     "nationality": {
                                         "type": "string",
                                         "format": "nationality",
+                                        "example": "Unitied Kingdom"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
                                         "example": "UK"
                                     },
                                     "age": {
@@ -5815,6 +5825,11 @@
                                     "nationality": {
                                         "type": "string",
                                         "format": "nationality",
+                                        "example": "United Kingdom"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
                                         "example": "UK"
                                     },
                                     "age": {
@@ -7162,7 +7177,7 @@
                                     "pickup_date": {
                                         "type": "string",
                                         "format": "pickup_date",
-                                        "example": "2022-07-22"
+                                        "example": "2023-09-22"
                                     },
                                     "pickup_time": {
                                         "type": "time",
@@ -7232,12 +7247,12 @@
                                     "pickup_start_time": {
                                         "type": "string",
                                         "format": "pickup_start_time",
-                                        "example": "2022-07-22 20:12"
+                                        "example": "2023-09-22 20:12"
                                     },
                                     "dropoff_time": {
                                         "type": "string",
                                         "format": "dropoff_time",
-                                        "example": "2022-07-22 20:52"
+                                        "example": "2023-09-22 20:52"
                                     },
                                     "vehicle_assigned_time": {
                                         "type": "string",
@@ -7560,7 +7575,7 @@
                                     "pickup_date": {
                                         "type": "string",
                                         "format": "pickup_date",
-                                        "example": "2022-07-22"
+                                        "example": "2023-09-22"
                                     },
                                     "pickup_time": {
                                         "type": "time",
@@ -7630,12 +7645,12 @@
                                     "pickup_start_time": {
                                         "type": "string",
                                         "format": "pickup_start_time",
-                                        "example": "2022-07-22 20:12"
+                                        "example": "2023-09-22 20:12"
                                     },
                                     "dropoff_time": {
                                         "type": "string",
                                         "format": "dropoff_time",
-                                        "example": "2022-07-22 20:52"
+                                        "example": "2023-09-22 20:52"
                                     },
                                     "vehicle_assigned_time": {
                                         "type": "string",
@@ -8187,7 +8202,7 @@
                                     "pickup_start_time": {
                                         "type": "string",
                                         "format": "pickup_start_time",
-                                        "example": "2022-07-22 20:12"
+                                        "example": "2023-09-22 20:12"
                                     }
                                 },
                                 "type": "object"
@@ -8340,7 +8355,7 @@
                                     "dropoff_time": {
                                         "type": "string",
                                         "format": "dropoff_time",
-                                        "example": "2022-07-22 20:52"
+                                        "example": "2023-09-22 20:52"
                                     }
                                 },
                                 "type": "object"
@@ -8446,6 +8461,249 @@
                                         "message": {
                                             "type": "string",
                                             "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/transfers/attachPassengers": {
+            "post": {
+                "tags": [
+                    "CompanyTransfer"
+                ],
+                "summary": "attachPassengers",
+                "description": "Returns Transfer data",
+                "operationId": "attachPassengers",
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "passenger_id[]",
+                                    "transfer_id"
+                                ],
+                                "properties": {
+                                    "transfer_id": {
+                                        "type": "integer",
+                                        "format": "transfer_id",
+                                        "example": "1"
+                                    },
+                                    "passenger_id[]": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "integer",
+                                            "default": "1"
+                                        },
+                                        "uniqueItems": true
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Passenger Successfully Attached"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Transfer Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/transfers/uetdsfile/{id}": {
+            "get": {
+                "tags": [
+                    "CompanyTransfer"
+                ],
+                "summary": "Uetds Transfer File by UETDS ID",
+                "description": "Get Uetds Transfer File URL",
+                "operationId": "uetdsTransferFile",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Uetds Id",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "UETDS File Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "url"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
                                         }
                                     },
                                     "type": "object"

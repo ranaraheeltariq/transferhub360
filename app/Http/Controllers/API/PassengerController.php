@@ -168,7 +168,8 @@ class PassengerController extends Controller
      *                  @OA\Property(property="password", type="password", format="password", example="password"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
-     *                  @OA\Property(property="nationality", type="string", format="nationality", example="UK"),
+     *                  @OA\Property(property="nationality", type="string", format="nationality", example="Unitied Kingdom"),
+     *                  @OA\Property(property="country_code", type="string", format="country_code", example="UK"),
      *                  @OA\Property(property="age", type="integer", format="age", example="20"),
      *                  @OA\Property(property="id_number", type="string", format="id_number", example="DR788995"),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
@@ -212,7 +213,7 @@ class PassengerController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('customer_id', 'first_name', 'last_name', 'email', 'contact_number', 'password', 'thumbnail', 'gender', 'nationality', 'age', 'id_number', 'status');
+        $data = $request->only('customer_id', 'first_name', 'last_name', 'email', 'contact_number', 'password', 'thumbnail', 'gender', 'nationality', 'country_code', 'age', 'id_number', 'status');
         $validator = Validator::make($data, [
             'customer_id' => 'required|string|max:255|exists:customers,id',
             'first_name' => 'required|string|max:255',
@@ -223,6 +224,7 @@ class PassengerController extends Controller
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'gender' => 'required|string|max:255',
             'nationality' => 'nullable|string|max:255',
+            'country_code' => 'nullable|string|max:255',
             'age' => 'nullable|integer',
             'id_number' => 'nullable|string|max:255|unique:passengers',
             'status' => 'required|in:Active,Deactive',
@@ -324,7 +326,8 @@ class PassengerController extends Controller
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
-     *                  @OA\Property(property="nationality", type="string", format="nationality", example="UK"),
+     *                  @OA\Property(property="nationality", type="string", format="nationality", example="United Kingdom"),
+     *                  @OA\Property(property="country_code", type="string", format="country_code", example="UK"),
      *                  @OA\Property(property="age", type="integer", format="age", example="20"),
      *                  @OA\Property(property="id_number", type="string", format="id_number", example="DR788995"),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
@@ -376,7 +379,7 @@ class PassengerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('customer_id', 'first_name', 'last_name', 'email', 'contact_number', 'thumbnail', 'gender', 'nationality', 'age', 'id_number', 'status');
+        $data = $request->only('customer_id', 'first_name', 'last_name', 'email', 'contact_number', 'thumbnail', 'gender', 'nationality', 'country_code', 'age', 'id_number', 'status');
         $validator = Validator::make($data, [
             'customer_id' => 'required|string|max:255|exists:customers,id',
             'first_name' => 'required|string|max:255',
@@ -386,6 +389,7 @@ class PassengerController extends Controller
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'gender' => 'required|string|max:255',
             'nationality' => 'nullable|string|max:255',
+            'country_code' => 'nullable|string|max:255',
             'age' => 'nullable|integer',
             'id_number' => 'nullable|string|max:255|unique:passengers,id_number,'.$id,
             'status' => 'required|in:Active,Deactive',
