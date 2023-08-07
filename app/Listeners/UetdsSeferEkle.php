@@ -9,7 +9,7 @@ use App\Traits\Uetds;
 
 class UetdsSeferEkle implements ShouldQueue
 {
-    use Uetds;
+    use InteractsWithQueue, Uetds;
  
     /**
      * The number of times the queued listener may be attempted.
@@ -66,6 +66,6 @@ class UetdsSeferEkle implements ShouldQueue
      */
     public function shouldQueue(TransferCreated $event): bool
     {
-        return !is_null($event->company->uetds_url??null) && !is_null($event->company->uetds_username??null) && !is_null($event->company->uetds_password??null);
+        return !is_null($event->transfer->company->uetds_url??null) && !is_null($event->transfer->company->uetds_username??null) && !is_null($event->transfer->company->uetds_password??null);
     }
 }
