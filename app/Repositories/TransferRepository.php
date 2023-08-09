@@ -15,29 +15,62 @@ use App\Traits\Uetds;
 class TransferRepository implements TransferRepositoryInterface
 {
     use Uetds;
-    
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return collection $ModelCollection
+     */
     public function getAll(Request $request)
     {
         return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers']);
-        // return Transfer::paginate(10);
     }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  integer  $id
+     * @return collection $ModelCollection
+     */
     public function getById($id)
     {
         return Transfer::findOrFail($id);
     }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  integer  $id
+     * @return collection $ModelCollection
+     */
     public function delete($id)
     {
         $transfer = Transfer::destroy($id);
         TransferDelete::dispatch($transfer);
         return $transfer;
     }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  array  $data
+     * @return collection $ModelCollection
+     */
     public function create(array $data)
     {
         $transfer = Transfer::create($data);
         TransferCreated::dispatch($transfer);
         return $transfer;
     }
-    
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  array  $data
+     * @param int $id
+     * @return collection $ModelCollection
+     */
     public function update($id, array $data)
     {
         if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
@@ -56,12 +89,24 @@ class TransferRepository implements TransferRepositoryInterface
         return $transfer;
     }
 
+    /**
+     * Get List of Transfer for Login Driver.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return collection $ModelCollection
+     */
     public function myTransfers(Request $request)
     {
         $request->merge(['relational_column' => 'driver_id', 'relational_id' => $request->user()->id]);
         return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers']);
     }
 
+    /**
+     * Attached Passenger with Transfer.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return collection $ModelCollection
+     */
     public function attachPassengers(Request $request)
     {
         $transfer = Transfer::findOrFail($request->transfer_id);
@@ -74,15 +119,13 @@ class TransferRepository implements TransferRepositoryInterface
             return $transfer->passengers;
         }
         return false;
-
     }
 
     /**
      * UETDS transfer PDF.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @param  $id
-     * @return \Illuminate\Http\Response
+     * @return string $path
      */
     public function uetdsPdf($id)
     {
@@ -104,4 +147,20 @@ class TransferRepository implements TransferRepositoryInterface
         return false;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  string  $date
+     * @param integer $id
+     * @return collection $ModelCollection
+     */
+    public function groupByType($date,$id)
+    {
+        $transfers = Transfer::selectRaw('count(id) as transfer_count, type')->where('pickup_date', $date)->groupBy('type');
+        if($id != null){
+            $transfers = $transfers->where('driver_id',$id);
+        }
+        $transfers = $transfers->get();
+        return $transfers;
+    }
 }

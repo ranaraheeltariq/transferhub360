@@ -209,7 +209,7 @@ class DriverController extends Controller
     {
         $data = $request->only('identify_number','full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'status');
         $validator = Validator::make($data, [
-            'identify_number ' => 'required|string|max:255|unique:drivers',
+            'identify_number' => 'required|string|max:255|unique:drivers',
             'full_name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:255|unique:drivers',
             'email' => 'required|string|email|max:255|unique:drivers',
@@ -365,7 +365,7 @@ class DriverController extends Controller
     {
         $data = $request->only('identify_number','full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'status');
         $validator = Validator::make($data, [
-            'identify_number ' => 'required|string|max:255|unique:drivers,identify_number,'.$id,
+            'identify_number' => 'required|string|max:255|unique:drivers,identify_number,'.$id,
             'full_name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:255|unique:drivers,contact_number,'.$id,
             'email' => 'required|string|email|max:255|unique:drivers,email,'.$id,

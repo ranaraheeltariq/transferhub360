@@ -1094,5 +1094,67 @@ class TransferController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+    
+    /**
+     * @OA\Get(
+     *      path="/api/companies/transfers/typecount/{date}/{id}",
+     *      operationId="countOfTransfeByDateAndDrive",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Get Transfer count",
+     *      description="Get Transfer count group by Type, Date and Driver Id",
+     *      @OA\Parameter(
+     *          name="date",
+     *          description="Pickup Date",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *      ),
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Driver Id",
+     *          required=false,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example=null),
+     *              @OA\Property(property="data", type="string", example="count"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function groupByType($date, $id = null)
+    {
+        $result = $this->transferRepository->groupByType($date, $id);
+        if($result){
+            return $this->successResponse($result);
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
 
 }

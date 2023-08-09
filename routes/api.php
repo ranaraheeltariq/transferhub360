@@ -81,6 +81,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('delete/assigne/{id}',[Controllers\API\TransferController::class,'cancelAssignedVehicle']);
             Route::post('attachPassengers',[Controllers\API\TransferController::class,'attachPassengers']);
             Route::get('uetdsfile/{id}', [Controllers\API\TransferController::class, 'generateUetdsPdf']);
+            Route::get('typecount/{date}/{id?}',[Controllers\API\TransferController::class,'groupByType']);
         });
     });
 });

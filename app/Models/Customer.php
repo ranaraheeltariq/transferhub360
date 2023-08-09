@@ -69,28 +69,23 @@ class Customer extends Model
         parent::boot();
         static::creating(function($model)
         {
+            $user = Auth::user();
+            $model->company_id = $user->company_id;
             if(!isset($model->created_user_name)){
-                $user = Auth::user();
-                $model->company_id = $user->company_id;
                 $model->created_user_name = $user->full_name;
                 $model->updated_user_name = $user->full_name;
             }
         });
         static::updating(function($model)
         {
-            if(!isset($model->created_user_name)){
-                $user = Auth::user();
-                $model->created_user_name = $user->full_name;
-                $model->updated_user_name = $user->full_name;
-            }
+            $user = Auth::user();
+            $model->updated_user_name = $user->full_name;
         });
         static::deleting(function($model)
         {
-            if(!isset($model->created_user_name)){
-                $user = Auth::user();
-                $model->updated_user_name = $user->full_name;
-                $model->save();
-            }
+            $user = Auth::user();
+            $model->updated_user_name = $user->full_name;
+            $model->save();
         });
     }
 
