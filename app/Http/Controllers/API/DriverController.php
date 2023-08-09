@@ -404,7 +404,7 @@ class DriverController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Driver Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Driver Successfully Deleted"),
      *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),
@@ -431,6 +431,58 @@ class DriverController extends Controller
         if($result)
         {
             return $this->successResponse(null, __('response_messages.driver.deleted'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/companies/drivers/generatepassword/{id}",
+     *      operationId="generatePassworddriverById",
+     *      tags={"CompanyDriver"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="generate Password Driver By Id",
+     *      description="Generate Password Data by Driver Id",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Driver Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Password Successfully Generated"),
+     *              @OA\Property(property="data", type="string", example="array of Driver"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function generatePassword($id)
+    {
+        $result = $this->driverRepository->generatePassword($id);
+        if($result){
+            return $this->successResponse($result);
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

@@ -13,4 +13,5 @@ interface UserRepositoryInterface
     public function update($id, array $data);
     public function passwordReset(Request $request);
     public function profile();
+    public function generatePassword($id);
 }

@@ -62,6 +62,9 @@ class QueryHelper
 
     public static function applyLimit($query, $request)
     {
+        if($request->limit == 0){
+            return $query;
+        }
         $limit = $request->limit ?? 10;
         $query->limit($limit);
 

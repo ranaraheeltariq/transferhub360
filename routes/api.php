@@ -29,6 +29,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\UserController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\UserController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\UserController::class, 'destroy']);
+            Route::post('generatepassword/{id}', [Controllers\API\UserController::class, 'generatepassword']);
         });
         Route::group(['prefix' => 'drivers'], function(){
             Route::get('/', [Controllers\API\DriverController::class, 'index']);
@@ -36,6 +37,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\DriverController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\DriverController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\DriverController::class, 'destroy']);
+            Route::post('generatepassword/{id}', [Controllers\API\DriverController::class, 'generatepassword']);
         });
         Route::group(['prefix' => 'cities'], function(){
             Route::get('/', [Controllers\API\UetdsCityController::class, 'index']);
@@ -51,6 +53,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\SupervisorController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\SupervisorController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\SupervisorController::class, 'destroy']);
+            Route::post('generatepassword/{id}', [Controllers\API\SupervisorController::class, 'generatepassword']);
         });
         Route::group(['prefix' => 'vehicles'], function(){
             Route::get('/', [Controllers\API\VehicleController::class, 'index']);
@@ -72,6 +75,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\PassengerController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\PassengerController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\PassengerController::class, 'destroy']);
+            Route::post('generatepassword/{id}', [Controllers\API\PassengerController::class, 'generatepassword']);
         });
         Route::group(['prefix' => 'transfers'], function(){
             Route::get('/', [Controllers\API\TransferController::class, 'index']);

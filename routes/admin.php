@@ -29,6 +29,7 @@ Route::group(['prefix' => 'admin'], function($router) {
             Route::get('detail/{id}', [Controllers\API\OwnerController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\OwnerController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\OwnerController::class, 'destroy']);
+            Route::post('generatepassword/{id}', [Controllers\API\OwnerController::class, 'generatepassword']);
         });
         Route::group(['prefix' => 'companies'], function($router){
             Route::get('/', [Controllers\API\CompanyController::class, 'index']);

@@ -7,6 +7,7 @@ use App\Models\Driver;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Helpers\QueryHelper;
 
 class DriverRepository implements DriverRepositoryInterface
@@ -57,5 +58,21 @@ class DriverRepository implements DriverRepositoryInterface
     {
         $id = \Auth::user()->id;
         return Driver::findOrFail($id);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \App\Models\ModelCollection
+     */
+    public function generatePassword($id)
+    {
+        $password = Str::random(10); 
+        $data['password'] = Hash::make($password);
+        $result = Driver::findOrFail($id)->update($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
 }

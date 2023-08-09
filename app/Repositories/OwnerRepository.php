@@ -7,6 +7,7 @@ use App\Models\Owner;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Helpers\QueryHelper;
 
 class OwnerRepository implements OwnerRepositoryInterface
@@ -57,5 +58,21 @@ class OwnerRepository implements OwnerRepositoryInterface
     {
         $id = \Auth::user()->id;
         return Owner::findOrFail($id);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \App\Models\ModelCollection
+     */
+    public function generatePassword($id)
+    {
+        $password = Str::random(10); 
+        $data['password'] = Hash::make($password);
+        $result = Owner::findOrFail($id)->update($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
 }

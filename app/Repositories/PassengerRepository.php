@@ -60,4 +60,20 @@ class PassengerRepository implements PassengerRepositoryInterface
         $id = \Auth::user()->id;
         return Passenger::findOrFail($id);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \App\Models\ModelCollection
+     */
+    public function generatePassword($id)
+    {
+        $password = Str::random(10); 
+        $data['password'] = Hash::make($password);
+        $result = Passenger::findOrFail($id)->update($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
+    }
 }

@@ -455,4 +455,56 @@ class PassengerController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/companies/passengers/generatepassword/{id}",
+     *      operationId="generatePasswordPassengersById",
+     *      tags={"CompanyPassenger"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="generate Password Passenger By Id",
+     *      description="Generate Password Data by Passenger Id",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Passenger Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Password Successfully Generated"),
+     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function generatePassword($id)
+    {
+        $result = $this->passengerRepository->generatePassword($id);
+        if($result){
+            return $this->successResponse($result);
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
 }
