@@ -577,7 +577,6 @@ class TransferController extends Controller
         }
         $result = $this->transferRepository->update($id,$data);
         if($result){
-            $result = $this->transferRepository->getById($id);
             return $this->successResponse($result, __('response_messages.transfer.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);

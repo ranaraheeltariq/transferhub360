@@ -47,7 +47,7 @@ class SupervisorRepository implements SupervisorRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Supervisor::whereId($id)->update($data);
+        return Supervisor::findOrFail($id)->update($data);
     }
     public function passwordReset(Request $request){
         $user =  $request->user();

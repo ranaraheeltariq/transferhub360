@@ -47,7 +47,7 @@ class OwnerRepository implements OwnerRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Owner::whereId($id)->update($data);
+        return Owner::findOrFail($id)->update($data);
     }
     public function passwordReset(Request $request){
         $user =  $request->user();

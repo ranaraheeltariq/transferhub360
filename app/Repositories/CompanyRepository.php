@@ -39,7 +39,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Company::whereId($id)->update($data);
+        return Company::findOrFail($id)->update($data);
     }
     
 }

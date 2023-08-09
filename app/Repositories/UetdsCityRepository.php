@@ -32,7 +32,7 @@ class UetdsCityRepository implements UetdsCityRepositoryInterface
     }
     public function update($id, array $data)
     {
-        return UetdsCity::whereId($id)->update($data);
+        return UetdsCity::findOrFail($id)->update($data);
     }
     
 }

@@ -39,7 +39,7 @@ class CustomerRepository implements CustomerRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Customer::whereId($id)->update($data);
+        return Customer::findOrFail($id)->update($data);
     }
     
 }

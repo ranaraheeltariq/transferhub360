@@ -39,7 +39,7 @@ class VehicleRepository implements VehicleRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Vehicle::whereId($id)->update($data);
+        return Vehicle::findOrFail($id)->update($data);
     }
     
 }

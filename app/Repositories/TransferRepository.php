@@ -47,9 +47,13 @@ class TransferRepository implements TransferRepositoryInterface
      */
     public function delete($id)
     {
-        $transfer = Transfer::destroy($id);
-        TransferDelete::dispatch($transfer);
-        return $transfer;
+        $transfer = Transfer::findOrFail($id);
+        if($transfer){
+            $result = $transfer->destroy($id);
+            TransferDelete::dispatch($transfer);
+            return $result;
+        }
+        return false;
     }
 
     /**
@@ -74,20 +78,24 @@ class TransferRepository implements TransferRepositoryInterface
      */
     public function update($id, array $data)
     {
-        if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
-            $data['vehicle_assigned_by'] = $request->user()->full_name;
-            $data['vehicle_assigned_time'] = date('Y-m-d h:i:s');
+        $transfer = Transfer::findOrFail($id);
+        if($transfer){
+            if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
+                $data['vehicle_assigned_by'] = \Auth::user()->full_name;
+                $data['vehicle_assigned_time'] = date('Y-m-d h:i:s');
+            }
+            if(!empty($data['unassignedVehicle']) && $data['unassignedVehicle'] == true){
+                $data['vehicle_id'] = NULL;
+                $data['driver_id'] = NULL;
+                $data['vehicle_assigned_by'] = NULL;
+                $data['vehicle_assigned_time'] = NULL;
+                $data['patient_approving_status'] = NULL;
+            }
+            $result = $transfer->update($data);
+            TransferCreated::dispatch($transfer);
+            return $transfer;
         }
-        if(!empty($data['unassignedVehicle']) && $data['unassignedVehicle'] == true){
-            $data['vehicle_id'] = NULL;
-            $data['driver_id'] = NULL;
-            $data['vehicle_assigned_by'] = NULL;
-            $data['vehicle_assigned_time'] = NULL;
-            $data['patient_approving_status'] = NULL;
-        }
-        $transfer = Transfer::whereId($id)->update($data);
-        TransferCreated::dispatch($transfer);
-        return $transfer;
+        return false;
     }
 
     /**

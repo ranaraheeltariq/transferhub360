@@ -43,11 +43,16 @@ class DriverRepository implements DriverRepositoryInterface
     }
     public function update($id, array $data)
     {
-        if(!empty($data['thumbnail'])){
-            $path = Storage::putFile($this->filePath, $data['thumbnail']);
-            $data['thumbnail'] = $path;
+        $driver = Driver::findOrFail($id);
+        if($driver){
+            if(!empty($data['thumbnail'])){
+                $path = Storage::putFile($this->filePath, $data['thumbnail']);
+                $data['thumbnail'] = $path;
+            }
+            $result = $driver->update($data);
+            return $driver;
         }
-        return Driver::whereId($id)->update($data);
+        return false;
     }
     public function passwordReset(Request $request){
         $user =  $request->user();

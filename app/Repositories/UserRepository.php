@@ -47,7 +47,7 @@ class UserRepository implements UserRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return User::whereId($id)->update($data);
+        return User::findOrFail($id)->update($data);
     }
     public function passwordReset(Request $request){
         $user =  $request->user();
