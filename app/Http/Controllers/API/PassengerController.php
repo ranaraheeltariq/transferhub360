@@ -234,9 +234,6 @@ class PassengerController extends Controller
         }
         $result = $this->passengerRepository->create($data);
         if($result){
-            $result['oauth'] = base64_encode($request->password);
-            $result['password'] = $request->password;
-           // Mail::to($data['email'])->send(new UserLoginDetails($result));
             return $this->successResponse($result, __('response_messages.passenger.created'), Response::HTTP_CREATED);
         }
         return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);

@@ -34,7 +34,11 @@ class SupervisorRepository implements SupervisorRepositoryInterface
         }
         $password = $data['password'];
         $data['password'] = Hash::make($password);
-        return Supervisor::create($data);
+        $result = Supervisor::create($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
     public function update($id, array $data)
     {
@@ -48,5 +52,10 @@ class SupervisorRepository implements SupervisorRepositoryInterface
         $user =  $request->user();
         return $user->update(['password' => Hash::make($request->password)]);
     }
-    
+
+    public function profile()
+    {
+        $id = \Auth::user()->id;
+        return Supervisor::findOrFail($id);
+    }
 }

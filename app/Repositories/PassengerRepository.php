@@ -7,6 +7,7 @@ use App\Models\Passenger;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Helpers\QueryHelper;
 
 class PassengerRepository implements PassengerRepositoryInterface
@@ -32,9 +33,13 @@ class PassengerRepository implements PassengerRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        $password = $data['password'];
+        $password = empty($data['password']) ? Str::random(10) : $data['password'];
         $data['password'] = Hash::make($password);
-        return Passenger::create($data);
+        $result = Passenger::create($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
     public function update($id, array $data)
     {
@@ -49,5 +54,10 @@ class PassengerRepository implements PassengerRepositoryInterface
         $user =  $request->user();
         return $user->update(['password' => Hash::make($request->password)]);
     }
-    
+
+    public function profile()
+    {
+        $id = \Auth::user()->id;
+        return Passenger::findOrFail($id);
+    }
 }

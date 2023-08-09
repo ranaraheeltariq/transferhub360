@@ -293,4 +293,47 @@ class PassengerAuthenticationController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @OA\Get(
+     *      path="/api/passenger/users/profile",
+     *      operationId="getPassengerProfile",
+     *      tags={"PassengerAuth"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Get Passenger Profile",
+     *      description="Returns Passenger Profile data",
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example=null),
+     *              @OA\Property(property="data", type="string", example="array of Passenger data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function profile()
+    {
+        $result = $this->ownerRepository->profile();
+        if($result){
+            return $this->successResponse($result);
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
 }

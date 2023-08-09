@@ -23,6 +23,7 @@ Route::group(['prefix' => 'passenger'], function($router) {
             Route::post('/logout',[Controllers\API\Authentication\PassengerAuthenticationController::class,'logout']);
             Route::post('/reset-password',[Controllers\API\Authentication\PassengerAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'update']);
+            Route::get('profile', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'profile']);
         });
     });
 });

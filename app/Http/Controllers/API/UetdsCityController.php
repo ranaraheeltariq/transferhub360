@@ -142,7 +142,60 @@ class UetdsCityController extends Controller
     {
         $result = $this->uetdsCityRepository->getAll($request);
         return $this->successResponse($result);
-    }
+    } 
+    
+    /**
+    * @OA\Get(
+    *      path="/api/companies/cities/city/{city}",
+    *      operationId="getByCityCode",
+    *      tags={"UetdsCities"},
+    *      security={ {"bearerAuth":{} }},
+    *      summary="Get of City By Id",
+    *      description="Get City Data by City Id",
+    *      @OA\Parameter(
+    *          name="city",
+    *          description="City",
+    *          required=true,
+    *          in="path",
+    *          @OA\Schema(
+    *              type="integer"
+    *          )
+    *      ),
+    *      @OA\Response(
+    *          response=200,
+    *          description="Successful operation",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="status", type="string", example="success"),
+    *              @OA\Property(property="message", type="string", example=null),
+    *              @OA\Property(property="data", type="string", example="array of city"),
+    *          )
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="message", type="string", example="Unauthenticated")
+    *          )
+    *     ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Page Not Found",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="status", type="string", example="error"),
+    *              @OA\Property(property="message", type="string", example="Page Not Found"),
+    *          )
+    *      )
+    * )
+    */
+   public function getByCityCode($city)
+   {
+       $result = $this->uetdsCityRepository->getByCityCode($city);
+       if($result){
+           return $this->successResponse($result);
+       }
+       return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+   }
+
 
     /**
      * @OA\Post(

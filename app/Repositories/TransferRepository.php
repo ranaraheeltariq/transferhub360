@@ -35,7 +35,8 @@ class TransferRepository implements TransferRepositoryInterface
      */
     public function getById($id)
     {
-        return Transfer::findOrFail($id);
+        // return Transfer::findOrFail($id);
+        return Transfer::with('passengers')->findOrFail($id);
     }
 
     /**

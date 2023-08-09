@@ -34,7 +34,11 @@ class OwnerRepository implements OwnerRepositoryInterface
         }
         $password = $data['password'];
         $data['password'] = Hash::make($password);
-        return Owner::create($data);
+        $result = Owner::create($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
     public function update($id, array $data)
     {
@@ -48,5 +52,10 @@ class OwnerRepository implements OwnerRepositoryInterface
         $user =  $request->user();
         return $user->update(['password' => Hash::make($request->password)]);
     }
-    
+
+    public function profile()
+    {
+        $id = \Auth::user()->id;
+        return Owner::findOrFail($id);
+    }
 }

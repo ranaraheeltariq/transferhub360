@@ -23,6 +23,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('/logout',[Controllers\API\Authentication\AdminAuthenticationController::class,'logout']);
             Route::post('/reset-password',[Controllers\API\Authentication\AdminAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\AdminAuthenticationController::class, 'update']);
+            Route::get('profile', [Controllers\API\Authentication\AdminAuthenticationController::class, 'profile']);
             Route::get('/', [Controllers\API\UserController::class, 'index']);
             Route::post('create', [Controllers\API\UserController::class, 'store']);
             Route::get('detail/{id}', [Controllers\API\UserController::class, 'show']);
@@ -39,6 +40,7 @@ Route::group(['prefix' => 'companies'], function($router) {
         Route::group(['prefix' => 'cities'], function(){
             Route::get('/', [Controllers\API\UetdsCityController::class, 'index']);
             Route::post('create', [Controllers\API\UetdsCityController::class, 'store']);
+            Route::get('/city/{city}',[Controllers\API\UetdsCityController::class,'getByCityCode']);
             Route::get('detail/{id}', [Controllers\API\UetdsCityController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\UetdsCityController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\UetdsCityController::class, 'destroy']);

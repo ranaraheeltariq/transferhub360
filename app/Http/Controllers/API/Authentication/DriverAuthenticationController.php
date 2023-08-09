@@ -285,5 +285,48 @@ class DriverAuthenticationController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+    
+    /**
+    * @OA\Get(
+    *      path="/api/driver/users/profile",
+    *      operationId="getDriverUserProfile",
+    *      tags={"DriverAuth"},
+    *      security={ {"bearerAuth":{} }},
+    *      summary="Get Driver Profile",
+    *      description="Returns Driver Profile data",
+    *      @OA\Response(
+    *          response=201,
+    *          description="Successful operation",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="status", type="string", example="success"),
+    *              @OA\Property(property="message", type="string", example=null),
+    *              @OA\Property(property="data", type="string", example="array of Driver data"),
+    *          )
+    *       ),
+    *      @OA\Response(
+    *          response=401,
+    *          description="Unauthenticated",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="message", type="string", example="Unauthenticated")
+    *          )
+    *     ),
+    *      @OA\Response(
+    *          response=404,
+    *          description="Page Not Found",
+    *          @OA\JsonContent(
+    *              @OA\Property(property="status", type="string", example="error"),
+    *              @OA\Property(property="message", type="string", example="Page Not Found"),
+    *          )
+    *      )
+    * )
+    */
+   public function profile()
+   {
+       $result = $this->driverRepository->profile();
+       if($result){
+           return $this->successResponse($result);
+       }
+       return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+   }
 }
 

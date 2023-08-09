@@ -34,7 +34,11 @@ class UserRepository implements UserRepositoryInterface
         }
         $password = $data['password'];
         $data['password'] = Hash::make($password);
-        return User::create($data);
+        $result = User::create($data);
+        $result['oauth'] = base64_encode($data['password']);
+        $result['password'] = $data['password'];
+           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        return $result;
     }
     public function update($id, array $data)
     {
@@ -48,5 +52,10 @@ class UserRepository implements UserRepositoryInterface
         $user =  $request->user();
         return $user->update(['password' => Hash::make($request->password)]);
     }
-    
+
+    public function profile()
+    {
+        $id = \Auth::user()->id;
+        return User::findOrFail($id);
+    }
 }

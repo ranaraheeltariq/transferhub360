@@ -23,6 +23,7 @@ Route::group(['prefix' => 'admin'], function($router) {
             Route::post('/logout',[Controllers\API\Authentication\OwnerAuthenticationController::class,'logout']);
             Route::post('/reset-password',[Controllers\API\Authentication\OwnerAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\OwnerAuthenticationController::class, 'update']);
+            Route::get('profile',[Controllers\API\Authentication\OwnerAuthenticationController::class,'profile']);
             Route::get('/', [Controllers\API\OwnerController::class, 'index']);
             Route::post('create', [Controllers\API\OwnerController::class, 'store']);
             Route::get('detail/{id}', [Controllers\API\OwnerController::class, 'show']);

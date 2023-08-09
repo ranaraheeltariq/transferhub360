@@ -216,9 +216,6 @@ class OwnerController extends Controller
         }
         $result = $this->ownerRepository->create($data);
         if($result){
-            $result['oauth'] = base64_encode($password);
-            $result['password'] = $password;
-           // Mail::to($data['email'])->send(new UserLoginDetails($result));
             return $this->successResponse($result, __('response_messages.adminUser.created'), Response::HTTP_CREATED);
         }
         return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);

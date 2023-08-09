@@ -13,11 +13,14 @@ class UetdsCityRepository implements UetdsCityRepositoryInterface
     public function getAll(Request $request)
     {
         return QueryHelper::applyFilterOrderLimitPagination(UetdsCity::query(), $request);
-        // return UetdsCity::paginate(10);
     }
     public function getById($id)
     {
         return UetdsCity::findOrFail($id);
+    }
+    public function getByCityCode($city)
+    {
+        return UetdsCity::where('city_code', $city)->get();
     }
     public function delete($id)
     {
