@@ -1157,4 +1157,57 @@ class TransferController extends Controller
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
+    /**
+     * @OA\Get(
+     *      path="/api/companies/transfers/passengers/{id}",
+     *      operationId="getPassengersByTransferId",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Get list of Passengers By Transfer Id",
+     *      description="Get Transfer Passenger Data by Transfer Id",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example=null),
+     *              @OA\Property(property="data", type="string", example="array of Transfer Passenger Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function passenger($id)
+    {
+        $result = $this->transferRepository->passenger($id);
+        if($result){
+            return $this->successResponse($result);
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
 }

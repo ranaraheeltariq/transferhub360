@@ -15,7 +15,7 @@ class DriverRepository implements DriverRepositoryInterface
 
     public function getAll(Request $request)
     {
-        return QueryHelper::applyFilterOrderLimitPagination(Driver::query(), $request);
+        return QueryHelper::applyFilterOrderLimitPagination(Driver::query(), $request, ['vehicles']);
         // return Driver::paginate(10);
     }
     public function getById($id)

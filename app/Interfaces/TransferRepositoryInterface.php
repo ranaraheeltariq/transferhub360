@@ -14,4 +14,5 @@ interface TransferRepositoryInterface
     public function attachPassengers(Request $request);
     public function uetdsPdf($id);
     public function groupByType($date,$id);
+    public function passenger($id);
 }

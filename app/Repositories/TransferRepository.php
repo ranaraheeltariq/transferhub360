@@ -164,4 +164,19 @@ class TransferRepository implements TransferRepositoryInterface
         $transfers = $transfers->get();
         return $transfers;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param integer $id
+     * @return collection $ModelCollection
+     */
+    public function passenger($id)
+    {
+        $transfer = Transfer::findOrFail($id);
+        if($transfer){
+            return $transfer->passengers;
+        }
+        return false;
+    }
 }
