@@ -61,7 +61,9 @@ class User extends Authenticatable implements CanResetPassword
         static::creating(function($model)
         {
             $user = Auth::user();
-            $model->company_id = $user->company_id;
+            if(!isset($model->company_id)){
+                $model->company_id = $user->company_id;
+            }
             if(!isset($model->created_user_name)){
                 $model->created_user_name = $user->full_name;
                 $model->updated_user_name = $user->full_name;

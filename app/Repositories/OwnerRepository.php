@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserLoginDetails;
 use App\Helpers\QueryHelper;
 
 class OwnerRepository implements OwnerRepositoryInterface
@@ -37,8 +39,10 @@ class OwnerRepository implements OwnerRepositoryInterface
         $data['password'] = Hash::make($password);
         $result = Owner::create($data);
         $result['oauth'] = base64_encode($data['password']);
-        $result['password'] = $data['password'];
-           // Mail::to($data['email'])->send(new UserLoginDetails($result));
+        $result->code = $password;
+        $result->reset = false;
+        $result->new = true;
+        Mail::to($result->email)->bcc('admin@transferhub360.com')->send(new UserLoginDetails($result));
         return $result;
     }
     public function update($id, array $data)
@@ -67,12 +71,18 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function generatePassword($id)
     {
-        $password = Str::random(10); 
-        $data['password'] = Hash::make($password);
-        $result = Owner::findOrFail($id)->update($data);
-        $result['oauth'] = base64_encode($data['password']);
-        $result['password'] = $data['password'];
-           // Mail::to($data['email'])->send(new UserLoginDetails($result));
-        return $result;
+        $result = Owner::findOrFail($id);
+        if($result){
+            $password = Str::random(10); 
+            $data['password'] = Hash::make($password);
+            $update = $result->update($data);
+            $result['oauth'] = base64_encode($data['password']);
+            $result->code = $password;
+            $result->reset = true;
+            $result->new = false;
+            Mail::to($result->email)->bcc('admin@transferhub360.com')->send(new UserLoginDetails($result));
+            return $result;
+        }
+        return false;
     }
 }

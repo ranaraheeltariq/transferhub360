@@ -158,7 +158,7 @@ class CompanyController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","contact_number","address","city","country"},
+     *                  required={"name","contact_number","email","address","city","country","contact_person","contact_person_no"},
      *                  @OA\Property(property="name", type="string", format="name", example="Tour Campaign"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="alfanovatransportation@yopmail.com"),
@@ -227,14 +227,14 @@ class CompanyController extends Controller
         $validator = Validator::make($data,[
             'name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:15',
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255|unique:companies',
             'address' => 'required|string',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'note' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_person_no' => 'nullable|string|max:255',
+            'contact_person' => 'required|string|max:255',
+            'contact_person_no' => 'required|string|max:255',
             'company_legal_name' => 'nullable|string|max:255',
             'uetds_url' => 'nullable|string|max:255',
             'uetds_username' => 'nullable|string|max:255',
@@ -336,7 +336,7 @@ class CompanyController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","contact_number","address","city","country"},
+     *                  required={"name","contact_number","email","address","city","country","contact_person","contact_person_no"},
      *                  @OA\Property(property="name", type="string", format="name", example="Tour Campaign"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="alfanovatransportation@yopmail.com"),
@@ -413,14 +413,14 @@ class CompanyController extends Controller
         $validator = Validator::make($data,[
             'name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:15',
-            'email' => 'nullable|email|max:255',
+            'email' => 'required|email|max:255|unique:companies,email,'.$id,
             'address' => 'required|string',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'note' => 'nullable|string|max:255',
-            'contact_person' => 'nullable|string|max:255',
-            'contact_person_no' => 'nullable|string|max:255',
+            'contact_person' => 'required|string|max:255',
+            'contact_person_no' => 'required|string|max:255',
             'company_legal_name' => 'nullable|string|max:255',
             'uetds_url' => 'nullable|string|max:255',
             'uetds_username' => 'nullable|string|max:255',
