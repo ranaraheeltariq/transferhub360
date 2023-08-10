@@ -2764,9 +2764,12 @@
                                 "required": [
                                     "name",
                                     "contact_number",
+                                    "email",
                                     "address",
                                     "city",
-                                    "country"
+                                    "country",
+                                    "contact_person",
+                                    "contact_person_no"
                                 ],
                                 "properties": {
                                     "name": {
@@ -3106,9 +3109,12 @@
                                 "required": [
                                     "name",
                                     "contact_number",
+                                    "email",
                                     "address",
                                     "city",
-                                    "country"
+                                    "country",
+                                    "contact_person",
+                                    "contact_person_no"
                                 ],
                                 "properties": {
                                     "name": {

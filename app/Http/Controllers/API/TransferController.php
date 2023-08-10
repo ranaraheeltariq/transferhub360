@@ -863,6 +863,7 @@ class TransferController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
+        $data['startTransfer'] = true;
         $result = $this->transferRepository->update($id,$data);
         if($result){
             $result = $this->transferRepository->getById($id);
@@ -951,6 +952,7 @@ class TransferController extends Controller
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
+        $data['stopTransfer'] = true;
         $result = $this->transferRepository->update($id,$data);
         if($result){
             $result = $this->transferRepository->getById($id);

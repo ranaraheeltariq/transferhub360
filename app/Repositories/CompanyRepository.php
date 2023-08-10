@@ -48,7 +48,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             $resultUser->code = $password;
             $resultUser->reset = false;
             $resultUser->new = true;
-             Mail::to($data['email'])->bcc('burhan.gok@transferhub360.com')->send(new UserLoginDetails($resultUser));
+             Mail::to($resultUser->email)->bcc('admin@transferhub360.com')->send(new UserLoginDetails($resultUser));
         }
         return $result;
     }

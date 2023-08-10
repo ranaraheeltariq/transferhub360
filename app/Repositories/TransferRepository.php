@@ -83,6 +83,7 @@ class TransferRepository implements TransferRepositoryInterface
             if(!empty($data['assigneVehicle']) && $data['assigneVehicle'] == true){
                 $data['vehicle_assigned_by'] = \Auth::user()->full_name;
                 $data['vehicle_assigned_time'] = date('Y-m-d h:i:s');
+                $data['status'] = 'YOLCULUK BAŞLAMADI';
             }
             if(!empty($data['unassignedVehicle']) && $data['unassignedVehicle'] == true){
                 $data['vehicle_id'] = NULL;
@@ -90,6 +91,14 @@ class TransferRepository implements TransferRepositoryInterface
                 $data['vehicle_assigned_by'] = NULL;
                 $data['vehicle_assigned_time'] = NULL;
                 $data['patient_approving_status'] = NULL;
+            }
+            if(!empty($data['startTransfer']) && $data['startTransfer'] == true){
+
+                $data['status'] = 'YOLCULUK DEVAM EDİYOR';
+            }
+            if(!empty($data['stopTransfer']) && $data['stopTransfer'] == true){
+
+                $data['status'] = 'YOLCULUK TAMAMLANDI';
             }
             $result = $transfer->update($data);
             TransferCreated::dispatch($transfer);
