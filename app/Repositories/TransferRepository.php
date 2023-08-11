@@ -24,7 +24,7 @@ class TransferRepository implements TransferRepositoryInterface
      */
     public function getAll(Request $request)
     {
-        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers']);
+        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers', 'vehicle','driver']);
     }
 
     /**
@@ -36,7 +36,7 @@ class TransferRepository implements TransferRepositoryInterface
     public function getById($id)
     {
         // return Transfer::findOrFail($id);
-        return Transfer::with('passengers')->findOrFail($id);
+        return Transfer::with(['passengers', 'vehicle','driver'])->findOrFail($id);
     }
 
     /**
@@ -116,7 +116,7 @@ class TransferRepository implements TransferRepositoryInterface
     public function myTransfers(Request $request)
     {
         $request->merge(['relational_column' => 'driver_id', 'relational_id' => $request->user()->id]);
-        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers']);
+        return QueryHelper::applyFilterOrderLimitPagination(Transfer::query(), $request, ['passengers', 'vehicle','driver']);
     }
 
     /**

@@ -37,7 +37,7 @@ class UetdsSeferEkle implements ShouldQueue
      *
      * @var int
      */
-    public $delay = 30;
+    public $delay = 05;
 
     /**
      * Create the event listener.
@@ -66,6 +66,6 @@ class UetdsSeferEkle implements ShouldQueue
      */
     public function shouldQueue(TransferCreated $event): bool
     {
-        return !is_null($event->transfer->company->uetds_url??null) && !is_null($event->transfer->company->uetds_username??null) && !is_null($event->transfer->company->uetds_password??null);
+        return !is_null($event->transfer->company->uetds_url??null) && !is_null($event->transfer->company->uetds_username??null) && !is_null($event->transfer->company->uetds_password??null) && is_null($event->transfer->uetds_id??null);
     }
 }

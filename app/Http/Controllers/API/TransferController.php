@@ -196,6 +196,20 @@ class TransferController extends Controller
      *          @OA\Schema(type="string")
      *      ),
      *      @OA\Parameter(
+     *          name="relational_id",
+     *          in="query",
+     *          description="Relational Model id",
+     *          required=false,
+     *          @OA\Schema(type="integer")
+     *      ),
+     *      @OA\Parameter(
+     *          name="relational_column",
+     *          in="query",
+     *          description="Add Relational Data Column name for getting by specific model Id",
+     *          required=false,
+     *          @OA\Schema(type="string")
+     *      ),
+     *      @OA\Parameter(
      *          name="order",
      *          in="query",
      *          description="order",
