@@ -7758,6 +7758,24 @@
                         }
                     },
                     {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
                         "name": "order",
                         "in": "query",
                         "description": "order",
