@@ -24,6 +24,7 @@ Route::group(['prefix' => 'driver'], function($router) {
             Route::post('/reset-password',[Controllers\API\Authentication\DriverAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\DriverAuthenticationController::class, 'update']);
             Route::get('profile', [Controllers\API\Authentication\DriverAuthenticationController::class, 'profile']);
+            Route::post('device_token',[Controllers\API\Authentication\DriverAuthenticationController::class,'deviceTokenUpdate']);
         });
         Route::group(['prefix' => 'transfers'], function(){
             Route::get('mytransfers',[Controllers\API\TransferController::class, 'myTransfers']);

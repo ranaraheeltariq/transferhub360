@@ -486,4 +486,43 @@ class DriverController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @OA\Get(
+     *      path="/api/companies/drivers/count",
+     *      operationId="countDriver",
+     *      tags={"CompanyDriver"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Get Driver Count",
+     *      description="Get Count",
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example=null),
+     *              @OA\Property(property="data", type="string", example="count"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function driverCount()
+    {
+        return $this->driverRepository->count();
+    }
 }

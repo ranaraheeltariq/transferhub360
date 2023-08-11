@@ -104,6 +104,7 @@ class Supervisor extends Authenticatable implements CanResetPassword
         'address',
         'gender',
         'id_number',
+        'device_token',
         'status',
     ];
 

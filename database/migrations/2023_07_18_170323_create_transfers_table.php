@@ -39,6 +39,7 @@ return new class extends Migration
             $table->string('vehicle_assigned_by')->nullable();
             $table->string('contact_person')->nullable();
             $table->string('contact_number')->nullable();
+            $table->foreignId('flight_number_id')->nullable()->constrained();
             $table->string('flight_number')->nullable();
             $table->string('type')->nullable();
             $table->longText('info')->nullable();

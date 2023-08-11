@@ -24,6 +24,7 @@ Route::group(['prefix' => 'passenger'], function($router) {
             Route::post('/reset-password',[Controllers\API\Authentication\PassengerAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'update']);
             Route::get('profile', [Controllers\API\Authentication\PassengerAuthenticationController::class, 'profile']);
+            Route::post('device_token',[Controllers\API\Authentication\PassengerAuthenticationController::class,'deviceTokenUpdate']);
         });
     });
 });

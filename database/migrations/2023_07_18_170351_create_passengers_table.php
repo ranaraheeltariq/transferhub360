@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('country_code')->nullable();
             $table->string('age')->nullable();
             $table->string('id_number')->nullable();
+            $table->string('device_token')->nullable();
             $table->enum('status',['Active','Deactive'])->default('Active');
             $table->rememberToken();
             $table->timestamps();

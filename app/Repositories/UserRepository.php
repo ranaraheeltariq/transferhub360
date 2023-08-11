@@ -90,4 +90,19 @@ class UserRepository implements UserRepositoryInterface
         }
         return false;
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \App\Models\ModelCollection
+     */
+    public function deviceTokenUpdate($data)
+    {
+        $result =  $request->user();
+        if($result){
+            $result->update($data);
+            return $result;
+        }
+        return false;
+    }
 }

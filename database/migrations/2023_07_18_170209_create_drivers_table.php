@@ -23,6 +23,7 @@ return new class extends Migration
             $table->string('thumbnail')->nullable();
             $table->string('address');
             $table->string('gender');
+            $table->string('device_token')->nullable();
             $table->enum('status',['Active','Deactive'])->default('Active');
             $table->rememberToken();
             $table->timestamps();

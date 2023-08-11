@@ -24,6 +24,7 @@ Route::group(['prefix' => 'supervisor'], function($router) {
             Route::post('/reset-password',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\SupervisorAuthenticationController::class, 'update']);
             Route::get('profile', [Controllers\API\Authentication\SupervisorAuthenticationController::class, 'profile']);
+            Route::post('device_token',[Controllers\API\Authentication\SupervisorAuthenticationController::class,'deviceTokenUpdate']);
         });
     });
 });

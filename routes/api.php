@@ -24,6 +24,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('/reset-password',[Controllers\API\Authentication\AdminAuthenticationController::class,'passwordReset']);
             Route::post('profileupdate', [Controllers\API\Authentication\AdminAuthenticationController::class, 'update']);
             Route::get('profile', [Controllers\API\Authentication\AdminAuthenticationController::class, 'profile']);
+            Route::post('device_token',[Controllers\API\Authentication\AdminAuthenticationController::class,'deviceTokenUpdate']);
             Route::get('/', [Controllers\API\UserController::class, 'index']);
             Route::post('create', [Controllers\API\UserController::class, 'store']);
             Route::get('detail/{id}', [Controllers\API\UserController::class, 'show']);
@@ -38,6 +39,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\DriverController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\DriverController::class, 'destroy']);
             Route::post('generatepassword/{id}', [Controllers\API\DriverController::class, 'generatepassword']);
+            Route::get('count', [Controllers\API\DriverController::class, 'driverCount']);
         });
         Route::group(['prefix' => 'cities'], function(){
             Route::get('/', [Controllers\API\UetdsCityController::class, 'index']);
@@ -61,6 +63,7 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('detail/{id}', [Controllers\API\VehicleController::class, 'show']);
             Route::post('update/{id}', [Controllers\API\VehicleController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\VehicleController::class, 'destroy']);
+            Route::get('count', [Controllers\API\VehicleController::class, 'vehicleCount']);
         });
         Route::group(['prefix' => 'customers'], function(){
             Route::get('/', [Controllers\API\CustomerController::class, 'index']);

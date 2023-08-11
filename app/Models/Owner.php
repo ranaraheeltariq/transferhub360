@@ -69,6 +69,7 @@ class Owner extends Authenticatable implements CanResetPassword
         'email',
         'password',
         'thumbnail',
+        'device_token',
         'status',
     ];
 

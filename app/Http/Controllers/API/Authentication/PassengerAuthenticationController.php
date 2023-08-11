@@ -330,9 +330,78 @@ class PassengerAuthenticationController extends Controller
      */
     public function profile()
     {
-        $result = $this->ownerRepository->profile();
+        $result = $this->passengerRepository->profile();
         if($result){
             return $this->successResponse($result);
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
+     *      path="/api/passenger/users/device_token",
+     *      operationId="PassengerDeviceTokenUpdate",
+     *      tags={"PassengerAuth"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Update passenger device token",
+     *      description="Returns Company passenger data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"device_token"},
+     *                  @OA\Property(property="device_token", type="string", format="device_token", example=""),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Device Token Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of passenger data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *          @OA\Property(property="status", type="string", example="error"),
+     *               @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function deviceTokenUpdate(Request $request)
+    {
+        $data = $request->only('device_token');
+        $validator = Validator::make($data,[
+            'device_token' => 'required|string',
+        ]);
+        if($validator->fails()){
+            return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+        }
+        $result = $this->passengerRepository->deviceTokenUpdate($data);
+        if($result){
+            return $this->successResponse($result, __('response_messages.common.deviceToken'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

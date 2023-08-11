@@ -3,7 +3,8 @@
 return [
     "common"=>[
         '404' => 'Page Not Found',
-        'error' => '!Something went wrong please try again later.'
+        'error' => '!Something went wrong please try again later.',
+        'deviceToken' => 'Device Token Successfully Updated',
     ],
     "auth"=>[
         'login' => 'User Successfully Login',

@@ -14,4 +14,5 @@ interface OwnerRepositoryInterface
     public function passwordReset(Request $request);
     public function profile();
     public function generatePassword($id);
+    public function deviceTokenUpdate(array $data);
 }

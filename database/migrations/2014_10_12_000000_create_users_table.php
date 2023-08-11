@@ -20,6 +20,7 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('thumbnail')->nullable();
+            $table->string('device_token')->nullable();
             $table->enum('status',['Active','Deactive'])->default('Active');
             $table->rememberToken();
             $table->timestamps();

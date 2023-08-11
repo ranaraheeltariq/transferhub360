@@ -41,5 +41,17 @@ class VehicleRepository implements VehicleRepositoryInterface
         }
         return Vehicle::findOrFail($id)->update($data);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param integer $id
+     * @return collection $ModelCollection
+     */
+     public function count()
+    {
+        $vehicle = Vehicle::count();
+        return $vehicle;
+    }
     
 }

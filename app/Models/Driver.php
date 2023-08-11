@@ -120,6 +120,7 @@ class Driver extends Authenticatable implements CanResetPassword
         'thumbnail',
         'address',
         'gender',
+        'device_token',
         'status',
     ];
 
