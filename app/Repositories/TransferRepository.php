@@ -282,12 +282,13 @@ class TransferRepository implements TransferRepositoryInterface
                 $delete = Storage::delete('file/transfer/'.$oldfile);
             }
             $uetdsFile = $this->seferDetayCiktisiAl($transfers[0]->uetds_id,$transfers[0]->company->uetds_url, $transfers[0]->company->uetds_username, $transfers[0]->company->uetds_password);
+            file_put_contents(public_path('SEFER_'.$id.'.pdf'),$uetdsFile);
             $path = Storage::putFile('file/transfer', public_path('SEFER_'.$id.'.pdf'));
             $data['file_path'] = $path;
             $update = $transfers[0]->update($data);
             unlink(public_path('SEFER_'.$id.'.pdf'));
-            $data = (['file_path' => 'https://transferhub360.s3.amazonaws.com/'.$path]);
-            return $data;
+            $result = (['file_url' => 'https://transferhub360.s3.amazonaws.com/'.$path]);
+            return $result;
         }
         return false;
     }
