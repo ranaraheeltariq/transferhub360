@@ -93,7 +93,7 @@ class OwnerRepository implements OwnerRepositoryInterface
      */
     public function deviceTokenUpdate($data)
     {
-        $result =  $request->user();
+        $result =  \Auth::user();
         if($result){
             $result->update($data);
             return $result;

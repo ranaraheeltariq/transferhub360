@@ -241,6 +241,7 @@ class TransferRepository implements TransferRepositoryInterface
         $transfer = Transfer::findOrFail($request->transfer_id);
         if($transfer){
             if($transfer->passengers()->exists()){
+                $transfer->passengers()->detach();
                 $transfer->passengers()->sync($request->passenger_id);
             }
             $transfer->passengers()->attach($request->passenger_id); 

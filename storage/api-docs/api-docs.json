@@ -8544,11 +8544,6 @@
                                         "format": "email",
                                         "example": "supervisor@yopmail.com"
                                     },
-                                    "password": {
-                                        "type": "password",
-                                        "format": "password",
-                                        "example": "dfdf323"
-                                    },
                                     "thumbnail": {
                                         "type": "file",
                                         "format": "thumbnail",

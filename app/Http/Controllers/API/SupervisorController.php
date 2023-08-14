@@ -308,7 +308,6 @@ class SupervisorController extends Controller
      *                  @OA\Property(property="full_name", type="string", format="full_name", example="Ahmet Ali"),
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="supervisor@yopmail.com"),
-     *                  @OA\Property(property="password", type="password", format="password", example="dfdf323"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="address", type="string", format="address", example="Zafar Mah. Cahmuriyat Cadde. Bachelivler"),
      *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
@@ -360,7 +359,7 @@ class SupervisorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'id_number', 'status');
+        $data = $request->only('full_name', 'contact_number', 'email', 'thumbnail', 'address', 'gender', 'id_number', 'status');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:255|unique:supervisors,contact_number,'.$id,

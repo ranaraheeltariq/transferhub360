@@ -104,7 +104,7 @@ class UserRepository implements UserRepositoryInterface
      */
     public function deviceTokenUpdate($data)
     {
-        $result =  $request->user();
+        $result =  \Auth::user();
         if($result){
             $result->update($data);
             return $result;

@@ -360,7 +360,7 @@ class DriverController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('identify_number','full_name', 'contact_number', 'email', 'password', 'thumbnail', 'address', 'gender', 'status');
+        $data = $request->only('identify_number','full_name', 'contact_number', 'email', 'thumbnail', 'address', 'gender', 'status');
         $validator = Validator::make($data, [
             'identify_number' => 'required|string|max:255|unique:drivers,identify_number,'.$id,
             'full_name' => 'required|string|max:255',
