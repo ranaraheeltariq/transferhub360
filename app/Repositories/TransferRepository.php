@@ -144,7 +144,6 @@ class TransferRepository implements TransferRepositoryInterface
                 $data['driver_id'] = NULL;
                 $data['vehicle_assigned_by'] = NULL;
                 $data['vehicle_assigned_time'] = NULL;
-                $data['patient_approving_status'] = NULL;
                 $data['status'] = 'ARAÇ ATANMADI';
                 unset($data['unassignedVehicle']);
             }
@@ -161,22 +160,23 @@ class TransferRepository implements TransferRepositoryInterface
             if($result){
                 if(!is_null($transfer->company->uetds_url??null) && !is_null($transfer->company->uetds_username??null) &&!is_null( $transfer->company->uetds_password??null)){
                     // Update UETDS Sefer Data if Vehicle_id, Pickup Date and Time changed
-                    if($transfer->uetds_id && $success->vehicle_id != $transfer->vehicle_id || $success->pickup_time != $transfer->pickup_time || $success->pickup_date != $transfer->pickup_date || $success->pickup_date != $transfer->pickup_date){
+                    if($transfer->uetds_id){
                         $starttime = strtotime($transfer->pickup_time);
                         $starttime = date('H:i', $starttime);
                         $endtime = strtotime($transfer->pickup_time) + 60*60;
                         $endtime = date('H:i', $endtime);
-                        $uetds = $this->seferGuncelle($transfer->uetds_id, $transfer->vehicle->number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                        if($uetds->sonucKodu === 0){
+                        $number_plate = $transfer->vehicle_id ? $transfer->vehicle->number_plate : "34 ABC 111";
+                        $uetds = $this->seferGuncelle($transfer->uetds_id, $number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
+                        
+                        if(!is_null($transfer->driver_id??null)){
                             // Delete Current UETDS Personal Data
-                            $personal = $this->personelIptal($transfer->driver->identify_number, $transfer->uetds_id,$transfer->company->uetds_url && $transfer->company->uetds_username && $transfer->company->uetds_password);
+                            $personal = $this->personelIptal($transfer->driver->identify_number, $transfer->uetds_id,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
                             // Create New UETDS Personal Data
-                            $transfer->uetds = $uetds->uetdsSeferReferansNo;
                             $gender = $transfer->driver->gender === 'Male' ? 'E' : 'K';
                             $name = explode(" ",$transfer->driver->full_name);
                             $soyadi = array_pop($name);
                             $adi = implode(" ", $name);
-                            $personal = $this->personelEkle($uetds->uetdsSeferReferansNo,0, 'TR', $transfer->driver->identify_number,$gender,$adi,$soyadi,$transfer->driver->contact_number,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
+                            $personal = $this->personelEkle($transfer->uetds_id,0, 'TR', $transfer->driver->identify_number,$gender,$adi,$soyadi,$transfer->driver->contact_number,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
                             $transfer->uetdsPersonal = $personal === 0 ?  'UETDS Personal Information Successfully Created' : 'UETDS Personal Information have error';
                         }
                     }
@@ -186,7 +186,8 @@ class TransferRepository implements TransferRepositoryInterface
                         $starttime = date('H:i', $starttime);
                         $endtime = strtotime($transfer->pickup_time) + 60*60;
                         $endtime = date('H:i', $endtime);
-                        $uetds = $this->seferEkle($transfer->vehicle->number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
+                        $number_plate = $transfer->vehicle_id ? $transfer->vehicle->number_plate : "34 ABC 111";
+                        $uetds = $this->seferEkle($number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
                         if($uetds->sonucKodu === 0){
                             // If Sefer Successfully Create then Create Sefer Group
                             $group = $this->seferGrupEkle($uetds->uetdsSeferReferansNo, $transfer->pickup_location.' '.$transfer->dropoff_location, 'Transfer from '.$transfer->pickup_location.' to '.$transfer->dropoff_location, 'TR', $transfer->pickup_city, $transfer->pickup_zone, $transfer->pickup_location, 'TR', $transfer->dropoff_city, $transfer->dropoff_zone, $transfer->dropoff_location, '0',$transfer->company->uetds_url,$transfer->company->uetds_username,$transfer->company->uetds_password);
@@ -281,12 +282,12 @@ class TransferRepository implements TransferRepositoryInterface
                 $delete = Storage::delete('file/transfer/'.$oldfile);
             }
             $uetdsFile = $this->seferDetayCiktisiAl($transfers[0]->uetds_id,$transfers[0]->company->uetds_url, $transfers[0]->company->uetds_username, $transfers[0]->company->uetds_password);
-            file_put_contents(public_path('SEFER_'.$id.'.pdf'),$uetdsFile);
             $path = Storage::putFile('file/transfer', public_path('SEFER_'.$id.'.pdf'));
             $data['file_path'] = $path;
             $update = $transfers[0]->update($data);
             unlink(public_path('SEFER_'.$id.'.pdf'));
-            return $path;
+            $data = (['file_path' => 'https://transferhub360.s3.amazonaws.com/'.$path]);
+            return $data;
         }
         return false;
     }

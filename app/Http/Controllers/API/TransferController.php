@@ -598,6 +598,60 @@ class TransferController extends Controller
 
     /**
      * @OA\Post(
+     *      path="/api/companies/transfers/delete/{id}",
+     *      operationId="destoryTransfer",
+     *      tags={"CompanyTransfer"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Remove Transfer",
+     *      description="Remove Transfer by Id",
+     *      @OA\Parameter(
+     *          name="id",
+     *          description="Transfer Id",
+     *          required=true,
+     *          in="path",
+     *          @OA\Schema(
+     *              type="integer"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Transfer Deleted Successfully"),
+     *              @OA\Property(property="data", type="string", example=null),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      )
+     * )
+     */
+    public function destroy($id)
+    {
+        $result = $this->transferRepository->delete($id);
+        if($result)
+        {
+            return $this->successResponse(null, __('response_messages.transfer.deleted'));
+        }
+        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+    }
+
+    /**
+     * @OA\Post(
      *      path="/api/companies/transfers/assigne/{id}",
      *      operationId="assigneTransfer",
      *      tags={"SupervisorTransfer"},
@@ -690,63 +744,9 @@ class TransferController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/companies/transfers/delete/{id}",
-     *      operationId="destoryTransfer",
-     *      tags={"CompanyTransfer"},
-     *      security={ {"bearerAuth":{} }},
-     *      summary="Remove Transfer",
-     *      description="Remove Transfer by Id",
-     *      @OA\Parameter(
-     *          name="id",
-     *          description="Transfer Id",
-     *          required=true,
-     *          in="path",
-     *          @OA\Schema(
-     *              type="integer"
-     *          )
-     *      ),
-     *      @OA\Response(
-     *          response=200,
-     *          description="Successful operation",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Transfer Deleted Successfully"),
-     *              @OA\Property(property="data", type="string", example=null),
-     *          )
-     *       ),
-     *      @OA\Response(
-     *          response=401,
-     *          description="Unauthenticated",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Unauthenticated")
-     *          )
-     *     ),
-     *      @OA\Response(
-     *          response=404,
-     *          description="Page Not Found",
-     *          @OA\JsonContent(
-     *              @OA\Property(property="status", type="string", example="error"),
-     *              @OA\Property(property="message", type="string", example="Page Not Found"),
-     *          )
-     *      )
-     * )
-     */
-    public function destroy($id)
-    {
-        $result = $this->transferRepository->delete($id);
-        if($result)
-        {
-            return $this->successResponse(null, __('response_messages.transfer.deleted'));
-        }
-        return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
-    }
-
-    /**
-     * @OA\Post(
      *      path="/api/companies/transfers/delete/assigne/{id}",
      *      operationId="unassignedTransfer",
-     *      tags={"CompanyTransfer"},
+     *      tags={"SupervisorTransfer"},
      *      security={ {"bearerAuth":{} }},
      *      summary="unassigned Transfer",
      *      description="unassigned Transfer by Id",
@@ -821,7 +821,7 @@ class TransferController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"pickup_start_time"},
-     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2023-09-22 20:12"),
+     *                  @OA\Property(property="pickup_start_time", type="datetime", format="pickup_start_time", example="2023-09-22 20:12:00"),
      *              )
      *          ),
      *      ),
@@ -872,7 +872,7 @@ class TransferController extends Controller
     {
         $data = $request->only('pickup_start_time');
         $validator = Validator::make($data, [
-            'pickup_start_time' => 'required|date_format:Y-m-d H:i',
+            'pickup_start_time' => 'required|date_format:Y-m-d H:i:s',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
@@ -910,7 +910,7 @@ class TransferController extends Controller
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
      *                  required={"dropoff_time"},
-     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2023-09-22 20:52"),
+     *                  @OA\Property(property="dropoff_time", type="datetime", format="dropoff_time", example="2023-09-22 20:52:00"),
      *              )
      *          ),
      *      ),
@@ -959,9 +959,9 @@ class TransferController extends Controller
      */
     public function stopTransfer(Request $request, $id)
     {
-        $$data = $request->only('dropoff_time');
+        $data = $request->only('dropoff_time');
         $validator = Validator::make($data, [
-            'dropoff_time' => 'required|date_format:Y-m-d H:i',
+            'dropoff_time' => 'required|date_format:Y-m-d H:i:s',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
@@ -1105,7 +1105,7 @@ class TransferController extends Controller
     {
         $result = $this->transferRepository->uetdsPdf($id);
         if($result){
-            return $this->successResponse('https://transferhub360.s3.amazonaws.com/'.$result,__('response_messages.transfer.pdf'));
+            return $this->successResponse($result,__('response_messages.transfer.pdf'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

@@ -6,6 +6,7 @@ use App\Models\Scopes\CompanyScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
 class Transfer extends Model
@@ -98,6 +99,18 @@ class Transfer extends Model
             $model->updated_user_name = $user->full_name;
             $model->save();
         });
+    }
+
+    /**
+     * The getter for assign complete url to storage files
+     *
+     * @return string file_path url
+     */
+    public function getFilePathAttribute()
+    {
+        if($this->attributes['file_path'] != null){
+            return Storage::url($this->attributes['file_path']);
+        }
     }
 
     /**

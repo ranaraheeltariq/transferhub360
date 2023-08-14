@@ -74,7 +74,7 @@ trait Uetds
             );
 
 
-            $soap_client = new SoapClient($this->SOAP_URL, $options);
+            $soap_client = new SoapClient($URL, $options);
             $soap_return = $soap_client->__soapCall("seferGuncelle", array($params));
 
 
