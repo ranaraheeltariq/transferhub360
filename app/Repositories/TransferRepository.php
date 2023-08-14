@@ -248,7 +248,7 @@ class TransferRepository implements TransferRepositoryInterface
             if($transfer->passengers()->exists()){
                 if(!is_null($transfer->uetds_id)){
 
-                    foreach($event->transfer->passengers as $passenger){
+                    foreach($transfer->passengers as $passenger){
                         $adi = $passenger->first_name;
                         $soyadi = $passenger->last_name;
                         $cinsiyet = $passenger->gender == 'Male' ? 'E' : 'K';
