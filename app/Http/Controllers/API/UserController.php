@@ -463,7 +463,7 @@ class UserController extends Controller
      */
     public function generatePassword($id)
     {
-        $result = $this->supervisorRepository->generatePassword($id);
+        $result = $this->userRepository->generatePassword($id);
         if($result){
             return $this->successResponse($result);
         }
