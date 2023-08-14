@@ -47,11 +47,17 @@ class UserRepository implements UserRepositoryInterface
     }
     public function update($id, array $data)
     {
-        if(!empty($data['thumbnail'])){
-            $path = Storage::putFile($this->filePath, $data['thumbnail']);
-            $data['thumbnail'] = $path;
+        $result = User::findOrFail($id) ;
+        if($result){
+            if(!empty($data['thumbnail'])){
+                $path = Storage::putFile($this->filePath, $data['thumbnail']);
+                $data['thumbnail'] = $path;
+            }
+            $update = $result->update($data);
+            return $result;
         }
-        return User::findOrFail($id)->update($data);
+        return false;
+        
     }
     public function passwordReset(Request $request){
         $user =  $request->user();

@@ -76,4 +76,9 @@ return [
         'passengers' => 'Passenger Successfully Attached',
         'pdf' => "UETDS File Successfully Created",
     ],
+    "flight" => [
+        'created' => 'Flight Successfully Created',
+        'updated' => 'Flight Successfully Updated',
+        'deleted' => 'Flight Successfully Deleted',
+    ]
 ];

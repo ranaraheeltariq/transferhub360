@@ -9,65 +9,33 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-class Transfer extends Model
+class FlightNumber extends Model
 {
     use HasFactory, SoftDeletes;
     protected $dates = ['deleted_at'];
 
     // *********************** START PARENT CLASS *****************************
-    
-    /**
-    * Get the company associated with the Transfer.
-    */
-    public function company()
-    {
-        return $this->belongsTo(Company::class);
-    }
 
-    /**
-     * Get the Passengers associated with the Transfer.
-     */
-    public function passengers()
-    {
-        return $this->belongsToMany(Passenger::class)->withPivot('uetds_ref_no');
-    }
-    
-    /**
-    * Get the Customer associated with the Transfer.
-    */
-    public function customer()
-    {
-        return $this->belongsTo(Customer::class);
-    }
-    
-    /**
-    * Get the Driver associated with the Transfer.
-    */
-    public function driver()
-    {
-        return $this->belongsTo(Driver::class);
-    }
-    
-    /**
-    * Get the Vehicle associated with the Transfer.
-    */
-    public function vehicle()
-    {
-        return $this->belongsTo(Vehicle::class);
-    }
-    
-    /**
-    * Get the Flight Number associated with the Transfer.
-    */
-    public function flightNumber()
-    {
-        return $this->belongsTo(FlightNumber::class);
-    }
+        /**
+         * Get the Company associated with the report.
+         */
+        public function company()
+        {
+            return $this->belongsTo(Company::class);
+        }
 
 
     // *********************** END PARENT CLASS *******************************
 
-    // *********************** START CHILD CLASS ******************************
+    // *********************** START CHILD CLASS *****************************
+
+        /**
+         * Get the Transfer associated with the Customer.
+         */
+        public function transfers()
+        {
+            return $this->hasMany(Transfer::class);
+        }
 
     // *********************** END CHILD CLASS *******************************
 
@@ -99,18 +67,6 @@ class Transfer extends Model
             $model->updated_user_name = $user->full_name;
             $model->save();
         });
-    }
-
-    /**
-     * The getter for assign complete url to storage files
-     *
-     * @return string file_path url
-     */
-    public function getFilePathAttribute()
-    {
-        if($this->attributes['file_path'] != null){
-            return Storage::url($this->attributes['file_path']);
-        }
     }
 
     /**

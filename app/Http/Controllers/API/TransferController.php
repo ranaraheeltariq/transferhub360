@@ -311,6 +311,7 @@ class TransferController extends Controller
      *                  @OA\Property(property="contact_person", type="string", format="contact_person", example="Raheel"),
      *                  @OA\Property(property="contact_number", type="string", format="contact_number", example="+905547778899"),
      *                  @OA\Property(property="flight_number", type="string", format="flight_number", example="PK434"),
+     *                  @OA\Property(property="flight_number_id", type="integer", format="flight_number_id", example="1"),
      *                  @OA\Property(property="type", type="string", format="type", enum={"Arrival","Departure","Inner City"}, default="Inner City"),
      *                  @OA\Property(property="info", type="string", format="info", example="Deneme123"),
      *                  @OA\Property(property="file_path", type="file", format="file_path", example=""),
@@ -355,7 +356,7 @@ class TransferController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('customer_id','vehicle_id','driver_id','pickup_location','dropoff_location','pickup_date','pickup_time','pickup_country_code','pickup_country','pickup_city_code','pickup_city','pickup_zone_code','pickup_zone','dropoff_country_code','dropoff_country','dropoff_city_code','dropoff_city','dropoff_zone_code','dropoff_zone','pickup_start_time','dropoff_time','vehicle_assigned_time','vehicle_assigned_by','contact_person','contact_number','flight_number','type','info','file_path','status');
+        $data = $request->only('customer_id','vehicle_id','driver_id','pickup_location','dropoff_location','pickup_date','pickup_time','pickup_country_code','pickup_country','pickup_city_code','pickup_city','pickup_zone_code','pickup_zone','dropoff_country_code','dropoff_country','dropoff_city_code','dropoff_city','dropoff_zone_code','dropoff_zone','pickup_start_time','dropoff_time','vehicle_assigned_time','vehicle_assigned_by','contact_person','contact_number','flight_number','flight_number_id','type','info','file_path','status');
         $validator = Validator::make($data, [
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
@@ -383,6 +384,7 @@ class TransferController extends Controller
             'contact_person' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:255',
             'flight_number' => 'nullable|string|max:255',
+            'flight_number_id' => 'nullable|exists:flight_numbers,id',
             'type'          => 'nullable|string|max:255',
             'info'          => 'nullable|string',
             'file_path' => 'nullable|mimes:jpg,jpeg,jpe,png,pdf,docx|max:5120',
@@ -501,6 +503,7 @@ class TransferController extends Controller
      *                  @OA\Property(property="contact_person", type="string", format="contact_person", example="Raheel"),
      *                  @OA\Property(property="contact_number", type="string", format="contact_number", example="+905547778899"),
      *                  @OA\Property(property="flight_number", type="string", format="flight_number", example="PK434"),
+     *                  @OA\Property(property="flight_number_id", type="integer", format="flight_number_id", example="1"),
      *                  @OA\Property(property="type", type="string", format="type", enum={"Arrival","Departure","Inner City"}, default="Inner City"),
      *                  @OA\Property(property="info", type="string", format="info", example="Deneme123"),
      *                  @OA\Property(property="file_path", type="file", format="file_path", example=""),
@@ -553,7 +556,7 @@ class TransferController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('customer_id','vehicle_id','driver_id','pickup_location','dropoff_location','pickup_date','pickup_time','pickup_country_code','pickup_country','pickup_city_code','pickup_city','pickup_zone_code','pickup_zone','dropoff_country_code','dropoff_country','dropoff_city_code','dropoff_city','dropoff_zone_code','dropoff_zone','pickup_start_time','dropoff_time','vehicle_assigned_time','vehicle_assigned_by','contact_person','contact_number','flight_number','type','info','file_path','status');
+        $data = $request->only('customer_id','vehicle_id','driver_id','pickup_location','dropoff_location','pickup_date','pickup_time','pickup_country_code','pickup_country','pickup_city_code','pickup_city','pickup_zone_code','pickup_zone','dropoff_country_code','dropoff_country','dropoff_city_code','dropoff_city','dropoff_zone_code','dropoff_zone','pickup_start_time','dropoff_time','vehicle_assigned_time','vehicle_assigned_by','contact_person','contact_number','flight_number','flight_number_id','type','info','file_path','status');
         $validator = Validator::make($data, [
             'customer_id' => 'required|exists:customers,id',
             'vehicle_id' => 'nullable|exists:vehicles,id',
@@ -581,6 +584,7 @@ class TransferController extends Controller
             'contact_person' => 'nullable|string|max:255',
             'contact_number' => 'nullable|string|max:255',
             'flight_number' => 'nullable|string|max:255',
+            'flight_number_id' => 'nullable|exists:flight_numbers,id',
             'type'          => 'nullable|string|max:255',
             'info'          => 'nullable|string',
             'file_path' => 'nullable|mimes:jpg,jpeg,jpe,png,pdf,docx|max:5120',

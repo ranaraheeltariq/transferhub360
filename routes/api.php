@@ -72,6 +72,13 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\CustomerController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\CustomerController::class, 'destroy']);
         });
+        Route::group(['prefix' => 'flights'], function(){
+            Route::get('/', [Controllers\API\FlightNumberController::class, 'index']);
+            Route::post('create', [Controllers\API\FlightNumberController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\FlightNumberController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\FlightNumberController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\FlightNumberController::class, 'destroy']);
+        });
         Route::group(['prefix' => 'passengers'], function(){
             Route::get('/', [Controllers\API\PassengerController::class, 'index']);
             Route::post('create', [Controllers\API\PassengerController::class, 'store']);

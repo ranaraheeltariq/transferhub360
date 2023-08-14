@@ -5783,6 +5783,686 @@
                 ]
             }
         },
+        "/api/companies/flights": {
+            "get": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Get list of Flights",
+                "description": "Returns list of Flights",
+                "operationId": "getFlightsList",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Flights list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/flights/create": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Create New Flight",
+                "description": "Returns Flight data",
+                "operationId": "storeFlight",
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "flight_number"
+                                ],
+                                "properties": {
+                                    "flight_number": {
+                                        "type": "string",
+                                        "format": "flight_number",
+                                        "example": "EK 777"
+                                    },
+                                    "airline_company": {
+                                        "type": "string",
+                                        "format": "airline_company",
+                                        "example": "PIA"
+                                    },
+                                    "arrival_airport": {
+                                        "type": "string",
+                                        "format": "arrival_airport",
+                                        "example": "IST, Turkey"
+                                    },
+                                    "departure_airport": {
+                                        "type": "string",
+                                        "format": "departure_airport",
+                                        "example": "LHR, Pakistan"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Flight Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Flight data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/flights/detail/{id}": {
+            "get": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Get of Flight By Id",
+                "description": "Get Flight Data by Flight Id",
+                "operationId": "getFlightById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Flight Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Flight Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/flights/update/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Update Flight",
+                "description": "Returns Flight data",
+                "operationId": "updateFlight",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Flight Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "flight_number"
+                                ],
+                                "properties": {
+                                    "flight_number": {
+                                        "type": "string",
+                                        "format": "flight_number",
+                                        "example": "EK 777"
+                                    },
+                                    "airline_company": {
+                                        "type": "string",
+                                        "format": "airline_company",
+                                        "example": "PIA"
+                                    },
+                                    "arrival_airport": {
+                                        "type": "string",
+                                        "format": "arrival_airport",
+                                        "example": "IST, Turkey"
+                                    },
+                                    "departure_airport": {
+                                        "type": "string",
+                                        "format": "departure_airport",
+                                        "example": "LHR, Pakistan"
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Flight Successfully Updated"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Flight Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/flights/delete/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Remove Flight",
+                "description": "Remove Flight by Id",
+                "operationId": "destoryFlight",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Flight Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Flight Deleted Successfully"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [
@@ -8708,6 +9388,11 @@
                                         "format": "flight_number",
                                         "example": "PK434"
                                     },
+                                    "flight_number_id": {
+                                        "type": "integer",
+                                        "format": "flight_number_id",
+                                        "example": "1"
+                                    },
                                     "type": {
                                         "type": "string",
                                         "format": "type",
@@ -9105,6 +9790,11 @@
                                         "type": "string",
                                         "format": "flight_number",
                                         "example": "PK434"
+                                    },
+                                    "flight_number_id": {
+                                        "type": "integer",
+                                        "format": "flight_number_id",
+                                        "example": "1"
                                     },
                                     "type": {
                                         "type": "string",
@@ -9630,7 +10320,7 @@
                                     "pickup_start_time": {
                                         "type": "string",
                                         "format": "pickup_start_time",
-                                        "example": "2023-09-22 20:12"
+                                        "example": "2023-09-22 20:12:00"
                                     }
                                 },
                                 "type": "object"
@@ -9783,7 +10473,7 @@
                                     "dropoff_time": {
                                         "type": "string",
                                         "format": "dropoff_time",
-                                        "example": "2023-09-22 20:52"
+                                        "example": "2023-09-22 20:52:00"
                                     }
                                 },
                                 "type": "object"
