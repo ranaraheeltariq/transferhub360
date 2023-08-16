@@ -167,7 +167,6 @@ class TransferRepository implements TransferRepositoryInterface
                         $endtime = date('H:i', $endtime);
                         $number_plate = $transfer->vehicle_id ? $transfer->vehicle->number_plate : "34 ABC 111";
                         $uetds = $this->seferGuncelle($transfer->uetds_id, $number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                        
                         if(!is_null($transfer->driver_id??null)){
                             // Delete Current UETDS Personal Data
                             $personal = $this->personelIptal($transfer->driver->identify_number, $transfer->uetds_id,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
@@ -191,8 +190,8 @@ class TransferRepository implements TransferRepositoryInterface
                         if($uetds->sonucKodu === 0){
                             // If Sefer Successfully Create then Create Sefer Group
                             $group = $this->seferGrupEkle($uetds->uetdsSeferReferansNo, $transfer->pickup_location.' '.$transfer->dropoff_location, 'Transfer from '.$transfer->pickup_location.' to '.$transfer->dropoff_location, 'TR', $transfer->pickup_city, $transfer->pickup_zone, $transfer->pickup_location, 'TR', $transfer->dropoff_city, $transfer->dropoff_zone, $transfer->dropoff_location, '0',$transfer->company->uetds_url,$transfer->company->uetds_username,$transfer->company->uetds_password);
-
-                            $update = $transfer->update(['uetds_id' => $uetds->uetdsSeferReferansNo,'uetds_group_id' => $group]);
+                            
+                            $update = $transfer->update(['uetds_id' => $uetds->uetdsSeferReferansNo,'uetds_group_id' => $group->uetdsGrupRefNo]);
                             // if sefer and sefer group updated on db and have driver id then create personel ekle
                             if($update && !is_null($transfer->driver_id??null)){
                                 $transfer->uetds = $uetds->uetdsSeferReferansNo;
@@ -241,10 +240,11 @@ class TransferRepository implements TransferRepositoryInterface
         $transfer = Transfer::findOrFail($request->transfer_id);
         if($transfer){
             if($transfer->passengers()->exists()){
-                $transfer->passengers()->detach();
                 $transfer->passengers()->sync($request->passenger_id);
             }
-            $transfer->passengers()->attach($request->passenger_id); 
+            else {
+                $transfer->passengers()->attach($request->passenger_id); 
+            }
             // PassangerAttached::dispatch($transfer);
             if($transfer->passengers()->exists()){
                 if(!is_null($transfer->uetds_id)){
@@ -256,7 +256,7 @@ class TransferRepository implements TransferRepositoryInterface
                         $passport = $passenger->id_number;
             
                         $uetds = $this->yolcuEkle($transfer->uetds_id, $transfer->uetds_group_id, $passenger->country_code, $passport, $adi, $soyadi, $cinsiyet,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                        if(!is_null($uetds->sonucKodu)&&$uetds->sonucKodu === 0){
+                        if(!is_null($uetds->sonucKodu)&&$uetds->sonucKodu == 0){
                             $transfer->passengers()->updateExistingPivot($passenger->id,['uetds_ref_no' => $uetds->uetdsYolcuRefNo]);
                         }
                     }

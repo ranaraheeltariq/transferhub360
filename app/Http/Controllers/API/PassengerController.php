@@ -159,7 +159,7 @@ class PassengerController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"customer_id","first_name", "last_name", "gender", "status"},
+     *                  required={"customer_id","first_name", "last_name", "gender", "nationality", "country_code", "status"},
      *                  @OA\Property(property="customer_id", type="customers", format="customer_id", example="1"),
      *                  @OA\Property(property="first_name", type="string", format="first_name", example="Ahmet"),
      *                  @OA\Property(property="last_name", type="string", format="last_name", example="Ali"),
@@ -223,8 +223,8 @@ class PassengerController extends Controller
             'password'      => 'nullable|string|min:8',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'gender' => 'required|string|max:255',
-            'nationality' => 'nullable|string|max:255',
-            'country_code' => 'nullable|string|max:255',
+            'nationality' => 'required|string|max:255',
+            'country_code' => 'required|string|max:255',
             'age' => 'nullable|integer',
             'id_number' => 'nullable|string|max:255|unique:passengers',
             'status' => 'required|in:Active,Deactive',
@@ -315,7 +315,7 @@ class PassengerController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"customer_id","first_name", "last_name", "gender", "status"},
+     *                  required={"customer_id","first_name", "last_name", "gender", "nationality", "country_code", "status"},
      *                  @OA\Property(property="customer_id", type="customers", format="customer_id", example="1"),
      *                  @OA\Property(property="first_name", type="string", format="first_name", example="Ahmet"),
      *                  @OA\Property(property="last_name", type="string", format="last_name", example="Ali"),
@@ -385,8 +385,8 @@ class PassengerController extends Controller
             'contact_number' => 'nullable|string|max:255|unique:passengers,contact_number,'.$id,
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'gender' => 'required|string|max:255',
-            'nationality' => 'nullable|string|max:255',
-            'country_code' => 'nullable|string|max:255',
+            'nationality' => 'required|string|max:255',
+            'country_code' => 'required|string|max:255',
             'age' => 'nullable|integer',
             'id_number' => 'nullable|string|max:255|unique:passengers,id_number,'.$id,
             'status' => 'required|in:Active,Deactive',

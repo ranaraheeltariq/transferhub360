@@ -10614,12 +10614,13 @@
                                         "example": "1"
                                     },
                                     "passenger_id[]": {
+                                        "description": "Passenger Id",
                                         "type": "array",
                                         "items": {
                                             "type": "integer",
+                                            "format": "passenger_id",
                                             "default": "1"
-                                        },
-                                        "uniqueItems": true
+                                        }
                                     }
                                 },
                                 "type": "object"

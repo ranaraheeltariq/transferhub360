@@ -24,8 +24,8 @@ return new class extends Migration
             $table->string('password')->nullable();
             $table->string('thumbnail')->nullable();
             $table->string('gender');
-            $table->string('nationality')->nullable();
-            $table->string('country_code')->nullable();
+            $table->string('nationality');
+            $table->string('country_code');
             $table->string('age')->nullable();
             $table->string('id_number')->nullable();
             $table->string('device_token')->nullable();

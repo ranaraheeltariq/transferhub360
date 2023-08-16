@@ -73,7 +73,6 @@ trait Uetds
                 'password' => $PASSWORD,
             );
 
-
             $soap_client = new SoapClient($URL, $options);
             $soap_return = $soap_client->__soapCall("seferGuncelle", array($params));
 
@@ -169,9 +168,10 @@ trait Uetds
                     'kullaniciAdi' => $USERNAME,
                     'sifre' => $PASSWORD
                 ],
+                'iptalPersonelInput' => [
                 'personelTCKimlikPasaportNo' => $personelTCKimlikPasaportNo,
                 'uetdsSeferReferansNo' => $uetdsSeferReferansNo,
-                 'iptalAciklama' => 'Şöförü değiştir.'
+                 'iptalAciklama' => 'Şöförü değiştir.']
             );
 
 
@@ -258,7 +258,7 @@ trait Uetds
             $soap_client = new SoapClient($URL, $options);
             $soap_return = $soap_client->__soapCall("seferGrupEkle", array($params));
 
-            $uetdsGrupRefNo = $soap_return->return->uetdsGrupRefNo;
+            $uetdsGrupRefNo = $soap_return->return->sonucKodu === 0 ? $soap_return->return->uetdsGrupRefNo : null;
             return $uetdsGrupRefNo;
         } catch (Exception $e) {
             return $e->getMessage();

@@ -993,9 +993,9 @@ class TransferController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"passenger_id[]","transfer_id"},
+     *                  required={"passenger_id[]", "transfer_id"},
      *                  @OA\Property(property="transfer_id", type="integer", format="transfer_id", example="1"),
-     *                  @OA\Property(property="passenger_id[]", type="array", @OA\Items(type="integer",default="1"), uniqueItems=true)
+     *                  @OA\Property(property="passenger_id[]", type="array", description="Passenger Id", @OA\Items(type="integer", format="passenger_id", default="1"))
      *              )
      *          ),
      *      ),
