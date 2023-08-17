@@ -1054,7 +1054,6 @@ class TransferController extends Controller
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
         $result = $this->transferRepository->attachPassengers($request);
-        return $result;
         if($result){
             return $this->successResponse($result, __('response_messages.transfer.passengers'));
         }

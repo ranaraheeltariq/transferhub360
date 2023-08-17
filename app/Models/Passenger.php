@@ -126,6 +126,7 @@ class Passenger extends Authenticatable implements CanResetPassword
         'thumbnail',
         'gender',
         'nationality',
+        'country_code',
         'age',
         'id_number',
         'device_token',

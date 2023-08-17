@@ -169,7 +169,7 @@ class PassengerController extends Controller
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="gender", type="string", format="gender", example="Male"),
      *                  @OA\Property(property="nationality", type="string", format="nationality", example="Unitied Kingdom"),
-     *                  @OA\Property(property="country_code", type="string", format="country_code", example="UK"),
+     *                  @OA\Property(property="country_code", type="string", format="country_code", example="GB"),
      *                  @OA\Property(property="age", type="integer", format="age", example="20"),
      *                  @OA\Property(property="id_number", type="string", format="id_number", example="DR788995"),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
