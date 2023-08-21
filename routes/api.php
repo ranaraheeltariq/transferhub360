@@ -100,6 +100,13 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::get('typecount/{date}/{id?}',[Controllers\API\TransferController::class,'groupByType']);
             Route::get('passengers/{id}', [Controllers\API\TransferController::class, 'passenger']);
         });
+        Route::group(['prefix' => 'hotels'], function(){
+            Route::get('/', [Controllers\API\HotelController::class, 'index']);
+            Route::post('create', [Controllers\API\HotelController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\HotelController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\HotelController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\HotelController::class, 'destroy']);
+        });
     });
 });
 

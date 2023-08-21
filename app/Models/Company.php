@@ -84,6 +84,14 @@ class Company extends Model
             return $this->hasMany(Vehicle::class);
         }
 
+        /**
+         * Get the Hotel associated with the Company.
+         */
+        public function hotels()
+        {
+            return $this->hasMany(Hotel::class);
+        }
+
     // *********************** END CHILD CLASS *******************************
 
     /**

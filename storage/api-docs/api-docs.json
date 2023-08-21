@@ -6463,6 +6463,790 @@
                 ]
             }
         },
+        "/api/companies/hotels": {
+            "get": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Get list of Hotels",
+                "description": "Returns list of Hotels",
+                "operationId": "geHotelsList",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "pagination",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    },
+                    {
+                        "name": "perPage",
+                        "in": "query",
+                        "description": "perPage",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "limit",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "start",
+                        "in": "query",
+                        "description": "start Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "end",
+                        "in": "query",
+                        "description": "end Date",
+                        "required": false,
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "date_column",
+                        "in": "query",
+                        "description": "Add Date Column where you want to filter by Date or between two dates",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "relational_id",
+                        "in": "query",
+                        "description": "Relational Model id",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "relational_column",
+                        "in": "query",
+                        "description": "Add Relational Data Column name for getting by specific model Id",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "order",
+                        "in": "query",
+                        "description": "order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "desc",
+                            "enum": [
+                                "asc",
+                                "desc"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "order_column",
+                        "in": "query",
+                        "description": "Add Column where you want to display by some order",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "filter_operator",
+                        "in": "query",
+                        "description": "add Conditional Operator",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "default": "and",
+                            "enum": [
+                                "and",
+                                "or"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "search_text",
+                        "in": "query",
+                        "description": "and string for searching in all columns",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Hotels list"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/hotels/create": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Create New Hotel",
+                "description": "Returns Hotel data",
+                "operationId": "storeHotel",
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "country_code",
+                                    "country",
+                                    "city_code",
+                                    "city",
+                                    "zone_code",
+                                    "zone",
+                                    "location"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "integer",
+                                        "format": "customer_id",
+                                        "example": ""
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Nova Clinic Hotel"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "format": "phone",
+                                        "example": "00905340344609"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "tourtravel@yopmail.com"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "website",
+                                        "example": "http://www.alfanovatech.com"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hotel Successfully Created"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Hotel data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/hotels/detail/{id}": {
+            "get": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Get of Hotel By Id",
+                "description": "Get Hotel Data by Hotel Id",
+                "operationId": "getHotelById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Hotel Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": null
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Hotel Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/hotels/update/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Update Hotel",
+                "description": "Returns Hotel data",
+                "operationId": "updateHotel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Hotel Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "I just fill Required Fields",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "country_code",
+                                    "country",
+                                    "city_code",
+                                    "city",
+                                    "zone_code",
+                                    "zone",
+                                    "location"
+                                ],
+                                "properties": {
+                                    "customer_id": {
+                                        "type": "integer",
+                                        "format": "customer_id",
+                                        "example": ""
+                                    },
+                                    "name": {
+                                        "type": "string",
+                                        "format": "name",
+                                        "example": "Nova Clinic Hotel"
+                                    },
+                                    "country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
+                                    },
+                                    "phone": {
+                                        "type": "number",
+                                        "format": "phone",
+                                        "example": "00905340344609"
+                                    },
+                                    "email": {
+                                        "type": "email",
+                                        "format": "email",
+                                        "example": "tourtravel@yopmail.com"
+                                    },
+                                    "website": {
+                                        "type": "string",
+                                        "format": "website",
+                                        "example": "http://www.alfanovatech.com"
+                                    },
+                                    "thumbnail": {
+                                        "type": "file",
+                                        "format": "thumbnail",
+                                        "example": ""
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hotel Successfully Updated"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": "array of Hotel Data"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "203": {
+                        "description": "Validation Error response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Validation error Message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Unprocessable Content",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "!Something went wrong please try again later."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/companies/hotels/delete/{id}": {
+            "post": {
+                "tags": [
+                    "CompanyDefination"
+                ],
+                "summary": "Remove Hotel",
+                "description": "Remove Hotel by Id",
+                "operationId": "destoryHotel",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Hotel Id",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "success"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Hotel Deleted Successfully"
+                                        },
+                                        "data": {
+                                            "type": "string",
+                                            "example": null
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Unauthenticated"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Page Not Found",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "error"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Page Not Found"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
         "/api/admin/users": {
             "get": {
                 "tags": [
@@ -7409,6 +8193,8 @@
                                     "first_name",
                                     "last_name",
                                     "gender",
+                                    "nationality",
+                                    "country_code",
                                     "status"
                                 ],
                                 "properties": {
@@ -7460,7 +8246,7 @@
                                     "country_code": {
                                         "type": "string",
                                         "format": "country_code",
-                                        "example": "UK"
+                                        "example": "GB"
                                     },
                                     "age": {
                                         "type": "integer",
@@ -7698,6 +8484,8 @@
                                     "first_name",
                                     "last_name",
                                     "gender",
+                                    "nationality",
+                                    "country_code",
                                     "status"
                                 ],
                                 "properties": {

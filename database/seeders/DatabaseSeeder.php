@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         ]);
         // \App\Models\Owner::factory(10)->createQuietly();
         // \App\Models\Company::factory(1)->hasDrivers(1)->hasUsers(1)->hasSupervisors(1)->createQuietly();
-        \App\Models\Company::factory(1)->hasCustomers(1)->createQuietly();
+        \App\Models\Company::factory(1)->hasCustomers(1)->hasHotels(10)->createQuietly();
         \App\Models\User::factory()->createQuietly([
             'company_id' => 1,
             'full_name' => fake()->name(),

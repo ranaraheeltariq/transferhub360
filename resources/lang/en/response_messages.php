@@ -80,5 +80,10 @@ return [
         'created' => 'Flight Successfully Created',
         'updated' => 'Flight Successfully Updated',
         'deleted' => 'Flight Successfully Deleted',
-    ]
+    ],
+    "hotel" => [
+        'created' => 'Hotel Successfully Created',
+        'updated' => 'Hotel Successfully Updated',
+        'deleted' => 'Hotel Successfully Deleted',
+    ],
 ];
