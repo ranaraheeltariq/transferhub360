@@ -86,4 +86,9 @@ return [
         'updated' => 'Hotel Successfully Updated',
         'deleted' => 'Hotel Successfully Deleted',
     ],
+    "contactPerson" => [
+        'created' => 'Contact Person Successfully Created',
+        'updated' => 'Contact Person Successfully Updated',
+        'deleted' => 'Contact Person Successfully Deleted',
+    ],
 ];

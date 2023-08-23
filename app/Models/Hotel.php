@@ -17,11 +17,19 @@ class Hotel extends Model
     // *********************** START PARENT CLASS *****************************
 
         /**
-         * Get the Company associated with the report.
+         * Get the Company associated with the Hotel.
          */
         public function company()
         {
             return $this->belongsTo(Company::class);
+        }
+    
+        /**
+        * Get the Customer associated with the Hotel.
+        */
+        public function customer()
+        {
+            return $this->belongsTo(Customer::class);
         }
 
 

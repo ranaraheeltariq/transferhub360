@@ -3,31 +3,31 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\HotelRepository;
+use App\Repositories\ContactPersonRepository;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponser;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
-class HotelController extends Controller
+class ContactPersonController extends Controller
 {
     use ApiResponser;
 
-    private HotelRepository $hotelRepository;
+    private ContactPersonRepository $contactPersonRepository;
 
-    public function __construct(HotelRepository $hotelRepository)
+    public function __construct(ContactPersonRepository $contactPersonRepository)
     {
-        $this->hotelRepository = $hotelRepository;
+        $this->contactPersonRepository = $contactPersonRepository;
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/hotels",
-     *      operationId="geHotelsList",
+     *      path="/api/companies/contact-persons",
+     *      operationId="geContactPersonsList",
      *      tags={"CompanyDefination"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get list of Hotels",
-     *      description="Returns list of Hotels",
+     *      summary="Get list of Contact Persons",
+     *      description="Returns list of Contact Persons",
      *      @OA\Parameter(
      *          name="pagination",
      *          in="query",
@@ -126,7 +126,7 @@ class HotelController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of Hotels list"),
+     *              @OA\Property(property="data", type="string", example="array of Contact Persons list"),
      *          )
      *       ),
      *      @OA\Response(
@@ -141,37 +141,30 @@ class HotelController extends Controller
      */
     public function index(Request $request)
     {
-        $result = $this->hotelRepository->getAll($request);
+        $result = $this->contactPersonRepository->getAll($request);
         return $this->successResponse($result);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/hotels/create",
-     *      operationId="storeHotel",
+     *      path="/api/companies/contact-persons/create",
+     *      operationId="storeContactPerson",
      *      tags={"CompanyDefination"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Create New Hotel",
-     *      description="Returns Hotel data",
+     *      summary="Create New Contact Person",
+     *      description="Returns Contact Person data",
      *      @OA\RequestBody(
      *          required=true,
      *          description="I just fill Required Fields",
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","country_code","country","city_code","city","zone_code","zone","location"},
+     *                  required={"name","number"},
      *                  @OA\Property(property="customer_id", type="integer", format="customer_id", example=""),
-     *                  @OA\Property(property="name", type="string", format="name", example="Nova Clinic Hotel"),
-     *                  @OA\Property(property="country_code", type="string", format="country_code", example="TR"),
-     *                  @OA\Property(property="country", type="string", format="country", example="Turkiye"),
-     *                  @OA\Property(property="city_code", type="integer", format="city_code", example="34"),
-     *                  @OA\Property(property="city", type="string", format="city", example="Istanbul"),
-     *                  @OA\Property(property="zone_code", type="integer", format="zone_code", example="1852"),
-     *                  @OA\Property(property="zone", type="string", format="zone", example="ÜMRANİYE"),
-     *                  @OA\Property(property="location", type="string", format="location", example="Ilhamurkoye"),
-     *                  @OA\Property(property="phone", type="number", format="phone", example="00905340344609"),
+     *                  @OA\Property(property="name", type="string", format="name", example="Hamza Ali"),
+     *                  @OA\Property(property="number", type="number", format="number", example="00905340344609"),
+     *                  @OA\Property(property="whatsapp_number", type="number", format="whatsapp_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="tourtravel@yopmail.com"),
-     *                  @OA\Property(property="website", type="string", format="website", example="http://www.alfanovatech.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
@@ -182,8 +175,8 @@ class HotelController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Hotel Successfully Created"),
-     *              @OA\Property(property="data", type="string", example="array of Hotel data"),
+     *              @OA\Property(property="message", type="string", example="Contact Person Successfully Created"),
+     *              @OA\Property(property="data", type="string", example="array of Contact Person data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -214,44 +207,37 @@ class HotelController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('customer_id','name','country_code','country','city_code','city','zone_code','zone','location','phone','email','website','thumbnail','status');
+        $data = $request->only('customer_id','name','number','whatsapp_number','email','thumbnail','status');
         $validator = Validator::make($data,[
             'customer_id' => 'nullable|string|max:255|exists:customers,id',
             'name' => 'required|string|max:255',
-            'country_code' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'city_code' => 'required|integer',
-            'city' => 'required|string|max:255',
-            'zone_code' => 'required|integer',
-            'zone' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
+            'number' => 'required|string|max:255',
+            'whatsapp_number' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
-            'website' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'status' => 'nullable|in:Active,Deactive',
         ]);
         if ($validator->fails()) {
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->hotelRepository->create($data);
+        $result = $this->contactPersonRepository->create($data);
         if($result){
-            return $this->successResponse($result, __('response_messages.hotel.created'), Response::HTTP_CREATED);
+            return $this->successResponse($result, __('response_messages.contactPerson.created'), Response::HTTP_CREATED);
         }
         return $this->errorResponse(__('response_messages.common.error'), Response::HTTP_UNPROCESSABLE_ENTITY);
     }
 
     /**
      * @OA\Get(
-     *      path="/api/companies/hotels/detail/{id}",
-     *      operationId="getHotelById",
+     *      path="/api/companies/contact-persons/detail/{id}",
+     *      operationId="getContactPersonById",
      *      tags={"CompanyDefination"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Get of Hotel By Id",
-     *      description="Get Hotel Data by Hotel Id",
+     *      summary="Get of Contact Person By Id",
+     *      description="Get Contact Person Data by Contact Person Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Hotel Id",
+     *          description="Contact Person Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -264,7 +250,7 @@ class HotelController extends Controller
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
      *              @OA\Property(property="message", type="string", example=null),
-     *              @OA\Property(property="data", type="string", example="array of Hotel Data"),
+     *              @OA\Property(property="data", type="string", example="array of Contact Person Data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -287,7 +273,7 @@ class HotelController extends Controller
      */
     public function show($id)
     {
-        $result = $this->hotelRepository->getById($id);
+        $result = $this->contactPersonRepository->getById($id);
         if($result){
             return $this->successResponse($result);
         }
@@ -296,15 +282,15 @@ class HotelController extends Controller
 
     /**
      * @OA\Post(
-     *      path="/api/companies/hotels/update/{id}",
-     *      operationId="updateHotel",
+     *      path="/api/companies/contact-persons/update/{id}",
+     *      operationId="updateContactPerson",
      *      tags={"CompanyDefination"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Update Hotel",
-     *      description="Returns Hotel data",
+     *      summary="Update Contact Person",
+     *      description="Returns Contact Person data",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Hotel Id",
+     *          description="Contact Person Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -317,19 +303,12 @@ class HotelController extends Controller
      *          @OA\MediaType(
      *              mediaType="multipart/form-data",
      *              @OA\Schema(
-     *                  required={"name","country_code","country","city_code","city","zone_code","zone","location"},
+     *                  required={"name","number"},
      *                  @OA\Property(property="customer_id", type="integer", format="customer_id", example=""),
-     *                  @OA\Property(property="name", type="string", format="name", example="Nova Clinic Hotel"),
-     *                  @OA\Property(property="country_code", type="string", format="country_code", example="TR"),
-     *                  @OA\Property(property="country", type="string", format="country", example="Turkiye"),
-     *                  @OA\Property(property="city_code", type="integer", format="city_code", example="34"),
-     *                  @OA\Property(property="city", type="string", format="city", example="Istanbul"),
-     *                  @OA\Property(property="zone_code", type="integer", format="zone_code", example="1852"),
-     *                  @OA\Property(property="zone", type="string", format="zone", example="ÜMRANİYE"),
-     *                  @OA\Property(property="location", type="string", format="location", example="Ilhamurkoye"),
-     *                  @OA\Property(property="phone", type="number", format="phone", example="00905340344609"),
+     *                  @OA\Property(property="name", type="string", format="name", example="Hamza Ali"),
+     *                  @OA\Property(property="number", type="number", format="number", example="00905340344609"),
+     *                  @OA\Property(property="whatsapp_number", type="number", format="whatsapp_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="tourtravel@yopmail.com"),
-     *                  @OA\Property(property="website", type="string", format="website", example="http://www.alfanovatech.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
@@ -340,8 +319,8 @@ class HotelController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Hotel Successfully Updated"),
-     *              @OA\Property(property="data", type="string", example="array of Hotel Data"),
+     *              @OA\Property(property="message", type="string", example="Contact Person Successfully Updated"),
+     *              @OA\Property(property="data", type="string", example="array of Contact Person Data"),
      *          )
      *       ),
      *      @OA\Response(
@@ -380,45 +359,38 @@ class HotelController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('customer_id','name','country_code','country','city_code','city','zone_code','zone','location','phone','email','website','thumbnail','status');
+        $data = $request->only('customer_id','name','number','whatsapp_number','email','thumbnail','status');
         $validator = Validator::make($data,[
             'customer_id' => 'nullable|string|max:255|exists:customers,id',
             'name' => 'required|string|max:255',
-            'country_code' => 'required|string|max:255',
-            'country' => 'required|string|max:255',
-            'city_code' => 'required|integer',
-            'city' => 'required|string|max:255',
-            'zone_code' => 'required|integer',
-            'zone' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'phone' => 'nullable|string|max:255',
+            'number' => 'required|string|max:255',
+            'whatsapp_number' => 'nullable|string|max:255',
             'email' => 'nullable|email|max:255',
-            'website' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
             'status' => 'nullable|in:Active,Deactive',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
-        $result = $this->hotelRepository->update($id,$data);
+        $result = $this->contactPersonRepository->update($id,$data);
         if($result){
-            $result = $this->hotelRepository->getById($id);
-            return $this->successResponse($result, __('response_messages.hotel.updated'));
+            $result = $this->contactPersonRepository->getById($id);
+            return $this->successResponse($result, __('response_messages.contactPerson.updated'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
 
     /**
      * @OA\Post(
-     *      path="/api/companies/hotels/delete/{id}",
-     *      operationId="destoryHotel",
+     *      path="/api/companies/contact-persons/delete/{id}",
+     *      operationId="destoryContactPerson",
      *      tags={"CompanyDefination"},
      *      security={ {"bearerAuth":{} }},
-     *      summary="Remove Hotel",
-     *      description="Remove Hotel by Id",
+     *      summary="Remove Contact Person",
+     *      description="Remove Contact Person by Id",
      *      @OA\Parameter(
      *          name="id",
-     *          description="Hotel Id",
+     *          description="Contact Person Id",
      *          required=true,
      *          in="path",
      *          @OA\Schema(
@@ -430,7 +402,7 @@ class HotelController extends Controller
      *          description="Successful operation",
      *          @OA\JsonContent(
      *              @OA\Property(property="status", type="string", example="success"),
-     *              @OA\Property(property="message", type="string", example="Hotel Deleted Successfully"),
+     *              @OA\Property(property="message", type="string", example="Contact Person Deleted Successfully"),
      *              @OA\Property(property="data", type="string", example=null),
      *          )
      *       ),
@@ -454,10 +426,10 @@ class HotelController extends Controller
      */
     public function destroy($id)
     {
-        $result = $this->hotelRepository->delete($id);
+        $result = $this->contactPersonRepository->delete($id);
         if($result)
         {
-            return $this->successResponse(null, __('response_messages.hotel.deleted'));
+            return $this->successResponse(null, __('response_messages.contactPerson.deleted'));
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }

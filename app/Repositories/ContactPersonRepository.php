@@ -2,28 +2,28 @@
 
 namespace App\Repositories;
 
-use App\Interfaces\HotelRepositoryInterface;
-use App\Models\Hotel;
+use App\Interfaces\ContactPersonRepositoryInterface;
+use App\Models\ContactPerson;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Helpers\QueryHelper;
 
-class HotelRepository implements HotelRepositoryInterface
+class ContactPersonRepository implements ContactPersonRepositoryInterface
 {
-    private $filePath = 'images/hotel';
+    private $filePath = 'images/contactperson';
 
     public function getAll(Request $request)
     {
-        return QueryHelper::applyFilterOrderLimitPagination(Hotel::query(), $request);
+        return QueryHelper::applyFilterOrderLimitPagination(ContactPerson::query(), $request);
         // return Customer::paginate(10);
     }
     public function getById($id)
     {
-        return Hotel::findOrFail($id);
+        return ContactPerson::findOrFail($id);
     }
     public function delete($id)
     {
-        return Hotel::destroy($id);
+        return ContactPerson::destroy($id);
     }
     public function create(array $data)
     {
@@ -31,7 +31,7 @@ class HotelRepository implements HotelRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Hotel::create($data);
+        return ContactPerson::create($data);
     }
     public function update($id, array $data)
     {
@@ -39,7 +39,7 @@ class HotelRepository implements HotelRepositoryInterface
             $path = Storage::putFile($this->filePath, $data['thumbnail']);
             $data['thumbnail'] = $path;
         }
-        return Hotel::findOrFail($id)->update($data);
+        return ContactPerson::findOrFail($id)->update($data);
     }
     
 }

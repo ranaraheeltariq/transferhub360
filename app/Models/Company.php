@@ -92,6 +92,14 @@ class Company extends Model
             return $this->hasMany(Hotel::class);
         }
 
+        /**
+         * Get the Contact Person associated with the Company.
+         */
+        public function contactPersons()
+        {
+            return $this->hasMany(ContactPerson::class);
+        }
+
     // *********************** END CHILD CLASS *******************************
 
     /**

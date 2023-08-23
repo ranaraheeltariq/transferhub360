@@ -63,6 +63,14 @@ class Transfer extends Model
     {
         return $this->belongsTo(FlightNumber::class);
     }
+    
+    /**
+    * Get the Contact Person associated with the Transfer.
+    */
+    public function contactPerson()
+    {
+        return $this->belongsTo(ContactPerson::class);
+    }
 
 
     // *********************** END PARENT CLASS *******************************

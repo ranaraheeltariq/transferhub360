@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 
-class FlightNumber extends Model
+class ContactPerson extends Model
 {
     use HasFactory, SoftDeletes;
     protected $dates = ['deleted_at'];
@@ -17,11 +17,19 @@ class FlightNumber extends Model
     // *********************** START PARENT CLASS *****************************
 
         /**
-         * Get the Company associated with the Flight Number.
+         * Get the Company associated with the Contact Person.
          */
         public function company()
         {
             return $this->belongsTo(Company::class);
+        }
+    
+        /**
+        * Get the Customer associated with the Contact Person.
+        */
+        public function customer()
+        {
+            return $this->belongsTo(Customer::class);
         }
 
 
@@ -30,7 +38,7 @@ class FlightNumber extends Model
     // *********************** START CHILD CLASS *****************************
 
         /**
-         * Get the Transfer associated with the Flight Number.
+         * Get the Transfer associated with the Contact Person.
          */
         public function transfers()
         {
@@ -38,6 +46,18 @@ class FlightNumber extends Model
         }
 
     // *********************** END CHILD CLASS *******************************
+
+    /**
+     * The getter for assign complete url to storage files
+     *
+     * @return string thumbnail url
+     */
+    public function getThumbnailAttribute()
+    {
+        if($this->attributes['thumbnail'] != null){
+            return Storage::url($this->attributes['thumbnail']);
+        }
+    }
 
     /**
      * The attributes that set on creation and updation.

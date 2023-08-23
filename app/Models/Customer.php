@@ -45,6 +45,22 @@ class Customer extends Model
             return $this->hasMany(Transfer::class);
         }
 
+        /**
+         * Get the Hotel associated with the Customer.
+         */
+        public function hotels()
+        {
+            return $this->hasMany(Hotel::class);
+        }
+
+        /**
+         * Get the Contact Person associated with the Customer.
+         */
+        public function contactPersons()
+        {
+            return $this->hasMany(ContactPerson::class);
+        }
+
     // *********************** END CHILD CLASS *******************************
 
     /**

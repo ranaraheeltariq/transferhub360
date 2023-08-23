@@ -107,6 +107,13 @@ Route::group(['prefix' => 'companies'], function($router) {
             Route::post('update/{id}', [Controllers\API\HotelController::class, 'update']);
             Route::post('delete/{id}', [Controllers\API\HotelController::class, 'destroy']);
         });
+        Route::group(['prefix' => 'contact-persons'], function(){
+            Route::get('/', [Controllers\API\ContactPersonController::class, 'index']);
+            Route::post('create', [Controllers\API\ContactPersonController::class, 'store']);
+            Route::get('detail/{id}', [Controllers\API\ContactPersonController::class, 'show']);
+            Route::post('update/{id}', [Controllers\API\ContactPersonController::class, 'update']);
+            Route::post('delete/{id}', [Controllers\API\ContactPersonController::class, 'destroy']);
+        });
     });
 });
 
