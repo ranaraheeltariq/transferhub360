@@ -5997,10 +5997,80 @@
                                         "format": "arrival_airport",
                                         "example": "IST, Turkey"
                                     },
+                                    "arrival_country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "arrival_country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "arrival_city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "arrival_city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "arrival_zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "arrival_zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "arrival_location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
+                                    },
                                     "departure_airport": {
                                         "type": "string",
                                         "format": "departure_airport",
                                         "example": "LHR, Pakistan"
+                                    },
+                                    "departure_country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "departure_country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "departure_city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "departure_city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "departure_zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "departure_zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "departure_location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
                                     },
                                     "status": {
                                         "type": "in:Active,Deactive",
@@ -6242,10 +6312,80 @@
                                         "format": "arrival_airport",
                                         "example": "IST, Turkey"
                                     },
+                                    "arrival_country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "arrival_country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "arrival_city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "arrival_city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "arrival_zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "arrival_zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "arrival_location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
+                                    },
                                     "departure_airport": {
                                         "type": "string",
                                         "format": "departure_airport",
                                         "example": "LHR, Pakistan"
+                                    },
+                                    "departure_country_code": {
+                                        "type": "string",
+                                        "format": "country_code",
+                                        "example": "TR"
+                                    },
+                                    "departure_country": {
+                                        "type": "string",
+                                        "format": "country",
+                                        "example": "Turkiye"
+                                    },
+                                    "departure_city_code": {
+                                        "type": "integer",
+                                        "format": "city_code",
+                                        "example": "34"
+                                    },
+                                    "departure_city": {
+                                        "type": "string",
+                                        "format": "city",
+                                        "example": "Istanbul"
+                                    },
+                                    "departure_zone_code": {
+                                        "type": "integer",
+                                        "format": "zone_code",
+                                        "example": "1852"
+                                    },
+                                    "departure_zone": {
+                                        "type": "string",
+                                        "format": "zone",
+                                        "example": "ÜMRANİYE"
+                                    },
+                                    "departure_location": {
+                                        "type": "string",
+                                        "format": "location",
+                                        "example": "Ilhamurkoye"
                                     },
                                     "status": {
                                         "type": "in:Active,Deactive",

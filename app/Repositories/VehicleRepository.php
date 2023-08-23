@@ -14,12 +14,12 @@ class VehicleRepository implements VehicleRepositoryInterface
 
     public function getAll(Request $request)
     {
-        return QueryHelper::applyFilterOrderLimitPagination(Vehicle::query(), $request);
+        return QueryHelper::applyFilterOrderLimitPagination(Vehicle::query(), $request, ['driver']);
         // return Vehicle::paginate(10);
     }
     public function getById($id)
     {
-        return Vehicle::findOrFail($id);
+        return Vehicle::with(['driver'])->findOrFail($id);
     }
     public function delete($id)
     {

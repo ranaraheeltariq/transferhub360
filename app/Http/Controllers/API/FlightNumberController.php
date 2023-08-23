@@ -163,7 +163,21 @@ class FlightNumberController extends Controller
      *                  @OA\Property(property="flight_number", type="string", format="flight_number", example="EK 777"),
      *                  @OA\Property(property="airline_company", type="string", format="airline_company", example="PIA"),
      *                  @OA\Property(property="arrival_airport", type="string", format="arrival_airport", example="IST, Turkey"),
+     *                  @OA\Property(property="arrival_country_code", type="string", format="country_code", example="TR"),
+     *                  @OA\Property(property="arrival_country", type="string", format="country", example="Turkiye"),
+     *                  @OA\Property(property="arrival_city_code", type="integer", format="city_code", example="34"),
+     *                  @OA\Property(property="arrival_city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="arrival_zone_code", type="integer", format="zone_code", example="1852"),
+     *                  @OA\Property(property="arrival_zone", type="string", format="zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="arrival_location", type="string", format="location", example="Ilhamurkoye"),
      *                  @OA\Property(property="departure_airport", type="string", format="departure_airport", example="LHR, Pakistan"),
+     *                  @OA\Property(property="departure_country_code", type="string", format="country_code", example="TR"),
+     *                  @OA\Property(property="departure_country", type="string", format="country", example="Turkiye"),
+     *                  @OA\Property(property="departure_city_code", type="integer", format="city_code", example="34"),
+     *                  @OA\Property(property="departure_city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="departure_zone_code", type="integer", format="zone_code", example="1852"),
+     *                  @OA\Property(property="departure_zone", type="string", format="zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="departure_location", type="string", format="location", example="Ilhamurkoye"),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
      *          ),
@@ -205,12 +219,26 @@ class FlightNumberController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->only('flight_number','airline_company','arrival_airport','departure_airport','status');
+        $data = $request->only('flight_number','airline_company','arrival_airport', 'arrival_country_code', 'arrival_country','arrival_city_code','arrival_city','arrival_zone_code','arrival_zone', 'arrival_location','departure_airport','departure_country_code','departure_country','departure_city_code','departure_city','departure_zone_code','departure_zone','departure_location','status');
         $validator = Validator::make($data,[
             'flight_number' => 'required|string|max:255',
             'airline_company' => 'nullable|string|max:255',
             'arrival_airport' => 'nullable|string|max:255',
+            'arrival_country_code' => 'nullable|string|max:255',
+            'arrival_country' => 'nullable|string|max:255',
+            'arrival_city_code' => 'nullable|string|max:255',
+            'arrival_city' => 'nullable|string|max:255',
+            'arrival_zone_code' => 'nullable|string|max:255',
+            'arrival_zone' => 'nullable|string|max:255',
+            'arrival_location' => 'nullable|string|max:255',
             'departure_airport' => 'nullable|string|max:255',
+            'departure_country_code' => 'nullable|string|max:255',
+            'departure_country' => 'nullable|string|max:255',
+            'departure_city_code' => 'nullable|string|max:255',
+            'departure_city' => 'nullable|string|max:255',
+            'departure_zone_code' => 'nullable|string|max:255',
+            'departure_zone' => 'nullable|string|max:255',
+            'departure_location' => 'nullable|string|max:255',
             'status' => 'nullable|in:Active,Deactive',
         ]);
         if ($validator->fails()) {
@@ -303,7 +331,21 @@ class FlightNumberController extends Controller
      *                  @OA\Property(property="flight_number", type="string", format="flight_number", example="EK 777"),
      *                  @OA\Property(property="airline_company", type="string", format="airline_company", example="PIA"),
      *                  @OA\Property(property="arrival_airport", type="string", format="arrival_airport", example="IST, Turkey"),
+     *                  @OA\Property(property="arrival_country_code", type="string", format="country_code", example="TR"),
+     *                  @OA\Property(property="arrival_country", type="string", format="country", example="Turkiye"),
+     *                  @OA\Property(property="arrival_city_code", type="integer", format="city_code", example="34"),
+     *                  @OA\Property(property="arrival_city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="arrival_zone_code", type="integer", format="zone_code", example="1852"),
+     *                  @OA\Property(property="arrival_zone", type="string", format="zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="arrival_location", type="string", format="location", example="Ilhamurkoye"),
      *                  @OA\Property(property="departure_airport", type="string", format="departure_airport", example="LHR, Pakistan"),
+     *                  @OA\Property(property="departure_country_code", type="string", format="country_code", example="TR"),
+     *                  @OA\Property(property="departure_country", type="string", format="country", example="Turkiye"),
+     *                  @OA\Property(property="departure_city_code", type="integer", format="city_code", example="34"),
+     *                  @OA\Property(property="departure_city", type="string", format="city", example="Istanbul"),
+     *                  @OA\Property(property="departure_zone_code", type="integer", format="zone_code", example="1852"),
+     *                  @OA\Property(property="departure_zone", type="string", format="zone", example="ÜMRANİYE"),
+     *                  @OA\Property(property="departure_location", type="string", format="location", example="Ilhamurkoye"),
      *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
      *          ),
@@ -353,12 +395,26 @@ class FlightNumberController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('flight_number','airline_company','arrival_airport','departure_airport','status');
+        $data = $request->only('flight_number','airline_company','arrival_airport', 'arrival_country_code', 'arrival_country','arrival_city_code','arrival_city','arrival_zone_code','arrival_zone', 'arrival_location','departure_airport','departure_country_code','departure_country','departure_city_code','departure_city','departure_zone_code','departure_zone','departure_location','status');
         $validator = Validator::make($data,[
             'flight_number' => 'required|string|max:255',
             'airline_company' => 'nullable|string|max:255',
             'arrival_airport' => 'nullable|string|max:255',
+            'arrival_country_code' => 'nullable|string|max:255',
+            'arrival_country' => 'nullable|string|max:255',
+            'arrival_city_code' => 'nullable|string|max:255',
+            'arrival_city' => 'nullable|string|max:255',
+            'arrival_zone_code' => 'nullable|string|max:255',
+            'arrival_zone' => 'nullable|string|max:255',
+            'arrival_location' => 'nullable|string|max:255',
             'departure_airport' => 'nullable|string|max:255',
+            'departure_country_code' => 'nullable|string|max:255',
+            'departure_country' => 'nullable|string|max:255',
+            'departure_city_code' => 'nullable|string|max:255',
+            'departure_city' => 'nullable|string|max:255',
+            'departure_zone_code' => 'nullable|string|max:255',
+            'departure_zone' => 'nullable|string|max:255',
+            'departure_location' => 'nullable|string|max:255',
             'status' => 'nullable|in:Active,Deactive',
         ]);
         if($validator->fails()){
