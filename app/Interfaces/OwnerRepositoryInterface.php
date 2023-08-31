@@ -15,4 +15,5 @@ interface OwnerRepositoryInterface
     public function profile();
     public function generatePassword($id);
     public function deviceTokenUpdate(array $data);
+    public function roleAssign(array $data);
 }

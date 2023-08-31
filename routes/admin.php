@@ -31,6 +31,7 @@ Route::group(['prefix' => 'admin'], function($router) {
             Route::post('update/{id}', [Controllers\API\OwnerController::class, 'update'])->middleware('permission:owner update');
             Route::post('delete/{id}', [Controllers\API\OwnerController::class, 'destroy'])->middleware('permission:owner delete');
             Route::post('generatepassword/{id}', [Controllers\API\OwnerController::class, 'generatepassword'])->middleware('permission:owner password generation');
+            Route::post('roleassign', [Controllers\API\OwnerController::class, 'roleAssign'])->middleware('permission:owner store');
         });
         Route::group(['prefix' => 'companies'], function($router){
             Route::get('/', [Controllers\API\CompanyController::class, 'index'])->middleware('permission:company list');

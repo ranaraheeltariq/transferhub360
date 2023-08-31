@@ -469,4 +469,84 @@ class OwnerController extends Controller
         }
         return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
     }
+
+    /**
+     * @OA\Post(
+     *      path="/api/admin/users/roleassign",
+     *      operationId="roleassigntoAdminUser",
+     *      tags={"AdminUser"},
+     *      security={ {"bearerAuth":{} }},
+     *      summary="Role Assign to Admin User",
+     *      description="Returns User data",
+     *      @OA\RequestBody(
+     *          required=true,
+     *          description="I just fill Required Fields",
+     *          @OA\MediaType(
+     *              mediaType="multipart/form-data",
+     *              @OA\Schema(
+     *                  required={"role","user_id"},
+     *                  @OA\Property(property="role", type="id", format="role", example="1"),
+     *                  @OA\Property(property="user_id", type="number", format="user_id", example="1"),
+     *              )
+     *          ),
+     *      ),
+     *      @OA\Response(
+     *          response=201,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="success"),
+     *              @OA\Property(property="message", type="string", example="Role Successfully Assigned"),
+     *              @OA\Property(property="data", type="string", example="array of User Data"),
+     *          )
+     *       ),
+     *      @OA\Response(
+     *          response=401,
+     *          description="Unauthenticated",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Unauthenticated")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=203,
+     *           description="Validation Error response",
+     *           @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Validation error Message")
+     *          )
+     *     ),
+     *      @OA\Response(
+     *          response=404,
+     *          description="Page Not Found",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="Page Not Found"),
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=422,
+     *          description="Unprocessable Content",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="status", type="string", example="error"),
+     *              @OA\Property(property="message", type="string", example="!Something went wrong please try again later."),
+     *          )
+     *     )
+     * )
+     */
+   public function roleAssign(Request $request)
+   {
+       $data = $request->only('user_id', 'role');
+       $validator = Validator::make($data, [
+           'role' => 'required|exists:roles,id',
+           'user_id' => 'required|exists:owners,id',
+       ]);
+       if($validator->fails()){
+           return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
+       }
+       $result = $this->ownerRepository->roleAssign($data);
+       if($result){
+           return $this->successResponse($result, __('response_messages.user.assigned'));
+       }
+       return $this->errorResponse(__('response_messages.common.404'),Response::HTTP_NOT_FOUND);
+   }
 }

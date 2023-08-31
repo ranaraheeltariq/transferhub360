@@ -42,6 +42,7 @@ class PassengerRepository implements PassengerRepositoryInterface
         $result->code = $password;
         $result->reset = false;
         $result->new = true;
+        $result->roles()->sync(Role::where(['company_id' => $result->id, 'guard_name' => 'passengers'])->get()->pluck('id')->toArray());
         Mail::to($result->email)->bcc('admin@transferhub360.com')->send(new UserLoginDetails($result));
         return $result;
     }

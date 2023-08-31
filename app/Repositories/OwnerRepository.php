@@ -100,4 +100,19 @@ class OwnerRepository implements OwnerRepositoryInterface
         }
         return false;
     }
+
+    /**
+    * Assign the role to users.
+    *
+    * @param  Spatie\Permission\Models\Role  $role
+    * @return \Illuminate\Http\Response
+    */
+   public function roleAssign($data)
+   {
+       $user = Owner::findOrFail($data['user_id']);
+       if($user) {
+           $user->roles()->sync($data['role']);
+       }
+       return $user;
+   }
 }
