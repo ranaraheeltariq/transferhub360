@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\SupervisorRepositoryInterface;
 use App\Models\Supervisor;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

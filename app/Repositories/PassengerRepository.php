@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\PassengerRepositoryInterface;
 use App\Models\Passenger;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;

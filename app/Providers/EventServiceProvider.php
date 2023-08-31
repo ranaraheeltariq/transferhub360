@@ -4,10 +4,14 @@ namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
+use App\Events\CompanyCreated;
 use App\Events\TransferCreated;
+use App\Events\TransferSeferGrupCreated;
+use App\Events\TransferUpdated;
+use App\Events\TransferDriverAssigned;
+use App\Events\TransferDriverUnassigned;
 use App\Events\TransferDelete;
 use App\Events\PassangerAttached;
-use App\Events\CompanyCreated;
 use App\Listeners\UetdsSeferEkle;
 use App\Listeners\UetdsSeferGrupEkle;
 use App\Listeners\UetdsPersonelEkle;
@@ -35,9 +39,17 @@ class EventServiceProvider extends ServiceProvider
         ],
         TransferCreated::class => [
             UetdsSeferEkle::class,
+        ],
+        TransferSeferGrupCreated::class => [
             UetdsSeferGrupEkle::class,
-            UetdsPersonelEkle::class,
+        ],
+        TransferUpdated::class => [
             UetdsSeferGuncelle::class,
+        ],
+        TransferDriverAssigned::class => [
+            UetdsPersonelEkle::class,
+        ],
+        TransferDriverUnassigned::class => [
             UetdsPersonelIptal::class,
         ],
         TransferDelete::class => [

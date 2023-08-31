@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Helpers\QueryHelper;
 use App\Events\TransferCreated;
+use App\Events\TransferSeferGrupCreated;
+use App\Events\TransferDriverAssigned;
+use App\Events\TransferDriverUnassigned;
+use App\Events\TransferUpdated;
 use App\Events\TransferDelete;
 use App\Events\PassangerAttached;
 use App\Traits\Uetds;
@@ -76,40 +80,15 @@ class TransferRepository implements TransferRepositoryInterface
     public function create(array $data)
     {
         $result = Transfer::create($data);
-        // TransferCreated::dispatch($transfer);
         if($result) {
             $result = Transfer::find($result->id); //Get Latest Created Data
             // Check This Provider have UETDS login Information
             if(!is_null($result->company->uetds_url??null) && !is_null($result->company->uetds_username??null) && !is_null($result->company->uetds_password??null))
             {
-                $starttime = strtotime($result->pickup_time);
-                $starttime = date('H:i', $starttime);
-                $endtime = strtotime($result->pickup_time) + 60*60;
-                $endtime = date('H:i', $endtime);
-                $number_plate = $result->vehicle_id ? $result->vehicle->number_plate : "34 ABC 111";
-                $uetds = $this->seferEkle($number_plate, $result->pickup_date, $starttime, $result->info, $result->id, $result->pickup_date, $endtime,$result->company->uetds_url, $result->company->uetds_username, $result->company->uetds_password);
-
-                // If Sefer Created Successfully then Create Group and Update Group Number
-                if($uetds->sonucKodu === 0){
-                    $group = $this->seferGrupEkle($uetds->uetdsSeferReferansNo, $result->pickup_location.' '.$result->dropoff_location, 'Transfer from '.$result->pickup_location.' to '.$result->dropoff_location, 'TR', $result->pickup_city_code, $result->pickup_zone_code, $result->pickup_location, 'TR', $result->dropoff_city_code, $result->dropoff_zone_code, $result->dropoff_location, '0',$result->company->uetds_url, $result->company->uetds_username, $result->company->uetds_password);
-
-                    $update = $result->update(['uetds_id' => $uetds->uetdsSeferReferansNo,'uetds_group_id' => $group]);
-                    $result->uetds = $uetds->uetdsSeferReferansNo;
-                    $result->group = $group;
-                    // If UETDS Id and Group Number Update also we have Driver Id in Request then We Create Personel Ekle
-                    if($update && !is_null($request->driver_id??null)){
-                        $gender = $result->driver->gender === 'Male' ? 'E' : 'K';
-                        $name = explode(" ",$result->driver->full_name);
-                        $soyadi = array_pop($name);
-                        $adi = implode(" ", $name);
-
-                        $personal = $this->personelEkle($uetds->uetdsSeferReferansNo,0, 'TR', $result->driver->identify_number,$gender,$adi,$soyadi,$result->driver->contact_number,$result->company->uetds_url, $result->company->uetds_username, $result->company->uetds_password);
-
-                        $result->uetdsPersonal = $personal;
-                    }
-                }
-                else {
-                    $result->uetds = $uetds; //If seferekle have any error display the error
+                TransferCreated::dispatch($result);
+                TransferSeferGrupCreated::dispatch($result);
+                if(!empty($data['driver_id'])){
+                    TransferDriverAssigned::dispatch($result);
                 }
             }
             if(!empty($result->driver_id)){
@@ -159,54 +138,13 @@ class TransferRepository implements TransferRepositoryInterface
             // TransferCreated::dispatch($transfer);
             if($result){
                 if(!is_null($transfer->company->uetds_url??null) && !is_null($transfer->company->uetds_username??null) &&!is_null( $transfer->company->uetds_password??null)){
-                    // Update UETDS Sefer Data if Vehicle_id, Pickup Date and Time changed
-                    if($transfer->uetds_id){
-                        $starttime = strtotime($transfer->pickup_time);
-                        $starttime = date('H:i', $starttime);
-                        $endtime = strtotime($transfer->pickup_time) + 60*60;
-                        $endtime = date('H:i', $endtime);
-                        $number_plate = $transfer->vehicle_id ? $transfer->vehicle->number_plate : "34 ABC 111";
-                        $uetds = $this->seferGuncelle($transfer->uetds_id, $number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
+                        TransferDelete::dispatch($transfer);
+                        TransferCreated::dispatch($transfer);
+                        TransferSeferGrupCreated::dispatch($transfer);
                         if(!is_null($transfer->driver_id??null)){
-                            // Delete Current UETDS Personal Data
-                            $personal = $this->personelIptal($transfer->driver->identify_number, $transfer->uetds_id,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                            // Create New UETDS Personal Data
-                            $gender = $transfer->driver->gender === 'Male' ? 'E' : 'K';
-                            $name = explode(" ",$transfer->driver->full_name);
-                            $soyadi = array_pop($name);
-                            $adi = implode(" ", $name);
-                            $personal = $this->personelEkle($transfer->uetds_id,0, 'TR', $transfer->driver->identify_number,$gender,$adi,$soyadi,$transfer->driver->contact_number,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                            $transfer->uetdsPersonal = $personal === 0 ?  'UETDS Personal Information Successfully Created' : 'UETDS Personal Information have error';
+                            TransferDriverAssigned::dispatch($transfer);
                         }
-                    }
-                    elseif(!$transfer->uetds_id) {
-                        // If UETDS_id Not Store Create New Sefer
-                        $starttime = strtotime($transfer->pickup_time);
-                        $starttime = date('H:i', $starttime);
-                        $endtime = strtotime($transfer->pickup_time) + 60*60;
-                        $endtime = date('H:i', $endtime);
-                        $number_plate = $transfer->vehicle_id ? $transfer->vehicle->number_plate : "34 ABC 111";
-                        $uetds = $this->seferEkle($number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                        if($uetds->sonucKodu === 0){
-                            // If Sefer Successfully Create then Create Sefer Group
-                            $group = $this->seferGrupEkle($uetds->uetdsSeferReferansNo, $transfer->pickup_location.' '.$transfer->dropoff_location, 'Transfer from '.$transfer->pickup_location.' to '.$transfer->dropoff_location, 'TR', $transfer->pickup_city, $transfer->pickup_zone, $transfer->pickup_location, 'TR', $transfer->dropoff_city, $transfer->dropoff_zone, $transfer->dropoff_location, '0',$transfer->company->uetds_url,$transfer->company->uetds_username,$transfer->company->uetds_password);
-                            
-                            $update = $transfer->update(['uetds_id' => $uetds->uetdsSeferReferansNo,'uetds_group_id' => $group->uetdsGrupRefNo]);
-                            // if sefer and sefer group updated on db and have driver id then create personel ekle
-                            if($update && !is_null($transfer->driver_id??null)){
-                                $transfer->uetds = $uetds->uetdsSeferReferansNo;
-                                $gender = $transfer->driver->gender === 'Male' ? 'E' : 'K';
-                                $name = explode(" ",$transfer->driver->full_name);
-                                $soyadi = array_pop($name);
-                                $adi = implode(" ", $name);
-                                $personal = $this->personelEkle($uetds->uetdsSeferReferansNo,0, 'TR', $transfer->driver->identify_number,$gender,$adi,$soyadi,$transfer->driver->contact_number,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                                $transfer->uetdsPersonal = $personal === 0 ?  'UETDS Personal Information Successfully Created' : 'UETDS Personal Information have error';
-                            }
-                        }
-                        else {
-                            $transfer->uetds = $uetds;
-                        }
-                    }
+                        PassangerAttached::dispatch($transfer);
                 }
                 if($this->getFcmTokenByDriver($transfer->driver_id)){
                     $transfer->notification =   $this->sendNotification('Transfer', $transfer->id, 'Transfer Created', $transfer, [$this->getFcmTokenByDriver($transfer->driver_id)]);
@@ -245,21 +183,9 @@ class TransferRepository implements TransferRepositoryInterface
             else {
                 $transfer->passengers()->attach($request->passenger_id); 
             }
-            // PassangerAttached::dispatch($transfer);
             if($transfer->passengers()->exists()){
                 if(!is_null($transfer->uetds_id)){
-
-                    foreach($transfer->passengers as $passenger){
-                        $adi = $passenger->first_name;
-                        $soyadi = $passenger->last_name;
-                        $cinsiyet = $passenger->gender == 'Male' ? 'E' : 'K';
-                        $passport = $passenger->id_number;
-            
-                        $uetds = $this->yolcuEkle($transfer->uetds_id, $transfer->uetds_group_id, $passenger->country_code, $passport, $adi, $soyadi, $cinsiyet,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-                        if(!is_null($uetds->sonucKodu)&&$uetds->sonucKodu == 0){
-                            $transfer->passengers()->updateExistingPivot($passenger->id,['uetds_ref_no' => $uetds->uetdsYolcuRefNo]);
-                        }
-                    }
+                    PassangerAttached::dispatch($transfer);
                 }
             }
             return $transfer->passengers;

@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\DriverRepositoryInterface;
 use App\Models\Driver;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
