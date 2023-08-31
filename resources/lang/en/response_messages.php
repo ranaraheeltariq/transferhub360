@@ -18,6 +18,7 @@ return [
         'updated' => 'User Successfully Updated',
         'deleted' => 'User Successfully Deleted',
         'listed' => 'User Successfully Listed',
+        'assigned' => 'Role Successfully Assigned',
     ],
     "passwordReset" => [
         'notFound' => 'Sorry we could not find any user.',
@@ -30,7 +31,7 @@ return [
         'updated' => 'Admin User Successfully Updated',
         'deleted' => 'Admin User Successfully Deleted',
     ],
-    "ompany" => [
+    "company" => [
         'created' => 'Company Successfully Created',
         'updated' => 'Company Successfully Updated',
         'deleted' => 'Company Successfully Deleted',
@@ -90,5 +91,11 @@ return [
         'created' => 'Contact Person Successfully Created',
         'updated' => 'Contact Person Successfully Updated',
         'deleted' => 'Contact Person Successfully Deleted',
+    ],
+    "role" => [
+        'created' => 'Role Successfully Created',
+        'updated' => 'Role Successfully Updated',
+        'deleted' => 'Role Successfully Deleted',
+        'assigned' => 'Permission Assigned to Role Successfully',
     ],
 ];

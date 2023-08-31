@@ -255,6 +255,7 @@ class CompanyController extends Controller
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
         }
         $result = $this->companyRepository->create($data);
+        return $result;
         if($result) {
             return $this->successResponse($result, __('response_messages.company.created'), Response::HTTP_CREATED);
         }

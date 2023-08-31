@@ -13,7 +13,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Owner::factory()->createQuietly([
+        $this->call(RolesAndPermissionsSeeder::class);
+
+        $owner = \App\Models\Owner::factory()->createQuietly([
             'full_name' => fake()->name(),
             'contact_number' => fake()->unique()->phoneNumber(),
             'email' => 'admin@transferhub360.com',
@@ -24,10 +26,11 @@ class DatabaseSeeder extends Seeder
             'created_user_name' =>  'System',
             'updated_user_name' =>  'System',
         ]);
+        $owner->assignRole('owner');
         // \App\Models\Owner::factory(10)->createQuietly();
         // \App\Models\Company::factory(1)->hasDrivers(1)->hasUsers(1)->hasSupervisors(1)->createQuietly();
         \App\Models\Company::factory(1)->hasCustomers(1)->hasHotels(10)->createQuietly();
-        \App\Models\User::factory()->createQuietly([
+        $user = \App\Models\User::factory()->createQuietly([
             'company_id' => 1,
             'full_name' => fake()->name(),
             'contact_number' => fake()->unique()->phoneNumber(),
@@ -39,7 +42,8 @@ class DatabaseSeeder extends Seeder
             'created_user_name' =>  'System',
             'updated_user_name' =>  'System',
         ]);
-        \App\Models\Driver::factory()->createQuietly([
+        $user->assignRole('super admin');
+        $driver = \App\Models\Driver::factory()->createQuietly([
             'company_id' => 1,
             'identify_number' => fake('tr_TR')->tcNo(),
             'full_name' => fake()->name(),
@@ -55,7 +59,8 @@ class DatabaseSeeder extends Seeder
             'created_user_name' =>  'System',
             'updated_user_name' =>  'System',
         ]);
-        \App\Models\Supervisor::factory()->createQuietly([
+        $driver->assignRole('driver');
+        $supervisor = \App\Models\Supervisor::factory()->createQuietly([
             'company_id' => 1,
             'id_number' => fake('tr_TR')->tcNo(),
             'full_name' => fake()->name(),
@@ -71,6 +76,7 @@ class DatabaseSeeder extends Seeder
             'created_user_name' =>  'System',
             'updated_user_name' =>  'System',
         ]);
+        $supervisor->assignRole('supervisor');
         \App\Models\Vehicle::factory()->createQuietly([
             'company_id' => 1,
             'driver_id' => 1,
@@ -81,7 +87,7 @@ class DatabaseSeeder extends Seeder
             'created_user_name' => 'System',
             'updated_user_name' => 'System',
         ]);
-        \App\Models\Passenger::factory()->createQuietly([
+        $passenger = \App\Models\Passenger::factory()->createQuietly([
             'company_id' => 1,
             'customer_id' => 1,
             'id_number' => fake('tr_TR')->tcNo(),
@@ -102,6 +108,7 @@ class DatabaseSeeder extends Seeder
             'created_user_name' =>  'System',
             'updated_user_name' =>  'System',
         ]);
+        $passenger->assignRole('passenger');
         $this->call(UetdsCitiesSeeder::class);
     }
 }

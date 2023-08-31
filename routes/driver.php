@@ -27,10 +27,9 @@ Route::group(['prefix' => 'driver'], function($router) {
             Route::post('device_token',[Controllers\API\Authentication\DriverAuthenticationController::class,'deviceTokenUpdate']);
         });
         Route::group(['prefix' => 'transfers'], function(){
-            Route::get('mytransfers',[Controllers\API\TransferController::class, 'myTransfers']);
-            Route::post('start-transfer/{id}',[Controllers\API\TransferController::class,'startTransfer']);
-            Route::post('stop-transfer/{id}',[Controllers\API\TransferController::class,'stopTransfer']);
-    
+            Route::get('mytransfers',[Controllers\API\TransferController::class, 'myTransfers'])->middleware('permission:assigned transfer list');
+            Route::post('start-transfer/{id}',[Controllers\API\TransferController::class,'startTransfer'])->middleware('permission:assigned transfer update');
+            Route::post('stop-transfer/{id}',[Controllers\API\TransferController::class,'stopTransfer'])->middleware('permission:assigned transfer update');
         });
     
     });

@@ -79,7 +79,7 @@ class PassengerAuthenticationController extends Controller
                   'token' => $token,
                   'type' => 'bearer',
             ]);
-            $user['role'] = 'Passenger';
+            $user->roles;
             return $this->successResponse($user, __('response_messages.auth.login'));
          }
          return $this->errorResponse(__('response_messages.auth.credentialsIncorrect'), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);

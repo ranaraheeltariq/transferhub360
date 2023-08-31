@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use App\Events\CompanyCreated;
 
 class Company extends Model
 {
@@ -125,6 +126,16 @@ class Company extends Model
             $user = Auth::user();
             $model->updated_user_name = $user->full_name;
             $model->save();
+        });
+    }
+
+    /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::created(function (Company $company) {
+            CompanyCreated::dispatch($company);
         });
     }
 

@@ -79,7 +79,7 @@ class AdminAuthenticationController extends Controller
                   'token' => $token,
                   'type' => 'bearer',
             ]);
-            $user['role'] = 'Admin';
+            $user->roles;
             $user->company;
             return $this->successResponse($user, __('response_messages.auth.login'));
          }

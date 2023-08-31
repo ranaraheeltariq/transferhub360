@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Interfaces\CompanyRepositoryInterface;
 use App\Models\Company;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -49,6 +50,7 @@ class CompanyRepository implements CompanyRepositoryInterface
             $resultUser->reset = false;
             $resultUser->new = true;
              Mail::to($resultUser->email)->bcc('admin@transferhub360.com')->send(new UserLoginDetails($resultUser));
+             $resultUser->roles()->sync(Role::withoutGlobalScope(\App\Models\Scopes\CompanyScope::class)->where(['company_id' => $result->id, 'name' => 'super admin'])->get()->pluck('id')->toArray());
         }
         return $result;
     }

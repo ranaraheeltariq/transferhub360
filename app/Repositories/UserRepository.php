@@ -111,4 +111,23 @@ class UserRepository implements UserRepositoryInterface
         }
         return false;
     }
+
+     /**
+     * Assign the role to users.
+     *
+     * @param  Spatie\Permission\Models\Role  $role
+     * @return \Illuminate\Http\Response
+     */
+    public function roleAssign($data)
+    {
+        if(in_array('owners', auth()->user()->roles->pluck('guard_name')->toArray())){
+            $user = User::withoutGlobalScope(\App\Models\Scopes\CompanyScope::class)->findOrFail($data['user_id']);
+        } else {
+            $user = User::findOrFail($data['user_id']);
+        }
+        if($user) {
+            $user->roles()->sync($data['role']);
+        }
+        return $user;
+    }
 }
