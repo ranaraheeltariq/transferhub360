@@ -14,13 +14,14 @@ use App\Events\TransferDriverUnassigned;
 use App\Events\TransferUpdated;
 use App\Events\TransferDelete;
 use App\Events\PassangerAttached;
+use App\Events\TransferNotification;
 use App\Traits\Uetds;
-use App\Traits\ModelHelper;
-use App\Traits\PushNotification;
+// use App\Traits\ModelHelper;
+// use App\Traits\PushNotification;
 
 class TransferRepository implements TransferRepositoryInterface
 {
-    use Uetds,ModelHelper,PushNotification;
+    use Uetds;
 
     /**
      * Display a listing of the resource.
@@ -91,11 +92,13 @@ class TransferRepository implements TransferRepositoryInterface
                     TransferDriverAssigned::dispatch($result);
                 }
             }
-            if(!empty($result->driver_id)){
-                if($this->getFcmTokenByDriver($result->driver_id)){
-                    $result->notification =  $this->sendNotification('Transfer', $result->id, 'Transfer Created', $result, [$this->getFcmTokenByDriver($result->driver_id)]);
-                 }
-            }
+            // if(!empty($result->driver_id)){
+                // if($this->getFcmTokenByDriver($result->driver_id)){
+                //     $result->notification =  $this->sendNotification('Transfer', $result->id, 'Transfer Created', $result, [$this->getFcmTokenByDriver($result->driver_id)]);
+                //  }
+                
+            // }
+            TransferNotification::dispatch($result);
             return $result;
         }
         return false;
@@ -146,10 +149,11 @@ class TransferRepository implements TransferRepositoryInterface
                         }
                         PassangerAttached::dispatch($transfer);
                 }
-                if($this->getFcmTokenByDriver($transfer->driver_id)){
-                    $transfer->notification =   $this->sendNotification('Transfer', $transfer->id, 'Transfer Created', $transfer, [$this->getFcmTokenByDriver($transfer->driver_id)]);
-                }
+                // if($this->getFcmTokenByDriver($transfer->driver_id)){
+                //     $transfer->notification =   $this->sendNotification('Transfer', $transfer->id, 'Transfer Created', $transfer, [$this->getFcmTokenByDriver($transfer->driver_id)]);
+                // }
             }
+            TransferNotification::dispatch($transfer);
             return $transfer;
         }
         return false;

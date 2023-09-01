@@ -6,6 +6,12 @@ return [
         'error' => '!Something went wrong please try again later.',
         'deviceToken' => 'Device Token Successfully Updated',
     ],
+    "notification"=>[
+        'driverTitle' => 'Transfer Assigned to You',
+        'driverBody' => 'Transfer from :pickup to :dropof assigned to you',
+        'supervisorTitle' => 'New Transfer Created',
+        'supervisorBody' => 'New Transfer Created from :pickup to :dropof  Kindly assign available Vehicle to it.',
+    ],
     "auth"=>[
         'login' => 'User Successfully Login',
         'logout' => 'Successfully logged out',
