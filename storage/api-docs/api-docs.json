@@ -15446,6 +15446,11 @@
                                         "type": "file",
                                         "format": "thumbnail",
                                         "example": ""
+                                    },
+                                    "status": {
+                                        "type": "in:Active,Deactive",
+                                        "format": "status",
+                                        "example": "Active"
                                     }
                                 },
                                 "type": "object"

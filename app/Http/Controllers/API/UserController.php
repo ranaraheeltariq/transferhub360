@@ -301,6 +301,7 @@ class UserController extends Controller
      *                  @OA\Property(property="contact_number", type="number", format="contact_number", example="00905340344609"),
      *                  @OA\Property(property="email", type="email", format="email", example="abc@xyz.com"),
      *                  @OA\Property(property="thumbnail", type="file", format="thumbnail", example=""),
+     *                  @OA\Property(property="status", type="in:Active,Deactive", format="status", example="Active"),
      *              )
      *          ),
      *      ),
@@ -348,12 +349,13 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail');
+        $data = $request->only('full_name', 'email', 'contact_number', 'thumbnail', 'status');
         $validator = Validator::make($data, [
             'full_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,'.$id,
             'contact_number' => 'nullable|string|max:255',
             'thumbnail' => 'nullable|mimes:jpg,png,gif,jpeg,jpe|max:5120',
+            'status' => 'nullable|in:Active,Deactive',
         ]);
         if($validator->fails()){
             return $this->errorResponse($validator->messages(), Response::HTTP_NON_AUTHORITATIVE_INFORMATION);
