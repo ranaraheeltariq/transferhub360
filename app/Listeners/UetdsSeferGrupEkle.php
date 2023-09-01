@@ -25,8 +25,12 @@ class UetdsSeferGrupEkle
     public function handle(TransferSeferGrupCreated $event): void
     {
         $transfer = $event->transfer;
-        $group = $this->seferGrupEkle($transfer->uetds_id, $transfer->pickup_location.' '.$transfer->dropoff_location, 'Transfer from '.$transfer->pickup_location.' to '.$transfer->dropoff_location, 'TR', $transfer->pickup_city_code, $transfer->pickup_zone_code, $transfer->pickup_location, 'TR', $transfer->dropoff_city_code, $transfer->dropoff_zone_code, $transfer->dropoff_location, '0',$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
-        $transfer->update(['uetds_group_id' => $group]);
+        $uetds = $this->seferGrupEkle($transfer->uetds_id, $transfer->pickup_location.' '.$transfer->dropoff_location, 'Transfer from '.$transfer->pickup_location.' to '.$transfer->dropoff_location, 'TR', $transfer->pickup_city_code, $transfer->pickup_zone_code, $transfer->pickup_location, 'TR', $transfer->dropoff_city_code, $transfer->dropoff_zone_code, $transfer->dropoff_location, '0',$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
+        if($uetds['status'] === 'success'){
+            $transfer->update(['uetds_group_id' => $uetds['message'], 'uetds_status' => $uetds['status']]);
+        } else {
+            $transfer->update(['uetds_status' => $uetds['message']]);
+        }
     }
  
     // /**

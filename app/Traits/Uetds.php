@@ -41,9 +41,16 @@ trait Uetds
             );
             $soap_client = new SoapClient($URL, $options);
             $soap_return = $soap_client->__soapCall("seferEkle", array($params));
-            return $soap_return->return;
-        } catch (Exception $e) {
-            return $e->getMessage();
+            $uetdsSeferReferansNo = $soap_return->return->sonucKodu === 0 ? $soap_return->return->uetdsSeferReferansNo : null;
+            return $data = ([
+                'status' => 'success',
+                'message' => $uetdsSeferReferansNo,
+            ]);
+        } catch (\SoapFault $e) {
+            return $data = ([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
         }
     }
 
@@ -78,7 +85,7 @@ trait Uetds
 
 
             return $soap_return->return;
-        } catch (Exception $e) {
+        } catch (\SoapFault $e) {
             return $e->getMessage();
         }
     }
@@ -151,7 +158,7 @@ trait Uetds
 
             $sonucKodu = $soap_return->return->sonucKodu;
             return $sonucKodu;
-        } catch (Exception $e) {
+        } catch (\SoapFault $e) {
             return $e->getMessage();
         }
     }
@@ -220,7 +227,7 @@ trait Uetds
 
             $uetdsYolcuRefNo = $soap_return->return;
             return $uetdsYolcuRefNo;
-        } catch (Exception $e) {
+        } catch (\SoapFault $e) {
             return $e->getMessage();
         }
 
@@ -259,9 +266,15 @@ trait Uetds
             $soap_return = $soap_client->__soapCall("seferGrupEkle", array($params));
 
             $uetdsGrupRefNo = $soap_return->return->sonucKodu === 0 ? $soap_return->return->uetdsGrupRefNo : null;
-            return $uetdsGrupRefNo;
-        } catch (Exception $e) {
-            return $e->getMessage();
+            return $data = ([
+                'status' => 'success',
+                'message' => $uetdsGrupRefNo,
+            ]);
+        } catch (\SoapFault $e) {
+            return $data = ([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ]);
         }
 
     }

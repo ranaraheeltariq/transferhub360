@@ -31,7 +31,11 @@ class UetdsSeferEkle
         $endtime = date('H:i', $endtime);
         $number_plate = $transfer->vehicle_id != null ? $transfer->vehicle->number_plate : "34 ABC 111";
         $uetds = $this->seferEkle($number_plate, $transfer->pickup_date, $starttime, $transfer->info, $transfer->id, $transfer->pickup_date, $endtime,$transfer->company->uetds_url, $transfer->company->uetds_username,$transfer->company->uetds_password);
-        $transfer->update(['uetds_id' => $uetds->uetdsSeferReferansNo]);
+        if($uetds['status'] === 'success'){
+            $transfer->update(['uetds_id' => $uetds['message'], 'uetds_status' => $uetds['status']]);
+        } else {
+            $transfer->update(['uetds_status' => $uetds['message']]);
+        }
     }
  
     // /**
