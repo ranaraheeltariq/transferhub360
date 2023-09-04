@@ -16,8 +16,6 @@ use App\Events\TransferDelete;
 use App\Events\PassangerAttached;
 use App\Events\TransferNotification;
 use App\Traits\Uetds;
-// use App\Traits\ModelHelper;
-// use App\Traits\PushNotification;
 
 class TransferRepository implements TransferRepositoryInterface
 {
@@ -42,7 +40,6 @@ class TransferRepository implements TransferRepositoryInterface
      */
     public function getById($id)
     {
-        // return Transfer::findOrFail($id);
         return Transfer::with(['passengers', 'vehicle','driver','customer'])->findOrFail($id);
     }
 
@@ -56,17 +53,8 @@ class TransferRepository implements TransferRepositoryInterface
     {
         $transfer = Transfer::findOrFail($id);
         if($transfer){
-            // TransferDelete::dispatch($transfer);
-            if($transfer->uetds_id && $transfer->company->uetds_url && $transfer->company->uetds_username && $transfer->company->uetds_password)
-            {
-                // delete sefer
-                $uetds = $this->seferIptal($transfer->uetds_id,$transfer->company->uetds_url, $transfer->company->uetds_username,$transfer->company->uetds_password);
-                if($uetds === 0)
-                {
-                    $transfer->update(['uetds_id' => null]);
-                    $result = $transfer->destroy($id);
-                }
-            }
+            TransferDelete::dispatch($transfer);
+            $result = $transfer->destroy($id);
             return $result;
         }
         return false;
@@ -92,12 +80,6 @@ class TransferRepository implements TransferRepositoryInterface
                     TransferDriverAssigned::dispatch($result);
                 }
             }
-            // if(!empty($result->driver_id)){
-                // if($this->getFcmTokenByDriver($result->driver_id)){
-                //     $result->notification =  $this->sendNotification('Transfer', $result->id, 'Transfer Created', $result, [$this->getFcmTokenByDriver($result->driver_id)]);
-                //  }
-                
-            // }
             TransferNotification::dispatch($result);
             return $result;
         }
@@ -138,7 +120,6 @@ class TransferRepository implements TransferRepositoryInterface
                 $data['status'] = 'YOLCULUK TAMAMLANDI';
             }
             $result = $transfer->update($data);
-            // TransferCreated::dispatch($transfer);
             if($result){
                 if(!is_null($transfer->company->uetds_url??null) && !is_null($transfer->company->uetds_username??null) &&!is_null( $transfer->company->uetds_password??null)){
                         TransferDelete::dispatch($transfer);
@@ -147,11 +128,10 @@ class TransferRepository implements TransferRepositoryInterface
                         if(!is_null($transfer->driver_id??null)){
                             TransferDriverAssigned::dispatch($transfer);
                         }
-                        PassangerAttached::dispatch($transfer);
+                        if($transfer->passengers()->exists()){
+                            PassangerAttached::dispatch($transfer);
+                        }
                 }
-                // if($this->getFcmTokenByDriver($transfer->driver_id)){
-                //     $transfer->notification =   $this->sendNotification('Transfer', $transfer->id, 'Transfer Created', $transfer, [$this->getFcmTokenByDriver($transfer->driver_id)]);
-                // }
             }
             TransferNotification::dispatch($transfer);
             return $transfer;
