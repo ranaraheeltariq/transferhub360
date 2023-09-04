@@ -21,7 +21,7 @@ class YolcuEkle
             $adi = $passenger->first_name;
             $soyadi = $passenger->last_name;
             $cinsiyet = $passenger->gender == 'Male' ? 'E' : 'K';
-            $passport = $passenger->id_number;
+            $passport = $passenger->id_number ?? '111111';
 
             $uetds = $this->yolcuEkle($transfer->uetds_id, $transfer->uetds_group_id, $passenger->country_code, $passport, $adi, $soyadi, $cinsiyet,$transfer->company->uetds_url, $transfer->company->uetds_username, $transfer->company->uetds_password);
             if(!is_null($uetds->sonucKodu)&&$uetds->sonucKodu === 0){
